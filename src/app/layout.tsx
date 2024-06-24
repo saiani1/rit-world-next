@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Header } from "features/Header";
+import { ProfileAside } from "features/Profile";
+import { Category } from "features/Category";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +20,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+      <div className="flex justify-center items-center h-full bg-slate-200">
+      <div className="flex flex-col items-center w-full h-full">
+        <Header />
+        <div className="flex justify-between w-[1280px] mt-[10px] mb-[40px] gap-x-[10px]">
+          <div>
+            <ProfileAside />
+            <Category />
+          </div>
+          <div className="w-full h-screen px-[50px] py-[40px] bg-white rounded-xl overflow-y-scroll">
+            {children}
+          </div>
+        </div>
+      </div>
+      <Toaster
+        containerStyle={{
+          top: 20,
+        }}
+        toastOptions={{
+          duration: 2000,
+        }}
+      />
+    </div>
+      </body>
     </html>
   );
 }

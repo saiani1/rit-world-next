@@ -1,3 +1,4 @@
+'use client'
 import { useForm, useController } from "react-hook-form";
 import { Editor } from '@tinymce/tinymce-react';
 

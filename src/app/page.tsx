@@ -1,3 +1,4 @@
+'use client'
 import { BlogListScreen } from "pages/BlogList";
 
 const HomePage = () => {

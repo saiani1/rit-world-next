@@ -4,6 +4,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
 import { ProfileImage } from "shared/index";
+import GithubIcon from "shared/assets/github.svg";
 
 export const ProfileAside = () => {
   return (
@@ -43,7 +44,7 @@ export const ProfileAside = () => {
           </li>
           <li>
             <button type="button" aria-label="깃허브" title="깃허브">
-              {/* <GithubIcon className="w-[24px] fill-[#888]" /> */}
+              <GithubIcon className="w-[24px] fill-[#888]" />
             </button>
           </li>
         </ul>

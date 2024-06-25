@@ -1,4 +1,4 @@
-export { type InputType } from "./model/inputType";
+export type { InputType } from "./model/inputType";
 
 export { ErrorMsg } from "./ui/ErrorMsg";
 export { RegisterInput } from "./ui/RegisterInput";

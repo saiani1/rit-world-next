@@ -1,5 +1,4 @@
 'use client';
-// import profileImage from "../../../assets/aibao.jpg";
 import { useRouter } from 'next/navigation';
 
 import { BlogItem } from "shared/index";

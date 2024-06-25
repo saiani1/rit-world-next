@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -33,7 +32,7 @@ export const SignUpScreen = () => {
         console.error(err);
       }
     } else {
-      toast.error("중복확인 검사를 완료해주세요.");
+      console.log("중복확인 검사를 완료해주세요.");
     }
   };
 

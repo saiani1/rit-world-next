@@ -3,10 +3,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
 import { useAtom } from "jotai";
 
-import logo from "@/shared/assets/logo.png"
+import logo from "shared/assets/logo.png"
 import { RegisterInput, ErrorMsg } from "shared/index";
 import { loginAtom } from "entities/user/model/atom";
 import Image from "next/image";
@@ -33,7 +32,7 @@ export const SignInScreen = () => {
         // await loginAPI(data);
         // setIsLogin(true);
         router.replace("/list");
-        toast.success("로그인 되었습니다.")
+        console.log("로그인 되었습니다.")
       } catch (err) {
         console.error(err);
       }

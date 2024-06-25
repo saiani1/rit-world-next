@@ -1,7 +1,6 @@
 'use client'
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
-import toast from "react-hot-toast";
 
 import { HEADER_ARR } from "features/Header/lib/constants";
 import { loginAtom } from "entities/user/model/atom";

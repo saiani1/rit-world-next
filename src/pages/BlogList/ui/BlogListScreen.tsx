@@ -1,22 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-import { BlogItem, Title } from "shared/index";
+import { BlogItem, FilterButton, Title, WriteButton } from "shared/index";
 
 export const BlogListScreen = () => {
   const router = useRouter();
 
   return (
     <div>
-      <div className="flex justify-between pb-[15px] mb-[10px] border-b border-b-[#ddd]">
+      <div className="flex justify-between items-center pb-[15px] mb-[10px]">
         <Title name="전체 포스트" />
-        <button
-          type="button"
-          className="px-[15px] py-[5px] text-[#777] border border-[#ddd] rounded-[5px]"
-          onClick={() => router.push("/create")}
-        >
-          글쓰기
-        </button>
+        <div className="flex gap-x-[13px]">
+          <WriteButton />
+          <FilterButton />
+        </div>
       </div>
       <ul className="flex flex-wrap justify-between gap-y-[40px]">
         <BlogItem />

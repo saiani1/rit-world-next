@@ -33,14 +33,12 @@ export const Hashtag = ({
 
   return (
     <li>
-      <button
-        type="button"
+      <div
         className={`flex items-center px-[10px] rounded-full font-medium ${size === "s" ? "h-[17px] text-[11px]" : "h-[21px] text-[13px]"} ${hasBorder ? "shadow-commonShadow border-[1.5px] border-black-FFF" : ""} ${bgColor} ${color}`}
         onClick={handleClick}
-        disabled={disabled}
       >
         <span>{tagName}</span>
-      </button>
+      </div>
     </li>
   );
 };

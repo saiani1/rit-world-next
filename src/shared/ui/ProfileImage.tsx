@@ -1,6 +1,5 @@
-import Image from "next/image";
-import profileImage from "../assets/aibao.jpg";
-
+import Image from 'next/image';
+import profileImage from 'public/assets/image/aibao.jpg';
 
 export const ProfileImage = () => {
   return (

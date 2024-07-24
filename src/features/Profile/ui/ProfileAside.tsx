@@ -1,10 +1,10 @@
-import { ImAttachment } from "react-icons/im";
-import { FaLocationDot } from "react-icons/fa6";
-import { FaLinkedin } from "react-icons/fa";
-import { MdOutlineAlternateEmail } from "react-icons/md";
+import { ImAttachment } from 'react-icons/im';
+import { FaLocationDot } from 'react-icons/fa6';
+import { FaLinkedin } from 'react-icons/fa';
+import { MdOutlineAlternateEmail } from 'react-icons/md';
 
-import { ProfileImage } from "shared/index";
-import GithubIcon from "shared/assets/github.svg";
+import { ProfileImage } from 'shared/index';
+import GithubIcon from 'public/assets/svg/github-icon.svg';
 
 export const ProfileAside = () => {
   return (
@@ -12,7 +12,10 @@ export const ProfileAside = () => {
       <ProfileImage />
       <div className="px-[29px] pb-[25px]">
         <div className="flex mb-[20px] justify-center items-center">
-          <p className="text-[13.5px] text-[#666] text-center">나에게 당근을 준다면<br/> 유혈사태는 일어나지 않을 것입니다.</p>
+          <p className="text-[13.5px] text-[#666] text-center">
+            나에게 당근을 준다면
+            <br /> 유혈사태는 일어나지 않을 것입니다.
+          </p>
         </div>
         <div className="flex items-baseline gap-x-[10px] border-b-[1px] border-[#ddd]">
           <h2 className="font-semibold text-[23px] text-[#444]">Aibao</h2>

@@ -11,3 +11,4 @@ export { Title } from "./ui/Title";
 export { WriteButton } from "./ui/WriteButton";
 export { FilterButton } from "./ui/FilterButton";
 export { FilterDialog } from "./ui/FilterDialog";
+export { BigBlogItem } from "./ui/BigBlogItem";

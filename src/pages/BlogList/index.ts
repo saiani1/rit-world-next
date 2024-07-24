@@ -1,1 +1,2 @@
-export { BlogListScreen } from "./ui/BlogListScreen";
+export { AllBlogListScreen } from "./ui/AllBlogListScreen";
+export { NewBlogListScreen } from "./ui/NewBlogListScreen";

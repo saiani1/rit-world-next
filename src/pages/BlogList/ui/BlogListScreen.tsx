@@ -1,7 +1,7 @@
-'use client';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useRouter } from "next/navigation";
 
-import { BlogItem } from "shared/index";
+import { BlogItem, Title } from "shared/index";
 
 export const BlogListScreen = () => {
   const router = useRouter();
@@ -9,7 +9,7 @@ export const BlogListScreen = () => {
   return (
     <div>
       <div className="flex justify-between pb-[15px] mb-[10px] border-b border-b-[#ddd]">
-        <h2 className="text-[22px] text-[#444] font-semibold">전체</h2>
+        <Title name="전체 포스트" />
         <button
           type="button"
           className="px-[15px] py-[5px] text-[#777] border border-[#ddd] rounded-[5px]"
@@ -18,7 +18,7 @@ export const BlogListScreen = () => {
           글쓰기
         </button>
       </div>
-      <ul className="flex flex-wrap justify-between gap-[15px]">
+      <ul className="flex flex-wrap justify-between gap-y-[40px]">
         <BlogItem />
         <BlogItem />
         <BlogItem />
@@ -30,5 +30,5 @@ export const BlogListScreen = () => {
         <BlogItem />
       </ul>
     </div>
-  )
-}
+  );
+};

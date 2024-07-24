@@ -10,7 +10,7 @@ import Image from "next/image";
 export const Header = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useAtom(loginAtom);
-  const handleClick = () => router.push("/list");
+  const handleClick = () => router.push("/");
 
   const handleClickHeader = (e: React.MouseEvent<HTMLUListElement>) => {
     const name = (e.target as HTMLButtonElement).name;

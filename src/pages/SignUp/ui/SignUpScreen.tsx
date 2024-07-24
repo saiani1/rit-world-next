@@ -27,7 +27,7 @@ export const SignUpScreen = () => {
       const data = getValues();
       try {
         // await submitAPI(data);
-        router.push("list");
+        router.push("/");
       } catch (err) {
         console.error(err);
       }

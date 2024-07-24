@@ -2,9 +2,7 @@ import localFont from 'next/font/local';
 import type { Metadata } from "next";
 
 import "./globals.css";
-import { Header } from "features/Header";
-import { ProfileAside } from "features/Profile";
-import { Category } from "features/Category";
+import ClientComponent from './clientComponent';
 
 const pretendard = localFont({
   src: [
@@ -61,18 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${pretendard.variable}`}>
       <body className="flex justify-center items-center h-full bg-slate-200">
-        <div className="flex flex-col items-center w-full h-full">
-          <Header />
-          <div className="flex justify-between w-[1280px] mt-[10px] mb-[40px] gap-x-[10px]">
-            <div>
-              <ProfileAside />
-              <Category />
-            </div>
-            <div className="w-full h-screen px-[50px] py-[40px] bg-white rounded-xl overflow-y-scroll">
-              {children}
-            </div>
-          </div>
-        </div>
+        <ClientComponent>
+          <main>{children}</main>
+        </ClientComponent>
       </body>
     </html>
   );

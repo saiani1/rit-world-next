@@ -31,12 +31,16 @@ export const SignInScreen = () => {
       try {
         // await loginAPI(data);
         // setIsLogin(true);
-        router.replace("/list");
+        router.replace("/");
         console.log("로그인 되었습니다.")
       } catch (err) {
         console.error(err);
       }
     }
+  }
+
+  const handleClickSignUpBtn = () => {
+    router.push("/signup");
   }
 
   useEffect(() => {
@@ -87,7 +91,7 @@ export const SignInScreen = () => {
           >
             아이디/비밀번호 찾기
           </button>
-          <button type="button">회원가입</button>
+          <button type="button" onClick={handleClickSignUpBtn}>회원가입</button>
         </div>
       </form>
     </div>

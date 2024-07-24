@@ -1,14 +1,14 @@
-'use client'
+"use client";
 import { useEffect } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 
-import logo from "shared/assets/logo.png"
+import logo from "public/assets/logo.png";
 import { RegisterInput, ErrorMsg } from "shared/index";
 import { loginAtom } from "entities/user/model/atom";
-import Image from "next/image";
 
 interface IFormData {
   userId: string;
@@ -32,21 +32,21 @@ export const SignInScreen = () => {
         // await loginAPI(data);
         // setIsLogin(true);
         router.replace("/");
-        console.log("로그인 되었습니다.")
+        console.log("로그인 되었습니다.");
       } catch (err) {
         console.error(err);
       }
     }
-  }
+  };
 
   const handleClickSignUpBtn = () => {
     router.push("/signup");
-  }
+  };
 
   useEffect(() => {
     if (isLogin) router.push("/list");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-slate-200">
@@ -91,7 +91,9 @@ export const SignInScreen = () => {
           >
             아이디/비밀번호 찾기
           </button>
-          <button type="button" onClick={handleClickSignUpBtn}>회원가입</button>
+          <button type="button" onClick={handleClickSignUpBtn}>
+            회원가입
+          </button>
         </div>
       </form>
     </div>

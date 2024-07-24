@@ -1,27 +1,27 @@
 export const HEADER_ARR = [
   {
     id: 1,
-    title: 'DIARY',
-    url: '/diary',
+    title: "LOG IN",
+    url: "/signin",
   },
   {
     id: 2,
-    title: 'BLOG',
-    url: '/blog',
+    title: "DIARY",
+    url: "/diary",
   },
   {
     id: 3,
-    title: 'QUICK MANUAL',
-    url: '/quickmanual',
+    title: "BLOG",
+    url: "/blog",
   },
   {
     id: 4,
-    title: 'MY PAGE',
-    url: '/mypage',
+    title: "QUICK MANUAL",
+    url: "/quickmanual",
   },
   {
     id: 5,
-    title: 'LOGIN',
-    url: '/signin',
+    title: "MY PAGE",
+    url: "/mypage",
   },
 ];

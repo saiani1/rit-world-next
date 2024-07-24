@@ -25,7 +25,15 @@
       "pages/*": ["src/pages/*"],
       "shared/*": ["src/shared/*"],
       "widgets/*": ["src/widgets/*"]
-    }  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": []
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "svg.d.ts"
+  ],
+  "exclude": ["node_modules"]
 }
+  

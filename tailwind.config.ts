@@ -11,7 +11,7 @@ export default {
     extend: {
       boxShadow: {
         profileShadow: "2px 2px 4px rgba(0, 0, 0, 0.15)",
-        commonShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
+        commonShadow: "0 0 4px rgba(0, 0, 0, 0.25)",
         innerShadow: "inset 1px 1px 4px rgba(0, 0, 0, 0.3)",
       },
       lineClamp: {

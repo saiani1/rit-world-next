@@ -34,7 +34,7 @@ export const Hashtag = ({
   return (
     <li>
       <div
-        className={`flex items-center px-[10px] rounded-full font-medium ${size === "s" ? "h-[17px] text-[11px]" : "h-[21px] text-[13px]"} ${hasBorder ? "shadow-commonShadow border-[1.5px] border-black-FFF" : ""} ${bgColor} ${color}`}
+        className={`flex items-center px-[10px] rounded-full ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"} ${hasBorder ? "shadow-commonShadow border-[2px] border-black-FFF" : ""} ${bgColor} ${color}`}
         onClick={handleClick}
       >
         <span>{tagName}</span>

@@ -12,12 +12,12 @@ const ClientComponent = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center w-full h-full">
       <Header />
-      <div className="flex justify-between w-[1280px] mt-[10px] mb-[40px] gap-x-[10px]">
-        <div>
+      <div className="flex justify-between w-[1280px] h-full mt-[10px] mb-[40px] gap-x-[10px] overflow-hidden">
+        <div className="flex flex-col">
           <ProfileAside />
           <Category />
         </div>
-        <div className="w-full h-screen pt-[85px] px-[30px] pb-[40px] bg-white rounded-xl overflow-y-scroll">
+        <div className="pt-[85px] px-[30px] pb-[40px] w-full bg-white rounded-xl overflow-scroll">
           {children}
         </div>
       </div>

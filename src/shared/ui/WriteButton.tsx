@@ -1,7 +1,12 @@
+import { useRouter } from "next/navigation";
 import PencilIcon from "public/assets/svg/pencil-icon.svg";
 
-export const WriteButton = () => {
-  const handleClick = () => {};
+export const WriteButton = ({ page }: { page?: string }) => {
+  const router = useRouter();
+  const handleClick = () => {
+    if (page) console.log("이예에");
+    else router.push("/create");
+  };
 
   return (
     <button

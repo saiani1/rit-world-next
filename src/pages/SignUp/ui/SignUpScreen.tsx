@@ -1,10 +1,10 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
-import logo from "shared/assets/logo.png"
+import logo from "public/assets/logo.png";
 import { RegisterInput, ErrorMsg } from "shared/index";
 import Image from "next/image";
 
@@ -159,10 +159,16 @@ export const SignUpScreen = () => {
           </motion.div>
         </div>
         <div className="absolute bottom-[60px] right-[50px] left-[50px] flex gap-x-4">
-          <button type="reset" className="w-64 py-1.5 mt-5 text-gray-700 bg-white rounded-full border border-slate-300">
+          <button
+            type="reset"
+            className="w-64 py-1.5 mt-5 text-gray-700 bg-white rounded-full border border-slate-300"
+          >
             취소
           </button>
-          <button type="submit" className="w-64 py-1.5 mt-5 bg-gray-700 text-white rounded-full">
+          <button
+            type="submit"
+            className="w-64 py-1.5 mt-5 bg-gray-700 text-white rounded-full"
+          >
             제출
           </button>
         </div>

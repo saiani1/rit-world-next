@@ -8,11 +8,11 @@ type TreeItem = {
   data: {
     title: string;
   };
-}
+};
 
 export type TreeDataType = {
   rootId: ItemId;
   items: {
     [key: string]: TreeItem;
   };
-}
+};

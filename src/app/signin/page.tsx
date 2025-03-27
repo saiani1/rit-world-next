@@ -1,9 +1,7 @@
 import { SignInScreen } from "pages/SignIn";
 
 const SignInPage = () => {
-  return (
-    <SignInScreen />
-  )
-}
+  return <SignInScreen />;
+};
 
 export default SignInPage;

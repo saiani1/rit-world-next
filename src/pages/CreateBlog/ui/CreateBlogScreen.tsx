@@ -1,34 +1,26 @@
-'use client'
+"use client";
 import { useForm, useController } from "react-hook-form";
-import { Editor } from '@tinymce/tinymce-react';
+import { Editor } from "@tinymce/tinymce-react";
 
 type formData = {
-  subject: string,
-  content: string,
-}
+  subject: string;
+  content: string;
+};
 
 export const CreateBlogScreen = () => {
-  const {
-    getValues,
-    setValue,
-    register,
-    control,
-    handleSubmit,
-  } = useForm<formData>();
+  const { getValues, setValue, register, control, handleSubmit } =
+    useForm<formData>();
 
   const {
-    field: {
-      onChange,
-      ...field
-    },
+    field: { onChange, ...field },
   } = useController({
     name: "content",
     control,
-  })
+  });
 
   const onSubmit = () => {
     console.log(getValues());
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +34,7 @@ export const CreateBlogScreen = () => {
       />
       <Editor
         {...field}
-        tinymceScriptSrc={'/tinymce/tinymce.min.js'}
+        tinymceScriptSrc={"/tinymce/tinymce.min.js"}
         onEditorChange={onChange}
         init={{
           height: 500,
@@ -50,14 +42,25 @@ export const CreateBlogScreen = () => {
           statusbar: false,
           promotion: false,
           plugins: [
-            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-            'anchor', 'searchreplace', 'visualblocks', 'code',
-            'media', 'table'
+            "advlist",
+            "autolink",
+            "lists",
+            "link",
+            "image",
+            "charmap",
+            "anchor",
+            "searchreplace",
+            "visualblocks",
+            "code",
+            "media",
+            "table",
           ],
-          toolbar: ' blocks | image table ' +
-            'bold italic forecolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ',
-          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+          toolbar:
+            " blocks | image table " +
+            "bold italic forecolor | alignleft aligncenter " +
+            "alignright alignjustify | bullist numlist outdent indent | ",
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
       <div className="flex justify-center items-center gap-x-[10px] mt-[10px]">
@@ -75,5 +78,5 @@ export const CreateBlogScreen = () => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};

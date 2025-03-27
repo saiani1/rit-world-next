@@ -5,4 +5,4 @@ export type InputType = {
   register: any;
   watch?: any;
   page?: string;
-}
+};

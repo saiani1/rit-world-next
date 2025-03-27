@@ -37,5 +37,7 @@ next-env.d.ts
 
 
 # yarn v2 zeroinstall
-
 .yarn/*
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks

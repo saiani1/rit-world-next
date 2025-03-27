@@ -44,16 +44,8 @@ export const Header = () => {
               <li key={header.id}>
                 <motion.button
                   type="button"
-                  className={`${isActive === header.title ? "bg-green-500 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
+                  className={`${isActive === header.title ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
                   name={header.id === 1 && !isLogin ? "LOG IN" : header.title}
-                  initial={{
-                    backgroundColor: "##FFFFFF",
-                  }}
-                  animate={{
-                    backgroundColor:
-                      isActive === header.title ? "#05AAAA" : "#FFFFFF",
-                  }}
-                  transition={{ duration: 0.3 }}
                 >
                   {header.id === 1 && !isLogin ? "LOG IN" : header.title}
                 </motion.button>

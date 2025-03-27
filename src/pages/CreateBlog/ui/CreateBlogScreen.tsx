@@ -7,7 +7,7 @@ type formData = {
   content: string;
 };
 
-export const CreateBlogScreen = () => {
+const CreateBlogScreen = () => {
   const { getValues, setValue, register, control, handleSubmit } =
     useForm<formData>();
 
@@ -80,3 +80,5 @@ export const CreateBlogScreen = () => {
     </form>
   );
 };
+
+export default CreateBlogScreen;

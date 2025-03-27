@@ -15,7 +15,7 @@ interface IFormData {
   password: string;
 }
 
-export const SignInScreen = () => {
+const SignInScreen = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useAtom(loginAtom);
   const {
@@ -99,3 +99,5 @@ export const SignInScreen = () => {
     </div>
   );
 };
+
+export default SignInScreen;

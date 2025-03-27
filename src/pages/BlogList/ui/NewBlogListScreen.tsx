@@ -67,7 +67,7 @@ const HashtagTrends = () => {
   );
 };
 
-export const NewBlogListScreen = () => {
+const NewBlogListScreen = () => {
   return (
     <>
       <div>
@@ -93,3 +93,5 @@ export const NewBlogListScreen = () => {
     </>
   );
 };
+
+export default NewBlogListScreen;

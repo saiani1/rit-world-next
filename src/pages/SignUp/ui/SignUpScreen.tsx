@@ -8,7 +8,7 @@ import logo from "public/assets/logo.png";
 import { RegisterInput, ErrorMsg } from "shared/index";
 import Image from "next/image";
 
-export const SignUpScreen = () => {
+const SignUpScreen = () => {
   const router = useRouter();
   const [checkedDuplicate, setCheckedDuplicate] = useState({
     email: false,
@@ -176,3 +176,5 @@ export const SignUpScreen = () => {
     </div>
   );
 };
+
+export default SignUpScreen;

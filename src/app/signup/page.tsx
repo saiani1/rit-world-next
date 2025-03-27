@@ -1,4 +1,4 @@
-import { SignUpScreen } from "pages/SignUp";
+import SignUpScreen from "pages/SignUp/ui/SignUpScreen";
 
 const SignUpPage = () => {
   return <SignUpScreen />;

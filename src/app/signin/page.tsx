@@ -1,4 +1,4 @@
-import { SignInScreen } from "pages/SignIn";
+import SignInScreen from "pages/SignIn/ui/SignInScreen";
 
 const SignInPage = () => {
   return <SignInScreen />;

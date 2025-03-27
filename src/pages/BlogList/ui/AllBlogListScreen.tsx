@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 
 import { BlogItem, FilterButton, Title, WriteButton } from "shared/index";
 
-export const AllBlogListScreen = () => {
+const AllBlogListScreen = () => {
   const router = useRouter();
 
   return (
@@ -29,3 +29,5 @@ export const AllBlogListScreen = () => {
     </div>
   );
 };
+
+export default AllBlogListScreen;

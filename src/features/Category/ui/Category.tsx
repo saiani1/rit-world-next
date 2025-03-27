@@ -12,54 +12,8 @@ import Tree, {
 } from "@atlaskit/tree";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { LuBook, LuBookOpen } from "react-icons/lu";
-import { motion } from "framer-motion";
 
-import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import { treeData } from "../lib/constants";
-import { Hashtag } from "shared/index";
-
-const HashtagList = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClick = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  return (
-    <div
-      className={`absolute left-[30px] bottom-[25px] w-[220px] px-[15px] ${isOpen ? "py-[20px]" : "py-[10px]"} bg-black-EEE rounded-t-[5px] border-b-[3px] border-black-DDD`}
-    >
-      <div className="flex justify-between items-center">
-        <p className="text-[12px] font-medium text-black-777">Hashtag</p>
-        <button
-          type="button"
-          className={`flex justify-center items-center w-[14px] h-[14px] rounded-[2px] bg-black-FFF`}
-          onClick={handleClick}
-        >
-          <motion.div
-            animate={{ rotate: isOpen ? 180 : 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <ArrowIcon />
-          </motion.div>
-        </button>
-      </div>
-      {isOpen && (
-        <motion.ul className="flex flex-wrap justify-between gap-y-[10px] mt-[20px]">
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-          <Hashtag tagName="Design" hasBorder size="s" />
-        </motion.ul>
-      )}
-    </div>
-  );
-};
 
 export const Category = () => {
   const [tree, setTree] = useState<TreeData>(treeData);
@@ -128,8 +82,10 @@ export const Category = () => {
   };
 
   return (
-    <nav className="relative flex flex-col grow mt-[10px] py-[25px] px-[30px] w-[280px] bg-white rounded-xl">
-      <p className="mb-[30px] text-[#888] font-medium text-[13px]">Category</p>
+    <nav className="relative flex flex-col grow mt-[10px] py-[20px] px-[32px] w-[250px] bg-white rounded-xl">
+      <p className="pb-[4px] mb-[20px] text-[#888] font-medium text-[12px] border-b">
+        CATEGORY
+      </p>
       <div className="flex flex-col justify-between h-full">
         <Tree
           tree={tree}
@@ -139,7 +95,6 @@ export const Category = () => {
           onDragEnd={onDragEnd}
           isDragEnabled={isDNDMode}
         />
-        <HashtagList />
       </div>
     </nav>
   );

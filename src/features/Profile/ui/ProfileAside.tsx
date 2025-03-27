@@ -8,17 +8,20 @@ import GithubIcon from "public/assets/svg/github-icon.svg";
 
 export const ProfileAside = () => {
   return (
-    <aside className="flex flex-col gap-y-2 justify-between overflow-hidden w-[280px] h-[450px] bg-white rounded-xl">
+    <aside className="flex flex-col gap-y-2 justify-between overflow-hidden w-[250px] h-[410px] bg-white rounded-xl">
       <ProfileImage />
-      <div className="px-[29px] pb-[25px]">
-        <div className="flex mb-[13px] justify-center items-center">
-          <p className="text-[15px] text-[#666] text-center">
+      <div className="px-[29px] pb-[12px]">
+        <div className="flex justify-center mb-[10px] h-[70px] overflow-auto">
+          <p className="text-[14px] text-[#666] text-center">
             나에게 당근을 준다면
+            <br /> 유혈사태는 일어나지 않을 것입니다.
+            <br /> 유혈사태는 일어나지 않을 것입니다.
+            <br /> 유혈사태는 일어나지 않을 것입니다.
             <br /> 유혈사태는 일어나지 않을 것입니다.
           </p>
         </div>
         <div className="flex items-baseline gap-x-[10px] border-b-[1px] border-[#ddd]">
-          <h2 className="font-semibold text-[25px] text-[#444]">Aibao</h2>
+          <h2 className="font-semibold text-[22px] text-[#444]">Aibao</h2>
           <span className="text-[12px] text-[#888]">Employee, Everland</span>
         </div>
         <dl className="flex items-center gap-x-[5px]">
@@ -29,7 +32,7 @@ export const ProfileAside = () => {
             <span className="text-[#555] text-[12px]">Yongin, Korea</span>
           </dd>
         </dl>
-        <ul className="flex items-center mt-[30px] gap-x-[8px]">
+        <ul className="flex items-center mt-[16px] gap-x-[8px]">
           <li>
             <button type="button" aria-label="포트폴리오" title="포트폴리오">
               <ImAttachment size={24} />

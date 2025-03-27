@@ -1,14 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { HASHTAG_COLOR_ARR } from "shared/model/constants";
 import { useRouter } from "next/navigation";
 
 export const Hashtag = ({
   tagName,
   size,
   disabled,
-  hasBorder,
-  colorIdx,
   url,
 }: {
   tagName: string;
@@ -19,13 +15,6 @@ export const Hashtag = ({
   url?: string;
 }) => {
   const router = useRouter();
-  const [idx, setIdx] = useState(0);
-  const { bgColor, color } = HASHTAG_COLOR_ARR[idx] || {};
-
-  useEffect(() => {
-    if (colorIdx) setIdx(colorIdx);
-    else setIdx(Math.floor(Math.random() * HASHTAG_COLOR_ARR.length));
-  }, []);
 
   const handleClick = () => {
     if (!disabled && url) router.push(url);
@@ -34,7 +23,7 @@ export const Hashtag = ({
   return (
     <li>
       <div
-        className={`flex items-center px-[10px] rounded-full ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"} ${hasBorder ? "shadow-commonShadow border-[2px] border-black-FFF" : ""} ${bgColor} ${color}`}
+        className={`flex items-center px-[10px] rounded-full bg-purple-100 text-white ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"}`}
         onClick={handleClick}
       >
         <span>{tagName}</span>

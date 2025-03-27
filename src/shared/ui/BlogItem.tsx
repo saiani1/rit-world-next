@@ -14,13 +14,13 @@ export const BlogItem = ({
   const height = direction === "row" ? 154 : 190;
 
   return (
-    <li className={`${direction === "row" ? "" : "w-[289px]"}`}>
+    <li className={`${direction === "row" ? "" : "w-[250px]"}`}>
       <button
         type="button"
         className={`flex ${direction === "row" ? "flex-row gap-x-[15px]" : "flex-col"} items-start text-left`}
       >
         <div
-          className={`${direction === "row" ? "shrink-0 w-[253px] h-[154px]" : "w-[289px] h-[190px]"} relative overflow-hidden rounded-[5px]`}
+          className={`${direction === "row" ? "shrink-0 w-[240px] h-[145px]" : "w-[250px] h-[150px]"} relative overflow-hidden rounded-[5px]`}
         >
           <Image
             src={direction === "row" ? Rui : Hui}
@@ -31,7 +31,7 @@ export const BlogItem = ({
         </div>
         <div className={`${direction === "row" ? "w-[225px]" : "mt-[15px]"}`}>
           <span
-            className={`${direction === "row" ? "mb-[8px]" : "mb-[10px]"} inline-block text-[13px] text-black-888`}
+            className={`${direction === "row" ? "mb-[8px]" : "mb-[8px]"} inline-block text-[13px] text-black-888`}
           >
             2024.07.23
           </span>
@@ -39,22 +39,24 @@ export const BlogItem = ({
             className={`${direction === "row" ? "gap-x-[5px] mb-[2px]" : "gap-x-[10px]"} flex`}
           >
             <p
-              className={`${direction === "row" ? "mb-[5px] text-[17px] leading-5" : "mb-[10px] text-[20px] leading-6"} text-black-444 font-semibold`}
+              className={`${direction === "row" ? "mb-[5px] text-[17px] leading-5" : "mb-[6px] text-[19px] leading-6"} text-black-444 font-semibold`}
             >
               Conversation With London Makr & Co.
             </p>
-            <div className="flex shrink-0 justify-center items-center w-[20px] h-[20px]">
-              <SideArrowIcon />
+            <div
+              className={`flex shrink-0 justify-center items-center ${direction === "row" ? "mt-[3px] w-[14px] h-[14px]" : "mt-[2px] w-[18px] h-[18px]"}`}
+            >
+              <SideArrowIcon className="fill-black-999" />
             </div>
           </div>
           <span
-            className={`${direction === "row" ? "text-[13px] leading-4" : "text-[15px] leading-5"} text-black-555 line-clamp-2`}
+            className={`${direction === "row" ? "text-[12px] leading-4" : "text-[13px] leading-5"} text-black-777 line-clamp-2`}
           >
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. printing and typesetting industry.
           </span>
           <ul
-            className={`flex gap-x-[3px] ${direction === "row" ? "mt-[18px]" : "mt-[15px]"} `}
+            className={`flex gap-x-[3px] ${direction === "row" ? "mt-[13px]" : "mt-[15px]"} `}
           >
             <Hashtag tagName="Design" size="s" />
             <Hashtag tagName="Programming" size="s" />

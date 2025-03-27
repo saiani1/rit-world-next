@@ -1,6 +1,5 @@
 export { useOnClickOutside } from "./hooks/useOnClickOutside";
 
-export { HASHTAG_COLOR_ARR } from "./model/constants";
 export type { InputType } from "./model/inputType";
 
 export { ErrorMsg } from "./ui/ErrorMsg";
@@ -12,5 +11,5 @@ export { Title } from "./ui/Title";
 export { WriteButton } from "./ui/WriteButton";
 export { FilterButton } from "./ui/FilterButton";
 export { FilterDialog } from "./ui/FilterDialog";
-export { BigBlogItem } from "./ui/BigBlogItem";
+export { FlexableBlogItem } from "./ui/FlexableBlogItem";
 export { Selectbox } from "./ui/Selectbox";

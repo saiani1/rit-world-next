@@ -4,11 +4,11 @@ import Hui from "public/assets/image/hui1.jpg";
 import SideArrowIcon from "public/assets/svg/right-top-arrow-icon.svg";
 import { Hashtag } from "./Hashtag";
 
-export const BigBlogItem = () => {
+export const FlexableBlogItem = () => {
   return (
-    <div className="w-[400px]">
+    <div className="w-full">
       <button type="button" className="flex flex-col items-start text-left">
-        <div className="w-[400px] h-[358px] relative overflow-hidden rounded-[5px]">
+        <div className="w-full aspect-[1/1] relative overflow-hidden rounded-[5px]">
           <Image src={Hui} style={{ objectFit: "cover" }} fill alt="후잇" />
         </div>
         <div className="mt-[15px]">
@@ -16,14 +16,14 @@ export const BigBlogItem = () => {
             2024.07.23
           </span>
           <div className="gap-x-[10px] flex">
-            <p className="mb-[10px] text-[20px] leading-6 text-black-444 font-semibold">
+            <p className="mb-[10px] text-[22px] leading-6 text-black-444 font-semibold">
               Conversation With London Makr & Co.
             </p>
-            <div className="flex shrink-0 justify-center items-center w-[20px] h-[20px]">
-              <SideArrowIcon />
+            <div className="flex shrink-0 justify-center items-center mt-[1px] w-[20px] h-[20px]">
+              <SideArrowIcon className="fill-black-999" />
             </div>
           </div>
-          <span className="text-[15px] leading-5 text-black-555 line-clamp-2">
+          <span className="text-[14px] leading-5 text-black-777 line-clamp-2">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. printing and typesetting industry.
           </span>

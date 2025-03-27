@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import {
   BlogItem,
-  BigBlogItem,
+  FlexableBlogItem,
   FilterButton,
   Title,
   WriteButton,
@@ -22,7 +22,7 @@ const HashtagTrends = () => {
     <div className="border-b-[2px] border-black-EEE mb-[35px] pb-[20px]">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-x-[15px]">
-          <Title name="인기 해시태그" />
+          <Title name="해시태그" />
           <button
             type="button"
             className={`flex justify-center items-center w-[20px] h-[20px] rounded-[2px] bg-black-EEE`}
@@ -77,9 +77,9 @@ const NewBlogListScreen = () => {
         <div className="flex justify-between items-center pb-[15px] mb-[10px]">
           <Title name="최신 포스트" />
         </div>
-        <ul className="flex flex-wrap justify-between gap-y-[40px]">
+        <ul className="flex justify-between gap-x-[20px] gap-y-[40px]">
           <li>
-            <BigBlogItem />
+            <FlexableBlogItem />
           </li>
           <li>
             <ul className="flex flex-col gap-y-[25px]">

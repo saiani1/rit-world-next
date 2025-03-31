@@ -34,7 +34,7 @@ export const Selectbox = ({ data, placeholder }: SelectboxType) => {
     <div className="relative inline-block shrink-0" ref={selectRef}>
       <button
         type="button"
-        className="flex items-center gap-x-[20px] px-[20px] h-[34px] text-black-999 text-[15px] font-medium bg-black-50 rounded-[5px]"
+        className="flex items-center gap-x-[20px] px-[20px] h-[34px] text-black-999 text-[13px] font-regular bg-black-F5 rounded-[5px]"
         onClick={handleClick}
       >
         <span>{selectedOption}</span>
@@ -42,7 +42,7 @@ export const Selectbox = ({ data, placeholder }: SelectboxType) => {
       </button>
       {isClick && (
         <ul
-          className="absolute top-[39px] left-0 text-center w-full z-10 bg-black-50 text-black-999 text-[15px] font-medium divide-y divide-black-FFF rounded-[5px]"
+          className="absolute top-[39px] left-0 text-center w-full z-10 bg-black-F5 text-black-999 text-[13px] font-medium divide-y divide-black-FFF rounded-[5px]"
           onClick={handleClickOption}
         >
           {tmpArr.map((item, i) => (

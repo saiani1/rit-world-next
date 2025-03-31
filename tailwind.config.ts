@@ -33,6 +33,7 @@ export default {
           DDD: "#ddd",
           EEE: "#eee",
           FFF: "#fff",
+          F5: "#f5f5f5",
           "50": "#ECEFF1",
           "100": "#C2C2C2",
           "200": "#2D3540",

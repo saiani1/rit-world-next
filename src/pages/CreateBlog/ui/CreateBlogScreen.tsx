@@ -2,6 +2,9 @@
 import { useForm, useController } from "react-hook-form";
 import { Editor } from "@tinymce/tinymce-react";
 
+import { Selectbox, Title, WriteButton } from "shared/index";
+import ImageIcon from "public/assets/svg/image-icon.svg";
+
 type FormDataType = {
   subject: string;
   content: string;
@@ -24,14 +27,33 @@ const CreateBlogScreen = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex justify-between pb-[15px] mb-[10px] border-b border-b-[#ddd]">
-        {/* <h2 className="text-[22px] text-[#444] font-semibold">블로그 쓰기</h2> */}
+      <div className="flex justify-between items-center pb-[15px] mb-[10px]">
+        <Title name="포스트 작성" />
+        <WriteButton />
       </div>
-      <input
-        type="text"
-        className="flex w-full mb-[10px] px-[15px] py-[5px] border rounded-[5px]"
-        {...register("subject")}
-      />
+      <div className="relative flex flex-col gap-y-4 justify-end items-center pb-[20px] mb-[12px] w-full h-[175px] bg-black-F5 rounded-[5px]">
+        <button type="button">
+          <ImageIcon />
+        </button>
+        <span className="text-black-999 text-[12px] font-light">
+          썸네일을 업로드하려면 아이콘을 클릭하세요.
+        </span>
+        <input
+          type="text"
+          className="absolute left-0 bottom-0 flex w-full px-[16px] py-[2px] bg-transparent rounded-[5px] text-[42px] font-medium text-black-999"
+          placeholder="제목을 입력하세요."
+          {...register("subject")}
+        />
+      </div>
+      <div className="flex gap-x-2 mb-[20px]">
+        <Selectbox placeholder="카테고리 대분류" />
+        <Selectbox placeholder="카테고리 중분류" />
+        <input
+          type="text"
+          className="w-full px-[20px] text-[13px] text-black-999 bg-black-F5 rounded-[5px]"
+          placeholder="해시태그를 입력해주세요."
+        />
+      </div>
       <Editor
         {...field}
         tinymceScriptSrc={"/tinymce/tinymce.min.js"}
@@ -63,20 +85,6 @@ const CreateBlogScreen = () => {
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
-      <div className="flex justify-center items-center gap-x-[10px] mt-[10px]">
-        <button
-          type="reset"
-          className="px-[25px] py-[7px] text-[#777] font-medium border border-[#ddd] rounded-[3px]"
-        >
-          취소
-        </button>
-        <button
-          type="submit"
-          className="px-[25px] py-[7px] bg-[#049DD9] text-white font-medium rounded-[3px]"
-        >
-          발행
-        </button>
-      </div>
     </form>
   );
 };

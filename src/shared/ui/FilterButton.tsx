@@ -1,4 +1,6 @@
+"use client";
 import { useState } from "react";
+
 import FilterIcon from "public/assets/svg/filter-icon.svg";
 import { FilterDialog } from "./FilterDialog";
 

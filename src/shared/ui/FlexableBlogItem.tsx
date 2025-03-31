@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 
 import Hui from "public/assets/image/hui1.jpg";

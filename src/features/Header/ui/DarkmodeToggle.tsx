@@ -1,5 +1,7 @@
+"use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+
 import SunIcon from "public/assets/svg/sun-icon.svg";
 import MoonIcon from "public/assets/svg/moon-icon.svg";
 

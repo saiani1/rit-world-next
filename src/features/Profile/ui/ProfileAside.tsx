@@ -3,8 +3,8 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
-import { ProfileImage } from "shared/index";
 import GithubIcon from "public/assets/svg/github-icon.svg";
+import { ProfileImage } from "shared/index";
 
 export const ProfileAside = () => {
   return (

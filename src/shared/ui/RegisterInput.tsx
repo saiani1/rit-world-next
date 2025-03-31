@@ -1,13 +1,17 @@
-import { InputType } from "../model/inputType";
+"use client";
+type RegisterInputType = React.ComponentProps<"input"> & {
+  name: string;
+  register: any;
+  watch?: any;
+  page?: string;
+};
 
 export const RegisterInput = ({
-  type,
   name,
-  placeholder,
   register,
   watch,
   page,
-}: InputType) => {
+}: RegisterInputType) => {
   const inputRegister = () => {
     switch (name) {
       case "userId":
@@ -50,8 +54,6 @@ export const RegisterInput = ({
 
   return (
     <input
-      type={type}
-      placeholder={placeholder}
       className={`${
         page === "signin" ? "w-64" : "w-full"
       } px-5 py-1.5 border rounded-full border-slate-300 placeholder:text-xs focus:outline-slate-400`}

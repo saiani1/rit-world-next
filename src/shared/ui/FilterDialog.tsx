@@ -1,15 +1,15 @@
-import { filterAtom } from "entities/blog/model/atom";
+"use client";
 import { useAtom } from "jotai";
 
-const RadioLabel = ({
-  name,
-  id,
-  group,
-}: {
+import { filterAtom } from "entities/blog";
+
+type RadioLabelType = {
   name: string;
   id: string;
   group: string;
-}) => {
+};
+
+const RadioLabel = ({ name, id, group }: RadioLabelType) => {
   const [filterName, setFilterName] = useAtom(filterAtom);
 
   const handleChange = (e: any) => {

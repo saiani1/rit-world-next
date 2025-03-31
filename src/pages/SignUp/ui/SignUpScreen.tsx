@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 import logo from "public/assets/logo.png";
+import { SignUpUserInfoType } from "entities/user";
 import { RegisterInput, ErrorMsg } from "shared/index";
-import Image from "next/image";
 
 const SignUpScreen = () => {
   const router = useRouter();
@@ -20,9 +21,9 @@ const SignUpScreen = () => {
     watch,
     getValues,
     formState: { errors },
-  } = useForm<ISignUpUserInfo>({ mode: "onChange" });
+  } = useForm<SignUpUserInfoType>({ mode: "onChange" });
 
-  const onSubmit: SubmitHandler<ISignUpUserInfo> = async () => {
+  const onSubmit: SubmitHandler<SignUpUserInfoType> = async () => {
     if (Object.values(checkedDuplicate).every((v) => v === true) === true) {
       const data = getValues();
       try {

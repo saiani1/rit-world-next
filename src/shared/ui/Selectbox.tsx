@@ -1,15 +1,15 @@
+"use client";
 import { useRef, useState } from "react";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import { useOnClickOutside } from "shared/hooks/useOnClickOutside";
 
-export const Selectbox = ({
-  data,
-  placeholder,
-}: {
+type SelectboxType = {
   data?: [];
   placeholder: string;
-}) => {
+};
+
+export const Selectbox = ({ data, placeholder }: SelectboxType) => {
   const selectRef = useRef(null);
   const [isClick, setIsClick] = useState(false);
   const [selectedOption, setSelectedOption] = useState(placeholder);

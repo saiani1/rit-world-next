@@ -1,7 +1,13 @@
+"use client";
 import { useRouter } from "next/navigation";
+
 import PencilIcon from "public/assets/svg/pencil-icon.svg";
 
-export const WriteButton = ({ page }: { page?: string }) => {
+type WriteButtonType = {
+  page?: string;
+};
+
+export const WriteButton = ({ page }: WriteButtonType) => {
   const router = useRouter();
   const handleClick = () => {
     if (page) console.log("이예에");

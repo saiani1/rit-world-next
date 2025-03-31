@@ -1,3 +1,2 @@
-export { treeData } from "./lib/constants";
-
-export { Category } from "./ui/Category";
+export * from "./lib";
+export * from "./ui";

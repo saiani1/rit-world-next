@@ -7,13 +7,8 @@ import { motion } from "framer-motion";
 import { useAtom } from "jotai";
 
 import logo from "public/assets/logo.png";
+import { loginAtom, SignInUserInfoType } from "entities/user";
 import { RegisterInput, ErrorMsg } from "shared/index";
-import { loginAtom } from "entities/user/model/atom";
-
-interface IFormData {
-  userId: string;
-  password: string;
-}
 
 const SignInScreen = () => {
   const router = useRouter();
@@ -23,9 +18,9 @@ const SignInScreen = () => {
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<IFormData>({ mode: "onChange" });
+  } = useForm<SignInUserInfoType>({ mode: "onChange" });
 
-  const onSubmit: SubmitHandler<IFormData> = async () => {
+  const onSubmit: SubmitHandler<SignInUserInfoType> = async () => {
     if (!errors.userId && getValues().password.length !== 0) {
       const data = getValues();
       try {

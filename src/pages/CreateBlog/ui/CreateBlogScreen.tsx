@@ -2,14 +2,14 @@
 import { useForm, useController } from "react-hook-form";
 import { Editor } from "@tinymce/tinymce-react";
 
-type formData = {
+type FormDataType = {
   subject: string;
   content: string;
 };
 
 const CreateBlogScreen = () => {
   const { getValues, setValue, register, control, handleSubmit } =
-    useForm<formData>();
+    useForm<FormDataType>();
 
   const {
     field: { onChange, ...field },

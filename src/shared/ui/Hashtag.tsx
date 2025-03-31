@@ -1,19 +1,16 @@
 "use client";
 import { useRouter } from "next/navigation";
 
-export const Hashtag = ({
-  tagName,
-  size,
-  disabled,
-  url,
-}: {
+type HashtagType = {
   tagName: string;
   size: "s" | "m";
   disabled?: boolean;
   hasBorder?: boolean;
   colorIdx?: number;
   url?: string;
-}) => {
+};
+
+export const Hashtag = ({ tagName, size, disabled, url }: HashtagType) => {
   const router = useRouter();
 
   const handleClick = () => {

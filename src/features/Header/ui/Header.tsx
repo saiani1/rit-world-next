@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 
 import logo from "public/assets/logo.png";
 import { DarkmodeToggle } from "./DarkmodeToggle";
-import { HEADER_ARR } from "features/Header/lib/constants";
-import { loginAtom } from "entities/user/model/atom";
+import { loginAtom } from "entities/user";
+import { HEADER_ARR } from "../lib/constants";
 
 export const Header = () => {
   const router = useRouter();

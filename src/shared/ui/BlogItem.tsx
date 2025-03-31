@@ -1,16 +1,17 @@
+"use client";
 import Image from "next/image";
+
 import Hui from "public/assets/image/hui2.jpg";
 import Rui from "public/assets/image/rui.jpg";
-import { Hashtag } from "./Hashtag";
 import SideArrowIcon from "public/assets/svg/right-top-arrow-icon.svg";
+import { Hashtag } from "./Hashtag";
 
-export const BlogItem = ({
-  data,
-  direction,
-}: {
+type BlogItemType = {
   data?: any;
   direction?: "row" | "column";
-}) => {
+};
+
+export const BlogItem = ({ data, direction }: BlogItemType) => {
   const height = direction === "row" ? 154 : 190;
 
   return (

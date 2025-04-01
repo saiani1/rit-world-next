@@ -34,10 +34,6 @@ const SignInScreen = () => {
     }
   };
 
-  const handleClickSignUpBtn = () => {
-    router.push("/signup");
-  };
-
   useEffect(() => {
     if (isLogin) router.push("/list");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,18 +55,23 @@ const SignInScreen = () => {
         >
           <RegisterInput
             type="email"
-            name="userId"
             placeholder="이메일"
-            page="signin"
-            register={register}
+            {...register("userId", {
+              required: true,
+              pattern: {
+                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "이메일 형식에 맞지 않습니다.",
+              },
+              setValueAs: (v: string) => v.trim(),
+              onBlur: (e: any) =>
+                (e.currentTarget.value = e.currentTarget.value.trim()),
+            })}
           />
           {errors.userId && <ErrorMsg message={errors.userId.message} />}
           <RegisterInput
             type="password"
-            name="password"
             placeholder="비밀번호"
-            page="signin"
-            register={register}
+            {...register("password", { required: true })}
           />
         </motion.div>
         <button

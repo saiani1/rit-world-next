@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAtom } from "jotai";
-import { motion } from "framer-motion";
 
 import logo from "public/assets/logo.png";
-import { DarkmodeToggle } from "./DarkmodeToggle";
 import { loginAtom } from "entities/user";
+import { DarkmodeToggle } from "./DarkmodeToggle";
 import { HEADER_ARR } from "../lib/constants";
+import Link from "next/link";
 
 export const Header = () => {
   const router = useRouter();
@@ -17,7 +17,9 @@ export const Header = () => {
   const handleClick = () => router.push("/");
 
   const handleClickHeader = (e: React.MouseEvent<HTMLUListElement>) => {
-    const name = (e.target as HTMLButtonElement).name;
+    // const name = e.currentTarget.dataset.name as string;
+    const name = (e.target as HTMLElement).closest("li")?.dataset
+      .headerId as string;
     setIsActive(name);
     // if (name === "LOG OUT") {
     //   logOutAPI().then(() => {
@@ -41,14 +43,18 @@ export const Header = () => {
             onClick={handleClickHeader}
           >
             {HEADER_ARR.map((header) => (
-              <li key={header.id}>
-                <motion.button
-                  type="button"
+              <li
+                key={header.id}
+                data-name={
+                  header.id === 1 && !isLogin ? "LOG IN" : header.title
+                }
+              >
+                <Link
                   className={`${isActive === header.title ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
-                  name={header.id === 1 && !isLogin ? "LOG IN" : header.title}
+                  href={header.url}
                 >
                   {header.id === 1 && !isLogin ? "LOG IN" : header.title}
-                </motion.button>
+                </Link>
               </li>
             ))}
             <li className="ml-[15px]">

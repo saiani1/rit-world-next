@@ -79,17 +79,6 @@ const SignInScreen = () => {
         >
           로그인
         </button>
-        <div className="flex justify-between w-48 mt-5 text-xs text-gray-400">
-          <button
-            type="button"
-            className="relative after:absolute after:content-[''] after:w-px after:h-2.5 after:top-1 after:left-32 after:bg-gray-300"
-          >
-            아이디/비밀번호 찾기
-          </button>
-          <button type="button" onClick={handleClickSignUpBtn}>
-            회원가입
-          </button>
-        </div>
       </form>
     </div>
   );

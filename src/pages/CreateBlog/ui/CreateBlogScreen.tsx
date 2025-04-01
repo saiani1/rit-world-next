@@ -4,10 +4,12 @@ import { Editor } from "@tinymce/tinymce-react";
 
 import { Selectbox, Title, WriteButton } from "shared/index";
 import ImageIcon from "public/assets/svg/image-icon.svg";
+import { HashtagList } from "features/Blog";
 
 type FormDataType = {
   subject: string;
   content: string;
+  hashtag: string[];
 };
 
 const CreateBlogScreen = () => {
@@ -48,11 +50,7 @@ const CreateBlogScreen = () => {
       <div className="flex gap-x-2 mb-[20px]">
         <Selectbox placeholder="카테고리 대분류" />
         <Selectbox placeholder="카테고리 중분류" />
-        <input
-          type="text"
-          className="w-full px-[20px] text-[13px] text-black-999 bg-black-F5 rounded-[5px]"
-          placeholder="해시태그를 입력해주세요."
-        />
+        <HashtagList {...register("hashtag")} />
       </div>
       <Editor
         {...field}

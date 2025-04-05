@@ -1,8 +1,8 @@
 export const HEADER_ARR = [
   {
     id: 1,
-    title: "LOG IN",
-    url: "/signin",
+    title: "LOG OUT",
+    url: "/",
   },
   {
     id: 2,
@@ -12,7 +12,7 @@ export const HEADER_ARR = [
   {
     id: 3,
     title: "BLOG",
-    url: "/blog",
+    url: "/",
   },
   {
     id: 4,

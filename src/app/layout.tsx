@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import toast, { Toaster } from "react-hot-toast";
 
 import "./globals.css";
 import ClientComponent from "./clientComponent";
@@ -61,6 +62,14 @@ export default function RootLayout({
       <body className="h-full bg-slate-200">
         <ClientComponent>
           <main>{children}</main>
+          <Toaster
+            containerStyle={{
+              top: 20,
+            }}
+            toastOptions={{
+              duration: 2000,
+            }}
+          />
         </ClientComponent>
       </body>
     </html>

@@ -10,7 +10,7 @@ type ProfileImageType = {
 export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
   return (
     <div className="relative flex flex-col">
-      <div className="h-[130px] overflow-hidden bg-[#eee]">
+      <div className="h-[130px] bg-[#eee] rounded-t-xl overflow-hidden">
         <Image
           src={imgSrc ? imgSrc : profileImage}
           width={250}

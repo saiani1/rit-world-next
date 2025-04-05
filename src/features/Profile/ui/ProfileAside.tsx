@@ -5,17 +5,27 @@ import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
-import { ProfileImage } from "shared/index";
+import { ProfileImage, Tooltip, useOnClickOutside } from "shared/index";
 import { ProfileType } from "../model";
 import Link from "next/link";
+import { useRef, useState } from "react";
 
 type ProfileAsideType = {
   data: ProfileType;
 };
 
 export const ProfileAside = ({ data }: ProfileAsideType) => {
+  const tooltipRef = useRef(null);
+  const [isEmailClick, setIsEmailClick] = useState(false);
+
+  const handleEmailBtnClick = () => {
+    setIsEmailClick((prev) => !prev);
+  };
+
+  useOnClickOutside(tooltipRef, () => setIsEmailClick(false));
+
   return (
-    <aside className="flex flex-col gap-y-2 justify-between overflow-hidden w-[250px] h-[410px] bg-white rounded-xl">
+    <aside className="flex flex-col gap-y-2 justify-between w-[250px] h-[410px] bg-white rounded-xl">
       <ProfileImage imgSrc={data.imgUrl} />
       <div className="px-[29px] pb-[12px]">
         <div className="flex justify-center items-center mb-[10px] h-[70px] overflow-auto">
@@ -48,10 +58,16 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
             </li>
           )}
           {data.email && (
-            <li className="h-[24px]">
-              <button type="button" aria-label="이메일" title="이메일">
+            <li ref={tooltipRef} className="relative h-[24px]">
+              <button
+                type="button"
+                onClick={handleEmailBtnClick}
+                aria-label="이메일"
+                title="이메일"
+              >
                 <MdOutlineAlternateEmail size={24} />
               </button>
+              {isEmailClick && <Tooltip data={data.email} />}
             </li>
           )}
           {data.linkedinUrl && (

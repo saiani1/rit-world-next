@@ -12,3 +12,4 @@ export { FilterButton } from "./ui/FilterButton";
 export { FilterDialog } from "./ui/FilterDialog";
 export { FlexableBlogItem } from "./ui/FlexableBlogItem";
 export { Selectbox } from "./ui/Selectbox";
+export { Tooltip } from "./ui/Tooltip";

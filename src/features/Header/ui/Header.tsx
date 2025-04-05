@@ -29,6 +29,7 @@ export const Header = () => {
       if (error) return toast.error("로그아웃이 실패했습니다.");
       toast.success("로그아웃 되었습니다.");
       setIsLogin(false);
+      setIsActive("BLOG");
     } else if (name === "LOG IN" && !isLogin) router.push("/signin");
   };
 

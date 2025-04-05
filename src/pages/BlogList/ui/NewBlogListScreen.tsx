@@ -10,8 +10,11 @@ import {
   WriteButton,
   Hashtag,
 } from "shared/index";
+import { useAtomValue } from "jotai";
+import { loginAtom } from "entities/user";
 
 const HashtagTrends = () => {
+  const isLogin = useAtomValue(loginAtom);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -37,7 +40,7 @@ const HashtagTrends = () => {
           </button>
         </div>
         <div className="flex gap-x-[13px]">
-          <WriteButton />
+          {isLogin && <WriteButton />}
           <FilterButton />
         </div>
       </div>

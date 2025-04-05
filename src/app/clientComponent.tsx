@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const ClientComponent = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
 
-  if (pathname === "/signin" || pathname === "/signup") return <>{children}</>;
+  if (pathname === "/signin") return <>{children}</>;
 
   return (
     <div className="flex flex-col items-center w-full max-h-[1000px]">

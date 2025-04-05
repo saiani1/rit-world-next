@@ -13,6 +13,8 @@ export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
       <div className="h-[130px] overflow-hidden bg-[#eee]">
         <Image
           src={imgSrc ? imgSrc : profileImage}
+          width={250}
+          height={250}
           alt="dimmed"
           className="blur-sm"
         />
@@ -20,6 +22,8 @@ export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
       <div className="absolute top-[60px] left-[50%] translate-x-[-50%] w-[134px] h-[134px] bg-[#aaa] overflow-hidden rounded-[50%] border-[6px] border-white shadow-profileShadow">
         <Image
           src={imgSrc ? imgSrc : profileImage}
+          width={134}
+          height={134}
           className=""
           alt="프로필사진"
         />

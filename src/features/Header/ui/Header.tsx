@@ -1,33 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useAtom } from "jotai";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 import logo from "public/assets/logo.png";
 import { loginAtom } from "entities/user";
+import { supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
 import { HEADER_ARR } from "../lib/constants";
-import Link from "next/link";
+import { HeaderType } from "../model";
 
 export const Header = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useAtom(loginAtom);
   const [isActive, setIsActive] = useState("BLOG");
+  const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const handleClick = () => router.push("/");
 
-  const handleClickHeader = (e: React.MouseEvent<HTMLUListElement>) => {
-    // const name = e.currentTarget.dataset.name as string;
+  const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
     const name = (e.target as HTMLElement).closest("li")?.dataset
-      .headerId as string;
-    setIsActive(name);
-    // if (name === "LOG OUT") {
-    //   logOutAPI().then(() => {
-    //     toast.success("로그아웃 되었습니다.")
-    //     setIsLogin(false);
-    //   });
-    // } else if (name === "LOG IN") router.push("/signin");
+      .name as string;
+    if (name !== "LOG OUT" && name !== "LOG IN") setIsActive(name);
+    if (name === "LOG OUT") {
+      let { error } = await supabase.auth.signOut();
+      if (error) return toast.error("로그아웃이 실패했습니다.");
+      toast.success("로그아웃 되었습니다.");
+      setIsLogin(false);
+    } else if (name === "LOG IN" && !isLogin) router.push("/signin");
   };
+
+  useEffect(() => {
+    if (isLogin) setHeaderArr(HEADER_ARR);
+    else {
+      const filterdArr: typeof HEADER_ARR = HEADER_ARR.filter((item) => {
+        return item.title === "LOG OUT" || item.title === "BLOG";
+      });
+      setHeaderArr(filterdArr);
+    }
+  }, [isLogin]);
 
   return (
     <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
@@ -42,21 +55,22 @@ export const Header = () => {
             className="flex items-center gap-x-[3px]"
             onClick={handleClickHeader}
           >
-            {HEADER_ARR.map((header) => (
-              <li
-                key={header.id}
-                data-name={
-                  header.id === 1 && !isLogin ? "LOG IN" : header.title
-                }
-              >
-                <Link
-                  className={`${isActive === header.title ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
-                  href={header.url}
+            {headerArr &&
+              headerArr.map((header) => (
+                <li
+                  key={header.id}
+                  data-name={
+                    header.id === 1 && !isLogin ? "LOG IN" : header.title
+                  }
                 >
-                  {header.id === 1 && !isLogin ? "LOG IN" : header.title}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    className={`${isActive === header.title ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
+                    href={header.url}
+                  >
+                    {header.id === 1 && !isLogin ? "LOG IN" : header.title}
+                  </Link>
+                </li>
+              ))}
             <li className="ml-[15px]">
               <DarkmodeToggle />
             </li>

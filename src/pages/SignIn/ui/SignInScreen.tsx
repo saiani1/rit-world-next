@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useAtom } from "jotai";
+import { toast } from "react-hot-toast";
 
 import logo from "public/assets/logo.png";
 import { loginAtom, SignInUserInfoType } from "entities/user";
-import { RegisterInput, ErrorMsg } from "shared/index";
+import { supabase, RegisterInput, ErrorMsg } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
@@ -16,28 +17,27 @@ const SignInScreen = () => {
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<SignInUserInfoType>({ mode: "onChange" });
 
-  const onSubmit: SubmitHandler<SignInUserInfoType> = async () => {
-    if (!errors.userId && getValues().password.length !== 0) {
-      const data = getValues();
+  const onSubmit: SubmitHandler<SignInUserInfoType> = async (data) => {
+    if (!errors.userId && data.password.length !== 0) {
       try {
-        // await loginAPI(data);
-        // setIsLogin(true);
-        router.replace("/");
-        console.log("로그인 되었습니다.");
+        let { error } = await supabase.auth.signInWithPassword({
+          email: data.userId,
+          password: data.password,
+        });
+        if (error) return toast.error("로그인 실패");
+        else {
+          setIsLogin(true);
+          router.replace("/");
+          toast.success("로그인 되었습니다.");
+        }
       } catch (err) {
         console.error(err);
       }
     }
   };
-
-  useEffect(() => {
-    if (isLogin) router.push("/list");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-slate-200">

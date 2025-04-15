@@ -1,20 +1,20 @@
 "use client";
+import { useState } from "react";
 import { useForm, useController } from "react-hook-form";
 import { Editor } from "@tinymce/tinymce-react";
 
-import { Selectbox, Title, WriteButton } from "shared/index";
 import ImageIcon from "public/assets/svg/image-icon.svg";
-import { HashtagList } from "features/Blog";
-
-type FormDataType = {
-  subject: string;
-  content: string;
-  hashtag: string[];
-};
+import { BlogType, HashtagList } from "features/Blog";
+import { Selectbox, Title, WriteButton } from "shared/index";
 
 const CreateBlogScreen = () => {
+  const [hashtags, setHashtags] = useState<string[]>([]);
+  const [largeCategoryId, setLargeCategoryId] = useState<string>("");
+  const [middleCategoryId, setMiddleCategoryId] = useState<string>("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { getValues, setValue, register, control, handleSubmit } =
-    useForm<FormDataType>();
+    useForm<BlogType>();
 
   const {
     field: { onChange, ...field },
@@ -22,6 +22,16 @@ const CreateBlogScreen = () => {
     name: "content",
     control,
   });
+
+  const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const preview = URL.createObjectURL(file);
+    setPreviewUrl(preview);
+  };
+
+  console.log("previewUrl", previewUrl);
 
   const onSubmit = () => {
     console.log(getValues());
@@ -33,10 +43,20 @@ const CreateBlogScreen = () => {
         <Title name="포스트 작성" />
         <WriteButton />
       </div>
-      <div className="relative flex flex-col gap-y-4 justify-end items-center pb-[20px] mb-[12px] w-full h-[175px] bg-black-F5 rounded-[5px]">
-        <button type="button">
+      <div
+        style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}
+        className={`relative flex flex-col gap-y-4 justify-end items-center pb-[20px] mb-[12px] w-full h-[175px] ${previewUrl ? "bg-cover bg-top" : "bg-black-F5"} rounded-[5px]`}
+      >
+        <input
+          type="file"
+          className="hidden"
+          onChange={handleChangeFileInput}
+          id="imageInput"
+          accept="image/*"
+        />
+        <label htmlFor="imageInput" className="cursor-pointer">
           <ImageIcon />
-        </button>
+        </label>
         <span className="text-black-999 text-[12px] font-light">
           썸네일을 업로드하려면 아이콘을 클릭하세요.
         </span>

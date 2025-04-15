@@ -31,8 +31,6 @@ const CreateBlogScreen = () => {
     setPreviewUrl(preview);
   };
 
-  console.log("previewUrl", previewUrl);
-
   const onSubmit = () => {
     console.log(getValues());
   };
@@ -70,7 +68,7 @@ const CreateBlogScreen = () => {
       <div className="flex gap-x-2 mb-[20px]">
         <Selectbox placeholder="카테고리 대분류" />
         <Selectbox placeholder="카테고리 중분류" />
-        <HashtagList {...register("hashtag")} />
+        <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
       </div>
       <Editor
         {...field}

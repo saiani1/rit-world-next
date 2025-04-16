@@ -2,7 +2,7 @@ export { supabase } from "./api/supabaseClient";
 export { useOnClickOutside } from "./hooks/useOnClickOutside";
 
 export { ErrorMsg } from "./ui/ErrorMsg";
-export { RegisterInput } from "./ui/RegisterInput";
+export { CommonInput } from "./ui/CommonInput";
 export { BlogItem } from "./ui/BlogItem";
 export { ProfileImage } from "./ui/ProfileImage";
 export { Hashtag } from "./ui/Hashtag";
@@ -13,3 +13,4 @@ export { FilterDialog } from "./ui/FilterDialog";
 export { FlexableBlogItem } from "./ui/FlexableBlogItem";
 export { Selectbox } from "./ui/Selectbox";
 export { Tooltip } from "./ui/Tooltip";
+export { FileInput } from "./ui/FileInput";

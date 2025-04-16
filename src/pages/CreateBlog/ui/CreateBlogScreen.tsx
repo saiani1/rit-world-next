@@ -4,7 +4,13 @@ import { useForm } from "react-hook-form";
 
 import ImageIcon from "public/assets/svg/image-icon.svg";
 import { BlogType, HashtagList, WriteButton } from "features/Blog";
-import { CommonInput, CustomEditor, FileInput, Title } from "shared/ui";
+import {
+  CommonInput,
+  CustomEditor,
+  FileInput,
+  Selectbox,
+  Title,
+} from "shared/ui";
 
 const CreateBlogScreen = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
@@ -14,6 +20,8 @@ const CreateBlogScreen = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const { getValues, setValue, register, control, handleSubmit } =
     useForm<BlogType>();
+
+  const tmpArr = ["하나", "둘", "셋"];
 
   const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -57,8 +65,18 @@ const CreateBlogScreen = () => {
         />
       </div>
       <div className="flex gap-x-2 mb-[20px]">
-        {/* <Selectbox placeholder="카테고리 대분류" />
-        <Selectbox placeholder="카테고리 중분류" /> */}
+        <Selectbox
+          data={tmpArr}
+          selectOption={largeCategoryId}
+          setSelectOption={setLargeCategoryId}
+          placeholder="카테고리 대분류"
+        />
+        <Selectbox
+          data={tmpArr}
+          selectOption={middleCategoryId}
+          setSelectOption={setMiddleCategoryId}
+          placeholder="카테고리 중분류"
+        />
         <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
       </div>
       <CustomEditor control={control} name="content" />

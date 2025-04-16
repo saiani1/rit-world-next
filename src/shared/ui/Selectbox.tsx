@@ -1,18 +1,24 @@
-"use client";
 import { useRef, useState } from "react";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import { useOnClickOutside } from "shared/hooks/useOnClickOutside";
+import { CommonButton } from "./CommonButton";
 
 type SelectboxType = {
-  data: [];
+  data: string[];
   placeholder: string;
+  selectOption: string;
+  setSelectOption: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export const Selectbox = ({ data, placeholder }: SelectboxType) => {
+export const Selectbox = ({
+  data,
+  placeholder,
+  selectOption,
+  setSelectOption,
+}: SelectboxType) => {
   const selectRef = useRef(null);
   const [isClick, setIsClick] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(placeholder);
 
   const handleClick = () => {
     setIsClick((prev) => !prev);
@@ -21,7 +27,7 @@ export const Selectbox = ({ data, placeholder }: SelectboxType) => {
   const handleClickOption = (e: React.MouseEvent<HTMLUListElement>) => {
     const name = (e.target as HTMLButtonElement).name;
     if (name !== undefined) {
-      setSelectedOption(name);
+      setSelectOption(name);
       setIsClick(false);
     }
   };
@@ -30,14 +36,13 @@ export const Selectbox = ({ data, placeholder }: SelectboxType) => {
 
   return (
     <div className="relative inline-block shrink-0" ref={selectRef}>
-      <button
-        type="button"
+      <CommonButton
         className="flex items-center gap-x-[20px] px-[20px] h-[34px] text-black-999 text-[13px] font-regular bg-black-F5 rounded-[5px]"
         onClick={handleClick}
       >
-        <span>{selectedOption}</span>
+        {selectOption.length !== 0 ? selectOption : placeholder}
         <ArrowIcon className="rotate-180" />
-      </button>
+      </CommonButton>
       {isClick && (
         <ul
           className="absolute top-[39px] left-0 text-center w-full z-10 bg-black-F5 text-black-999 text-[13px] font-medium divide-y divide-black-FFF rounded-[5px]"
@@ -45,9 +50,9 @@ export const Selectbox = ({ data, placeholder }: SelectboxType) => {
         >
           {data.map((item, i) => (
             <li key={`select-${i}`}>
-              <button type="button" name={item} className="h-[34px] w-full">
+              <CommonButton name={item} className="h-[34px] w-full">
                 {item}
-              </button>
+              </CommonButton>
             </li>
           ))}
         </ul>

@@ -2,6 +2,7 @@
 import { useAtom } from "jotai";
 
 import { filterAtom } from "entities/blog";
+import { RadioButton } from "./RadioButton";
 
 type RadioLabelType = {
   name: string;
@@ -19,20 +20,14 @@ const RadioLabel = ({ name, id, group }: RadioLabelType) => {
 
   return (
     <div className="flex items-center gap-x-[7px] py-[6px] pl-[3px]">
-      <input
-        type="radio"
-        className="appearance-none w-[14px] h-[14px] border-[2px] border-black-FFF rounded-full shadow-commonShadow checked:bg-blue-100"
+      <RadioButton
         id={id}
         name={group}
         defaultChecked={filterName === id}
         onChange={handleChange}
+        labelStyle="pt-[1px] text-[13px] text-black-888 font-medium"
+        labelName={name}
       />
-      <label
-        htmlFor={id}
-        className="pt-[1px] text-[13px] text-black-888 font-medium"
-      >
-        {name}
-      </label>
     </div>
   );
 };

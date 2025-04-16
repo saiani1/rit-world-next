@@ -52,10 +52,15 @@ const CreateBlogScreen = () => {
           id="imageInput"
           accept="image/*"
         />
-        <label htmlFor="imageInput" className="cursor-pointer">
+        <label
+          htmlFor="imageInput"
+          className={`${previewUrl ? "opacity-50" : ""} cursor-pointer`}
+        >
           <ImageIcon />
         </label>
-        <span className="text-black-999 text-[12px] font-light">
+        <span
+          className={`${previewUrl ? "opacity-70" : ""} text-black-999 text-[12px] font-light`}
+        >
           썸네일을 업로드하려면 아이콘을 클릭하세요.
         </span>
         <input

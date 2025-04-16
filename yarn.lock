@@ -1599,6 +1599,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@supabase/auth-helpers-nextjs@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@supabase/auth-helpers-nextjs@npm:0.10.0"
+  dependencies:
+    "@supabase/auth-helpers-shared": "npm:0.7.0"
+    set-cookie-parser: "npm:^2.6.0"
+  peerDependencies:
+    "@supabase/supabase-js": ^2.39.8
+  checksum: 10c0/83e6e7f514fcdc4c6f4097cbf7d8fb424ba9f1b8ff4799b8670126e9e5b9f2b1dba47e028925f26dee1b6cd749ee421478a0148b0a9c48b75c5368731acb3150
+  languageName: node
+  linkType: hard
+
+"@supabase/auth-helpers-shared@npm:0.7.0":
+  version: 0.7.0
+  resolution: "@supabase/auth-helpers-shared@npm:0.7.0"
+  dependencies:
+    jose: "npm:^4.14.4"
+  peerDependencies:
+    "@supabase/supabase-js": ^2.39.8
+  checksum: 10c0/c356d9599a9086966796912fe27018cf4c131fb546e99f4a25f4be585025d7fc0f797cae45954c24826f4e9f4ecc6b80b68f7b534ddfc8f1449d8326046ceaec
+  languageName: node
+  linkType: hard
+
 "@supabase/auth-js@npm:2.69.1":
   version: 2.69.1
   resolution: "@supabase/auth-js@npm:2.69.1"
@@ -4907,6 +4930,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^4.14.4":
+  version: 4.15.9
+  resolution: "jose@npm:4.15.9"
+  checksum: 10c0/4ed4ddf4a029db04bd167f2215f65d7245e4dc5f36d7ac3c0126aab38d66309a9e692f52df88975d99429e357e5fd8bab340ff20baab544d17684dd1d940a0f4
+  languageName: node
+  linkType: hard
+
 "jotai-tanstack-query@npm:^0.8.5":
   version: 0.8.8
   resolution: "jotai-tanstack-query@npm:0.8.8"
@@ -6490,6 +6520,7 @@ __metadata:
   resolution: "rit-world-next@workspace:."
   dependencies:
     "@atlaskit/tree": "npm:^8.9.0"
+    "@supabase/auth-helpers-nextjs": "npm:^0.10.0"
     "@supabase/supabase-js": "npm:^2.49.4"
     "@svgr/webpack": "npm:^8.1.0"
     "@tanstack/query-core": "npm:^5.45.0"
@@ -6639,6 +6670,13 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10c0/fd603a6fb9c399c6054015433051bdbe7b99a940a8fb44b85c2b524c4004b023d7928d47cb22154f8d054ea7ee8597f586605e05b52047f048278e4ac56ae958
+  languageName: node
+  linkType: hard
+
+"set-cookie-parser@npm:^2.6.0":
+  version: 2.7.1
+  resolution: "set-cookie-parser@npm:2.7.1"
+  checksum: 10c0/060c198c4c92547ac15988256f445eae523f57f2ceefeccf52d30d75dedf6bff22b9c26f756bd44e8e560d44ff4ab2130b178bd2e52ef5571bf7be3bd7632d9a
   languageName: node
   linkType: hard
 

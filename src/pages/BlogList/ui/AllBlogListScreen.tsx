@@ -1,9 +1,10 @@
 "use client";
-import { loginAtom } from "entities/user";
 import { useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 
-import { BlogItem, FilterButton, Title, WriteButton } from "shared/index";
+import { BlogItem, FilterButton, WriteButton } from "features/Blog";
+import { loginAtom } from "entities/user";
+import { Title } from "shared/ui";
 
 const AllBlogListScreen = () => {
   const isLogin = useAtomValue(loginAtom);

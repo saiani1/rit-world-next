@@ -1,14 +1,16 @@
 "use client";
+import { useRef, useState } from "react";
+import Link from "next/link";
 import { ImAttachment } from "react-icons/im";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
+import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
-import { ProfileImage, Tooltip, useOnClickOutside } from "shared/index";
+import { Tooltip, useOnClickOutside } from "shared/index";
 import { ProfileType } from "../model";
-import Link from "next/link";
-import { useRef, useState } from "react";
+import { ProfileImage } from "./ProfileImage";
 
 type ProfileAsideType = {
   data: ProfileType;
@@ -20,6 +22,17 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
 
   const handleEmailBtnClick = () => {
     setIsEmailClick((prev) => !prev);
+  };
+
+  const handleBtnClick = () => {
+    navigator.clipboard
+      .writeText(data.email!)
+      .then(() => {
+        toast.success("이메일 주소가 복사되었습니다.");
+      })
+      .catch((err) => {
+        toast.error("복사 실패, 다시 시도해주세요.");
+      });
   };
 
   useOnClickOutside(tooltipRef, () => setIsEmailClick(false));
@@ -67,7 +80,9 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
               >
                 <MdOutlineAlternateEmail size={24} />
               </button>
-              {isEmailClick && <Tooltip data={data.email} />}
+              {isEmailClick && (
+                <Tooltip text={data.email} hasButton onClick={handleBtnClick} />
+              )}
             </li>
           )}
           {data.linkedinUrl && (

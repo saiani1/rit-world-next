@@ -1,30 +1,20 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { CommonButton } from "./CommonButton";
 
-type HashtagType = {
-  tagName: string;
+type HashtagType = React.ComponentProps<"button"> & {
   size: "s" | "m";
-  disabled?: boolean;
-  hasBorder?: boolean;
   colorIdx?: number;
-  url?: string;
 };
 
-export const Hashtag = ({ tagName, size, disabled, url }: HashtagType) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    if (!disabled && url) router.push(url);
-  };
-
+export const Hashtag = ({ size, ...rest }: HashtagType) => {
   return (
     <li>
-      <div
-        className={`flex items-center px-[10px] rounded-full bg-purple-100 text-white ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"}`}
-        onClick={handleClick}
+      <CommonButton
+        className={`flex items-center px-[10px] rounded-full bg-purple-100 text-white whitespace-nowrap ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"}`}
+        {...rest}
       >
-        <span>{tagName}</span>
-      </div>
+        {rest.name}
+      </CommonButton>
     </li>
   );
 };

@@ -1,3 +1,4 @@
+"use client";
 import { useRef, useState } from "react";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";

@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 
 import PencilIcon from "public/assets/svg/pencil-icon.svg";
-import { CommonButton } from "./CommonButton";
+import { CommonButton } from "shared/ui";
 
 type WriteButtonType = {
   page?: string;

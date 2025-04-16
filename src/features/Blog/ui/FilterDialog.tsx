@@ -2,7 +2,7 @@
 import { useAtom } from "jotai";
 
 import { filterAtom } from "entities/blog";
-import { RadioButton } from "./RadioButton";
+import { RadioButton } from "shared/ui";
 
 type RadioLabelType = {
   name: string;

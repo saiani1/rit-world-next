@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import FilterIcon from "public/assets/svg/filter-icon.svg";
 import { FilterDialog } from "./FilterDialog";
-import { CommonButton } from "./CommonButton";
+import { CommonButton } from "shared/ui";
 
 export const FilterButton = () => {
   const [isClick, setIsClick] = useState(false);

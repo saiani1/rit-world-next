@@ -1,14 +1,15 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 
 import Hui from "public/assets/image/hui1.jpg";
 import SideArrowIcon from "public/assets/svg/right-top-arrow-icon.svg";
-import { Hashtag } from "./Hashtag";
+import { Hashtag } from "shared/ui";
 
 export const FlexableBlogItem = () => {
   return (
     <div className="w-full">
-      <button type="button" className="flex flex-col items-start text-left">
+      <Link href="_" className="flex flex-col items-start text-left">
         <div className="w-full aspect-[1/1] relative overflow-hidden rounded-[5px]">
           <Image src={Hui} style={{ objectFit: "cover" }} fill alt="후잇" />
         </div>
@@ -29,12 +30,12 @@ export const FlexableBlogItem = () => {
             industry. printing and typesetting industry.
           </span>
           <ul className="flex gap-x-[3px] mt-[15px]">
-            <Hashtag tagName="Design" size="s" />
-            <Hashtag tagName="Programming" size="s" />
-            <Hashtag tagName="Interview" size="s" />
+            <Hashtag name="Design" size="s" />
+            <Hashtag name="Programming" size="s" />
+            <Hashtag name="Interview" size="s" />
           </ul>
         </div>
-      </button>
+      </Link>
     </div>
   );
 };

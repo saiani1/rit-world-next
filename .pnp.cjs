@@ -28,7 +28,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@atlaskit/tree", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:8.12.0"],\
-          ["@supabase/auth-helpers-nextjs", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.10.0"],\
+          ["@supabase/ssr", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1"],\
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@tanstack/query-core", "npm:5.69.0"],\
@@ -2794,53 +2794,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@supabase/auth-helpers-nextjs", [\
-      ["npm:0.10.0", {\
-        "packageLocation": "./.yarn/cache/@supabase-auth-helpers-nextjs-npm-0.10.0-5d4f732849-83e6e7f514.zip/node_modules/@supabase/auth-helpers-nextjs/",\
-        "packageDependencies": [\
-          ["@supabase/auth-helpers-nextjs", "npm:0.10.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.10.0", {\
-        "packageLocation": "./.yarn/__virtual__/@supabase-auth-helpers-nextjs-virtual-95181466bf/0/cache/@supabase-auth-helpers-nextjs-npm-0.10.0-5d4f732849-83e6e7f514.zip/node_modules/@supabase/auth-helpers-nextjs/",\
-        "packageDependencies": [\
-          ["@supabase/auth-helpers-nextjs", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.10.0"],\
-          ["@supabase/auth-helpers-shared", "virtual:95181466bf304d76656d5fe408922b87573d8f2f368715d816dfc69f7b1db6497f458a886cb7f0a9047ca2c83cf6c1c5f97ee500cc0bbe591fc69fd8453c2701#npm:0.7.0"],\
-          ["@supabase/supabase-js", "npm:2.49.4"],\
-          ["@types/supabase__supabase-js", null],\
-          ["set-cookie-parser", "npm:2.7.1"]\
-        ],\
-        "packagePeers": [\
-          "@supabase/supabase-js",\
-          "@types/supabase__supabase-js"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@supabase/auth-helpers-shared", [\
-      ["npm:0.7.0", {\
-        "packageLocation": "./.yarn/cache/@supabase-auth-helpers-shared-npm-0.7.0-d138dca456-c356d9599a.zip/node_modules/@supabase/auth-helpers-shared/",\
-        "packageDependencies": [\
-          ["@supabase/auth-helpers-shared", "npm:0.7.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:95181466bf304d76656d5fe408922b87573d8f2f368715d816dfc69f7b1db6497f458a886cb7f0a9047ca2c83cf6c1c5f97ee500cc0bbe591fc69fd8453c2701#npm:0.7.0", {\
-        "packageLocation": "./.yarn/__virtual__/@supabase-auth-helpers-shared-virtual-035d82e70a/0/cache/@supabase-auth-helpers-shared-npm-0.7.0-d138dca456-c356d9599a.zip/node_modules/@supabase/auth-helpers-shared/",\
-        "packageDependencies": [\
-          ["@supabase/auth-helpers-shared", "virtual:95181466bf304d76656d5fe408922b87573d8f2f368715d816dfc69f7b1db6497f458a886cb7f0a9047ca2c83cf6c1c5f97ee500cc0bbe591fc69fd8453c2701#npm:0.7.0"],\
-          ["@supabase/supabase-js", "npm:2.49.4"],\
-          ["@types/supabase__supabase-js", null],\
-          ["jose", "npm:4.15.9"]\
-        ],\
-        "packagePeers": [\
-          "@supabase/supabase-js",\
-          "@types/supabase__supabase-js"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@supabase/auth-js", [\
       ["npm:2.69.1", {\
         "packageLocation": "./.yarn/cache/@supabase-auth-js-npm-2.69.1-bbf9ecf3bb-efc08fc6be.zip/node_modules/@supabase/auth-js/",\
@@ -2890,6 +2843,29 @@ const RAW_RUNTIME_STATE =
           ["@types/phoenix", "npm:1.6.6"],\
           ["@types/ws", "npm:8.18.1"],\
           ["ws", "virtual:a06155b411320219c23f7e618516ba6613da7099ecb3fcc783a3b6423e827a63ff7e776ae87285b04b0a00d5a7ff5e2ad87c0010bd66a39beb1747ad360c17fd#npm:8.18.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@supabase/ssr", [\
+      ["npm:0.6.1", {\
+        "packageLocation": "./.yarn/cache/@supabase-ssr-npm-0.6.1-d095597c62-a3b98b5eae.zip/node_modules/@supabase/ssr/",\
+        "packageDependencies": [\
+          ["@supabase/ssr", "npm:0.6.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1", {\
+        "packageLocation": "./.yarn/__virtual__/@supabase-ssr-virtual-b1945fc08a/0/cache/@supabase-ssr-npm-0.6.1-d095597c62-a3b98b5eae.zip/node_modules/@supabase/ssr/",\
+        "packageDependencies": [\
+          ["@supabase/ssr", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1"],\
+          ["@supabase/supabase-js", "npm:2.49.4"],\
+          ["@types/supabase__supabase-js", null],\
+          ["cookie", "npm:1.0.2"]\
+        ],\
+        "packagePeers": [\
+          "@supabase/supabase-js",\
+          "@types/supabase__supabase-js"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4705,6 +4681,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/convert-source-map-npm-2.0.0-7ab664dc4e-8f2f7a27a1.zip/node_modules/convert-source-map/",\
         "packageDependencies": [\
           ["convert-source-map", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["cookie", [\
+      ["npm:1.0.2", {\
+        "packageLocation": "./.yarn/cache/cookie-npm-1.0.2-7a4273d897-fd25fe79e8.zip/node_modules/cookie/",\
+        "packageDependencies": [\
+          ["cookie", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7129,15 +7114,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["jose", [\
-      ["npm:4.15.9", {\
-        "packageLocation": "./.yarn/cache/jose-npm-4.15.9-a725b711d7-4ed4ddf4a0.zip/node_modules/jose/",\
-        "packageDependencies": [\
-          ["jose", "npm:4.15.9"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["jotai", [\
       ["npm:2.12.2", {\
         "packageLocation": "./.yarn/cache/jotai-npm-2.12.2-2169671569-df135d8a8c.zip/node_modules/jotai/",\
@@ -8993,7 +8969,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["rit-world-next", "workspace:."],\
           ["@atlaskit/tree", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:8.12.0"],\
-          ["@supabase/auth-helpers-nextjs", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.10.0"],\
+          ["@supabase/ssr", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1"],\
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@tanstack/query-core", "npm:5.69.0"],\
@@ -9159,15 +9135,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/semver-npm-7.7.1-4572475307-fd603a6fb9.zip/node_modules/semver/",\
         "packageDependencies": [\
           ["semver", "npm:7.7.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["set-cookie-parser", [\
-      ["npm:2.7.1", {\
-        "packageLocation": "./.yarn/cache/set-cookie-parser-npm-2.7.1-0e92d9e679-060c198c4c.zip/node_modules/set-cookie-parser/",\
-        "packageDependencies": [\
-          ["set-cookie-parser", "npm:2.7.1"]\
         ],\
         "linkType": "HARD"\
       }]\

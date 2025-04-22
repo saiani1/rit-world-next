@@ -60,7 +60,7 @@ export default async function RootLayout({
     <html lang="en" className={`${pretendard.variable} h-full`}>
       <body className="h-full bg-slate-200">
         <div className="flex flex-col items-center w-full max-h-[1000px]">
-          <main>{children}</main>
+          <main className="w-full">{children}</main>
           <Toaster
             containerStyle={{
               top: 20,

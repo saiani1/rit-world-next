@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import "./globals.css";
-import ClientComponent from "./clientComponent";
 
 const pretendard = localFont({
   src: [
@@ -52,7 +51,7 @@ export const metadata: Metadata = {
   description: "Blar blar",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -60,8 +59,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${pretendard.variable} h-full`}>
       <body className="h-full bg-slate-200">
-        <ClientComponent>
-          <main>{children}</main>
+        <div className="flex flex-col items-center w-full max-h-[1000px]">
+          <main className="w-full">{children}</main>
           <Toaster
             containerStyle={{
               top: 20,
@@ -70,7 +69,7 @@ export default function RootLayout({
               duration: 2000,
             }}
           />
-        </ClientComponent>
+        </div>
       </body>
     </html>
   );

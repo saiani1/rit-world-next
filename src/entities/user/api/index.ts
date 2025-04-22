@@ -1,0 +1,1 @@
+export { getProfileInfo } from "./getProfileInfo";

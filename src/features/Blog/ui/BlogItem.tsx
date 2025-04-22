@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 
 import Hui from "public/assets/image/hui2.jpg";
 import Rui from "public/assets/image/rui.jpg";
 import SideArrowIcon from "public/assets/svg/right-top-arrow-icon.svg";
-import { Hashtag } from "./Hashtag";
+import { Hashtag } from "shared/ui";
 
 type BlogItemType = {
   data?: any;
@@ -16,8 +17,8 @@ export const BlogItem = ({ data, direction }: BlogItemType) => {
 
   return (
     <li className={`${direction === "row" ? "" : "w-[250px]"}`}>
-      <button
-        type="button"
+      <Link
+        href="_"
         className={`flex ${direction === "row" ? "flex-row gap-x-[15px]" : "flex-col"} items-start text-left`}
       >
         <div
@@ -59,12 +60,12 @@ export const BlogItem = ({ data, direction }: BlogItemType) => {
           <ul
             className={`flex gap-x-[3px] ${direction === "row" ? "mt-[13px]" : "mt-[15px]"} `}
           >
-            <Hashtag tagName="Design" size="s" />
-            <Hashtag tagName="Programming" size="s" />
-            <Hashtag tagName="Interview" size="s" />
+            <Hashtag name="Design" size="s" />
+            <Hashtag name="Programming" size="s" />
+            <Hashtag name="Interview" size="s" />
           </ul>
         </div>
-      </button>
+      </Link>
     </li>
   );
 };

@@ -1,20 +1,19 @@
+"use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import {
   BlogItem,
-  FlexableBlogItem,
   FilterButton,
-  Title,
+  FlexableBlogItem,
   WriteButton,
-  Hashtag,
-} from "shared/index";
-import { useAtomValue } from "jotai";
-import { loginAtom } from "entities/user";
+} from "features/Blog";
+import { CommonButton, Hashtag, Title } from "shared/ui";
 
 const HashtagTrends = () => {
-  const isLogin = useAtomValue(loginAtom);
+  const isLogin = Cookies.get("login") === "Y";
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -26,8 +25,7 @@ const HashtagTrends = () => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-x-[15px]">
           <Title name="해시태그" />
-          <button
-            type="button"
+          <CommonButton
             className={`flex justify-center items-center w-[20px] h-[20px] rounded-[2px] bg-black-EEE`}
             onClick={handleClick}
           >
@@ -37,7 +35,7 @@ const HashtagTrends = () => {
             >
               <ArrowIcon className="rotate-180" />
             </motion.div>
-          </button>
+          </CommonButton>
         </div>
         <div className="flex gap-x-[13px]">
           {isLogin && <WriteButton />}
@@ -46,24 +44,24 @@ const HashtagTrends = () => {
       </div>
       {isOpen && (
         <ul className="flex flex-wrap gap-x-[5px] gap-y-[10px] mt-[20px]">
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
-          <Hashtag tagName="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
+          <Hashtag name="Degisn" size="m" />
         </ul>
       )}
     </div>

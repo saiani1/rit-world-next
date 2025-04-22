@@ -1,19 +1,18 @@
 "use client";
-import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
-import { loginAtom, SignInUserInfoType } from "entities/user";
-import { supabase, RegisterInput, ErrorMsg } from "shared/index";
+import { SignInUserInfoType } from "entities/user";
+import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useAtom(loginAtom);
   const {
     register,
     handleSubmit,
@@ -29,7 +28,7 @@ const SignInScreen = () => {
         });
         if (error) return toast.error("로그인 실패");
         else {
-          setIsLogin(true);
+          Cookies.set("login", "Y");
           router.replace("/");
           toast.success("로그인 되었습니다.");
         }
@@ -53,8 +52,9 @@ const SignInScreen = () => {
           transition={{ duration: 0.2 }}
           className="flex flex-col gap-y-2"
         >
-          <RegisterInput
+          <CommonInput
             type="email"
+            page="signin"
             placeholder="이메일"
             {...register("userId", {
               required: true,
@@ -68,18 +68,19 @@ const SignInScreen = () => {
             })}
           />
           {errors.userId && <ErrorMsg message={errors.userId.message} />}
-          <RegisterInput
+          <CommonInput
             type="password"
+            page="signin"
             placeholder="비밀번호"
             {...register("password", { required: true })}
           />
         </motion.div>
-        <button
+        <CommonButton
           type="submit"
           className="w-64 py-1.5 mt-5 bg-gray-700 text-white rounded-full "
         >
           로그인
-        </button>
+        </CommonButton>
       </form>
     </div>
   );

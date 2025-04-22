@@ -1,21 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
-import { loginAtom } from "entities/user";
-import { supabase } from "shared/index";
+import { CommonButton, supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
-import { HEADER_ARR } from "../lib/constants";
+import { HEADER_ARR } from "../lib";
 import { HeaderType } from "../model";
 
 export const Header = () => {
+  const isLogin = Cookies.get("login") === "Y";
   const router = useRouter();
-  const [isLogin, setIsLogin] = useAtom(loginAtom);
   const [isActive, setIsActive] = useState("BLOG");
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const handleClick = () => router.push("/");
@@ -23,15 +22,26 @@ export const Header = () => {
   const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
     const name = (e.target as HTMLElement).closest("li")?.dataset
       .name as string;
+    if (name === undefined) return;
     if (name !== "LOG OUT" && name !== "LOG IN") setIsActive(name);
     if (name === "LOG OUT") {
       let { error } = await supabase.auth.signOut();
       if (error) return toast.error("로그아웃이 실패했습니다.");
+      Cookies.remove("login");
       toast.success("로그아웃 되었습니다.");
-      setIsLogin(false);
       setIsActive("BLOG");
     } else if (name === "LOG IN" && !isLogin) router.push("/signin");
   };
+
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      if (!session) Cookies.remove("login");
+    });
+
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (isLogin) setHeaderArr(HEADER_ARR);
@@ -46,11 +56,11 @@ export const Header = () => {
   return (
     <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
       <div className="flex justify-between items-center w-[80%] h-full">
-        <button type="button" onClick={handleClick}>
+        <CommonButton onClick={handleClick}>
           <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
             <Image src={logo} alt="로고" />
           </h1>
-        </button>
+        </CommonButton>
         <nav>
           <ul
             className="flex items-center gap-x-[3px]"

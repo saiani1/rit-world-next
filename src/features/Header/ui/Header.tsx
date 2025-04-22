@@ -1,21 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
-import { loginAtom } from "entities/user";
 import { CommonButton, supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
 import { HEADER_ARR } from "../lib";
 import { HeaderType } from "../model";
 
 export const Header = () => {
+  const isLogin = Cookies.get("login") === "Y";
   const router = useRouter();
-  const [isLogin, setIsLogin] = useAtom(loginAtom);
   const [isActive, setIsActive] = useState("BLOG");
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const handleClick = () => router.push("/");
@@ -28,11 +27,21 @@ export const Header = () => {
     if (name === "LOG OUT") {
       let { error } = await supabase.auth.signOut();
       if (error) return toast.error("로그아웃이 실패했습니다.");
+      Cookies.remove("login");
       toast.success("로그아웃 되었습니다.");
-      setIsLogin(false);
       setIsActive("BLOG");
     } else if (name === "LOG IN" && !isLogin) router.push("/signin");
   };
+
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      if (!session) Cookies.remove("login");
+    });
+
+    return () => {
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (isLogin) setHeaderArr(HEADER_ARR);

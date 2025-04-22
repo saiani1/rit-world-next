@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { useSetAtom } from "jotai";
 import { toast } from "react-hot-toast";
+import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
 import { loginAtom, SignInUserInfoType } from "entities/user";
@@ -12,7 +13,6 @@ import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
-  const setIsLogin = useSetAtom(loginAtom);
   const {
     register,
     handleSubmit,
@@ -28,7 +28,7 @@ const SignInScreen = () => {
         });
         if (error) return toast.error("로그인 실패");
         else {
-          setIsLogin(true);
+          Cookies.set("login", "Y");
           router.replace("/");
           toast.success("로그인 되었습니다.");
         }

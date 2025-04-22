@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useAtomValue } from "jotai";
+import Cookies from "js-cookie";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import {
@@ -10,11 +10,10 @@ import {
   FlexableBlogItem,
   WriteButton,
 } from "features/Blog";
-import { loginAtom } from "entities/user";
 import { CommonButton, Hashtag, Title } from "shared/ui";
 
 const HashtagTrends = () => {
-  const isLogin = useAtomValue(loginAtom);
+  const isLogin = Cookies.get("login") === "Y";
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {

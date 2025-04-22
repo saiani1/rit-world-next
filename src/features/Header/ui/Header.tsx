@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 
 import logo from "public/assets/logo.png";
 import { loginAtom } from "entities/user";
-import { supabase } from "shared/index";
+import { CommonButton, supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
 import { HEADER_ARR } from "../lib";
 import { HeaderType } from "../model";
@@ -47,11 +47,11 @@ export const Header = () => {
   return (
     <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
       <div className="flex justify-between items-center w-[80%] h-full">
-        <button type="button" onClick={handleClick}>
+        <CommonButton onClick={handleClick}>
           <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
             <Image src={logo} alt="로고" />
           </h1>
-        </button>
+        </CommonButton>
         <nav>
           <ul
             className="flex items-center gap-x-[3px]"

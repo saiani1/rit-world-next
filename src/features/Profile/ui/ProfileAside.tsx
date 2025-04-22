@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
 import { ProfileType } from "entities/user";
-import { Tooltip, useOnClickOutside } from "shared/index";
+import { CommonButton, Tooltip, useOnClickOutside } from "shared/index";
 import { ProfileImage } from "./ProfileImage";
 
 type ProfileAsideType = {
@@ -72,14 +72,13 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
           )}
           {data.email && (
             <li ref={tooltipRef} className="relative h-[24px]">
-              <button
-                type="button"
+              <CommonButton
                 onClick={handleEmailBtnClick}
                 aria-label="이메일"
                 title="이메일"
               >
                 <MdOutlineAlternateEmail size={24} />
-              </button>
+              </CommonButton>
               {isEmailClick && (
                 <Tooltip text={data.email} hasButton onClick={handleBtnClick} />
               )}

@@ -8,8 +8,8 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
+import { ProfileType } from "entities/user";
 import { Tooltip, useOnClickOutside } from "shared/index";
-import { ProfileType } from "../model";
 import { ProfileImage } from "./ProfileImage";
 
 type ProfileAsideType = {

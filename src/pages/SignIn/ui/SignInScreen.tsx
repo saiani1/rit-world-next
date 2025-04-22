@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
-import { loginAtom, SignInUserInfoType } from "entities/user";
+import { SignInUserInfoType } from "entities/user";
 import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {

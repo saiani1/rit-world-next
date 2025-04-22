@@ -10,7 +10,7 @@ import logo from "public/assets/logo.png";
 import { loginAtom } from "entities/user";
 import { supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
-import { HEADER_ARR } from "../lib/constants";
+import { HEADER_ARR } from "../lib";
 import { HeaderType } from "../model";
 
 export const Header = () => {
@@ -23,6 +23,7 @@ export const Header = () => {
   const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
     const name = (e.target as HTMLElement).closest("li")?.dataset
       .name as string;
+    if (name === undefined) return;
     if (name !== "LOG OUT" && name !== "LOG IN") setIsActive(name);
     if (name === "LOG OUT") {
       let { error } = await supabase.auth.signOut();

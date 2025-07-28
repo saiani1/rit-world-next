@@ -32,7 +32,7 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
   );
 
   return (
-    <div className="flex gap-x-2 mb-[20px]">
+    <div className="flex gap-x-2 mb-[10px]">
       <Selectbox
         data={filteredLargeCategoryArr}
         selectOption={selectedLargeCategory}

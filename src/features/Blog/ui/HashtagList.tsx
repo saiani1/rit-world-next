@@ -11,7 +11,7 @@ export const HashtagList = ({ hashtags, setHashtags }: HashtagListType) => {
 
   const handleClickHashtag = (e: React.MouseEvent<HTMLButtonElement>) => {
     const name = (e.currentTarget as HTMLButtonElement).name;
-    const filterHashtag = hashtags.filter((hashtag) => hashtag !== name);
+    const filterHashtag = hashtags?.filter((hashtag) => hashtag !== name);
     setHashtags(filterHashtag);
   };
 

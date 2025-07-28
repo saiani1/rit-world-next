@@ -23,11 +23,11 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
   );
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
-  const filteredLargeCategoryArr = categories.filter(
+  const filteredLargeCategoryArr = categories?.filter(
     (item) => item.parent_id === null
   );
 
-  const filteredMiddleCategoryArr = categories.filter(
+  const filteredMiddleCategoryArr = categories?.filter(
     (item) => item.parent_id === selectedLargeCategory?.id
   );
 

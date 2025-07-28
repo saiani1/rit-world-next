@@ -4,15 +4,11 @@ import { useRouter } from "next/navigation";
 import PencilIcon from "public/assets/svg/pencil-icon.svg";
 import { CommonButton } from "shared/ui";
 
-type WriteButtonType = {
-  page?: string;
-};
-
-export const WriteButton = ({ page }: WriteButtonType) => {
+export const WriteButton = () => {
   const router = useRouter();
+
   const handleClick = () => {
-    if (page) console.log("이예에");
-    else router.push("/create");
+    router.push("/create");
   };
 
   return (

@@ -1,8 +1,4 @@
 "use client";
-import { useState } from "react";
-import { BiSolidRightArrow } from "react-icons/bi";
-import { LuBook, LuBookOpen } from "react-icons/lu";
-
 import { CategoryType } from "entities/category";
 
 type CategoryComType = {

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
-import { useSetAtom } from "jotai";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 

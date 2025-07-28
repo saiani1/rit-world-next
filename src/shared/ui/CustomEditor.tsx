@@ -1,3 +1,6 @@
+"use client";
+
+import { useId } from "react";
 import {
   type Control,
   type FieldValues,
@@ -21,11 +24,13 @@ export const CustomEditor = <TFieldValues extends FieldValues>({
     name,
     control,
   });
+  const id = useId();
 
   return (
     <>
       <Editor
         {...field}
+        id={id}
         tinymceScriptSrc={"/tinymce/tinymce.min.js"}
         onEditorChange={onChange}
         init={{

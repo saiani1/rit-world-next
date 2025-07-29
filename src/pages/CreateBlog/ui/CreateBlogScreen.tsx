@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import {
   BlogOption,
@@ -12,14 +14,15 @@ import {
   ThumbnailWithTitle,
 } from "features/Blog";
 import { CategoryType } from "entities/category";
+import { getThumbnailUrl, postBlog } from "entities/blog";
 import { CommonButton, CommonInput, CustomEditor, Title } from "shared/ui";
-import { supabase } from "shared/index";
 
 type CreateBlogScreenType = {
   categories: CategoryType[];
 };
 
 const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
+  const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const selectedLargeCategory = useAtomValue(selectedLargeCategoryAtom);
@@ -45,44 +48,25 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
       !data.path
     )
       return;
-
     setValue("large_category_id", selectedLargeCategory?.id);
     setValue("middle_category_id", selectedMiddleCategory?.id);
 
-    // supabase storage에 이미지 업로드
-    const {} = await supabase.storage
-      .from("blog")
-      .upload(`blog-thumbnail/${data.path}`, imageFile);
-    // 업로드 된 이미지 url반환
-    const publicUrl = supabase.storage
-      .from("blog")
-      .getPublicUrl(`blog-thumbnail/${data.path}`).data.publicUrl;
-
+    const thumbnailParams = {
+      file: imageFile,
+      path: data.path,
+    };
+    const publicUrl = await getThumbnailUrl(thumbnailParams);
     setValue("thumbnail", publicUrl);
 
-    // blog테이블에 post요청
-    const { data: blog, error } = await supabase
-      .from("blog")
-      .insert([getValues()])
-      .select()
-      .single(); // id받아오기
-
-    // 해시태그 upsert
-    const { data: hashtagsData } = await supabase
-      .from("hashtag")
-      .upsert(
-        hashtags.map((name) => ({ name })),
-        { onConflict: "name" }
-      )
-      .select(); // => id 포함된 hashtag rows
-
-    // blog_hashtag저장
-    const blogHashtagData = hashtagsData?.map((hashtag) => ({
-      blog_id: blog.id,
-      hashtag_id: hashtag.id,
-    }));
-
-    await supabase.from("blog_hashtag").insert(blogHashtagData);
+    const blogParams = {
+      data: getValues(),
+      hashtags: hashtags,
+    };
+    const isBloging = await postBlog(blogParams);
+    if (isBloging) {
+      toast.success("블로그 발행에 성공했습니다.");
+      router.push("/");
+    } else toast.error("블로그 발행에 실패했습니다.");
   };
 
   return (

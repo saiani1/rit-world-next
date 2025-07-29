@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
-import { useAtomValue } from "jotai";
+import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 import {
   BlogOption,
@@ -25,9 +26,9 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
   const router = useRouter();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const selectedLargeCategory = useAtomValue(selectedLargeCategoryAtom);
-  const selectedMiddleCategory = useAtomValue(selectedMiddleCategoryAtom);
-  const hashtags = useAtomValue(hashtagListAtom);
+  const [selectedLCate, setSelectedLCate] = useAtom(selectedLargeCategoryAtom);
+  const [selectedMCate, setSelectedMCate] = useAtom(selectedMiddleCategoryAtom);
+  const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
   const { getValues, setValue, register, control, handleSubmit } =
     useForm<BlogPostPayloadType>();
@@ -42,14 +43,15 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
 
   const onSubmit = async (data: BlogPostPayloadType) => {
     if (
-      !selectedLargeCategory ||
-      !selectedMiddleCategory ||
+      !selectedLCate ||
+      !selectedMCate ||
       !imageFile ||
-      !data.path
+      !data.path ||
+      !hashtags
     )
       return;
-    setValue("large_category_id", selectedLargeCategory?.id);
-    setValue("middle_category_id", selectedMiddleCategory?.id);
+    setValue("large_category_id", selectedLCate?.id);
+    setValue("middle_category_id", selectedMCate?.id);
 
     const thumbnailParams = {
       file: imageFile,
@@ -65,6 +67,9 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
     const isBloging = await postBlog(blogParams);
     if (isBloging) {
       toast.success("블로그 발행에 성공했습니다.");
+      setSelectedLCate(RESET);
+      setSelectedMCate(RESET);
+      setHashtags(RESET);
       router.push("/");
     } else toast.error("블로그 발행에 실패했습니다.");
   };

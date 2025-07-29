@@ -1,6 +1,11 @@
-import { CategoryType } from "entities/category";
-import { atom } from "jotai";
+import { atomWithReset } from "jotai/utils";
 
-export const selectedLargeCategoryAtom = atom<CategoryType>();
-export const selectedMiddleCategoryAtom = atom<CategoryType>();
-export const hashtagListAtom = atom<string[]>([]);
+import { CategoryType } from "entities/category";
+
+export const selectedLargeCategoryAtom = atomWithReset<
+  CategoryType | undefined
+>(undefined);
+export const selectedMiddleCategoryAtom = atomWithReset<
+  CategoryType | undefined
+>(undefined);
+export const hashtagListAtom = atomWithReset<string[] | []>([]);

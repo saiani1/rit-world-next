@@ -38,7 +38,7 @@ export const HashtagList = ({ hashtags, setHashtags }: HashtagListType) => {
   return (
     <div className="flex px-[10px] w-full items-center bg-black-F5 rounded-[5px]">
       <ul className="flex gap-x-1 mb-[3px]">
-        {hashtags.map((tag, i) => (
+        {hashtags?.map((tag, i) => (
           <Hashtag
             key={`hashtag-${i}`}
             name={tag}

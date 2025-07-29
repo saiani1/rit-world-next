@@ -48,8 +48,11 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
       !imageFile ||
       !data.path ||
       !hashtags
-    )
+    ) {
+      toast.error("빈칸을 입력하세요.");
       return;
+    }
+
     setValue("large_category_id", selectedLCate?.id);
     setValue("middle_category_id", selectedMCate?.id);
 
@@ -74,12 +77,19 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
     } else toast.error("블로그 발행에 실패했습니다.");
   };
 
+  const handleClickResetBtn = () => {
+    router.push("/");
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between items-center pb-[15px] mb-[10px]">
         <Title name="포스트 작성" />
         <div className="flex gap-x-[5px]">
-          <CommonButton className="px-3 py-1 text-[14px] text-white bg-black-AAA rounded-md">
+          <CommonButton
+            onClick={handleClickResetBtn}
+            className="px-3 py-1 text-[14px] text-white bg-black-AAA rounded-md"
+          >
             취소
           </CommonButton>
           <CommonButton

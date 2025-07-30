@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 import {
   BlogOption,
-  BlogPostPayloadType,
+  BlogType,
   hashtagListAtom,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
@@ -31,7 +31,7 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
   const { getValues, setValue, register, control, handleSubmit } =
-    useForm<BlogPostPayloadType>();
+    useForm<BlogType>();
 
   const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -41,7 +41,7 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
     setPreviewUrl(preview);
   };
 
-  const onSubmit = async (data: BlogPostPayloadType) => {
+  const onSubmit = async (data: BlogType) => {
     if (
       !selectedLCate ||
       !selectedMCate ||

@@ -43,6 +43,7 @@ const RAW_RUNTIME_STATE =
           ["autoprefixer", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:10.4.21"],\
           ["axios", "npm:1.8.4"],\
           ["chart.js", "npm:4.4.8"],\
+          ["dayjs", "npm:1.11.13"],\
           ["dompurify", "npm:3.2.4"],\
           ["eslint", "npm:8.57.1"],\
           ["eslint-config-airbnb-typescript", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.0.0"],\
@@ -4717,6 +4718,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["dayjs", [\
+      ["npm:1.11.13", {\
+        "packageLocation": "./.yarn/cache/dayjs-npm-1.11.13-d478bb9479-a3caf6ac83.zip/node_modules/dayjs/",\
+        "packageDependencies": [\
+          ["dayjs", "npm:1.11.13"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["debug", [\
       ["npm:3.2.7", {\
         "packageLocation": "./.yarn/cache/debug-npm-3.2.7-754e818c7a-37d96ae42c.zip/node_modules/debug/",\
@@ -8807,6 +8817,7 @@ const RAW_RUNTIME_STATE =
           ["autoprefixer", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:10.4.21"],\
           ["axios", "npm:1.8.4"],\
           ["chart.js", "npm:4.4.8"],\
+          ["dayjs", "npm:1.11.13"],\
           ["dompurify", "npm:3.2.4"],\
           ["eslint", "npm:8.57.1"],\
           ["eslint-config-airbnb-typescript", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.0.0"],\

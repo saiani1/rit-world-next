@@ -1,8 +1,8 @@
-import { BlogPostPayloadType } from "features/Blog";
+import { BlogType } from "features/Blog";
 import { supabase } from "shared/index";
 
 type postBlogType = {
-  data: BlogPostPayloadType;
+  data: BlogType;
   hashtags: string[];
 };
 

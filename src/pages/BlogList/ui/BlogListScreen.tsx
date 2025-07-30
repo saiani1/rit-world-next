@@ -29,9 +29,7 @@ const BlogListScreen = ({ data }: BlogListScreenType) => {
         </div>
       </div>
       <ul className="flex flex-wrap justify-between gap-y-[40px]">
-        {data.map((blog) => (
-          <BlogItem key={blog.id} data={blog} />
-        ))}
+        {data?.map((blog) => <BlogItem key={blog.id} data={blog} />)}
       </ul>
     </div>
   );

@@ -42,7 +42,6 @@ export const HashtagList = ({ hashtags, setHashtags }: HashtagListType) => {
           <Hashtag
             key={`hashtag-${i}`}
             name={tag}
-            size="s"
             onClick={handleClickHashtag}
           />
         ))}

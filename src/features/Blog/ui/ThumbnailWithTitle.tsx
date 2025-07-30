@@ -11,7 +11,7 @@ type ThumbnailWithTitleType = React.ComponentProps<"input"> & {
 export const ThumbnailWithTitle = forwardRef<
   HTMLInputElement,
   ThumbnailWithTitleType
->(({ previewUrl, handleChange }, ref) => {
+>(({ previewUrl, handleChange, ...rest }, ref) => {
   return (
     <div
       style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}
@@ -34,6 +34,7 @@ export const ThumbnailWithTitle = forwardRef<
         className="absolute left-0 bottom-0 flex w-full px-[16px] py-[2px] bg-transparent rounded-[5px] text-[42px] font-medium text-black-999"
         placeholder="제목을 입력하세요."
         ref={ref}
+        {...rest}
       />
     </div>
   );

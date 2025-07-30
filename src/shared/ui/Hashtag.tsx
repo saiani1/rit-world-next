@@ -2,15 +2,15 @@
 import { CommonButton } from "./CommonButton";
 
 type HashtagType = React.ComponentProps<"button"> & {
-  size: "s" | "m";
-  colorIdx?: number;
+  page?: string;
+  className?: string;
 };
 
-export const Hashtag = ({ size, ...rest }: HashtagType) => {
+export const Hashtag = ({ page, className, ...rest }: HashtagType) => {
   return (
     <li>
       <CommonButton
-        className={`flex items-center px-[10px] rounded-full bg-purple-100 text-white whitespace-nowrap ${size === "s" ? "h-[20px] text-[11px]" : "h-[24px] text-[13px]"}`}
+        className={`${className} ${page ? "px-[14px] py-[2px] border border-white/60 font-semibold" : "px-[10px] bg-purple-100"} flex items-center rounded-full text-white whitespace-nowrap h-[24px] text-[13px]`}
         {...rest}
       >
         {rest.name}

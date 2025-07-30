@@ -1,15 +1,18 @@
 "use client";
 import { useRef, useState } from "react";
+import { SetStateAction } from "jotai";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
+import { CategoryType } from "entities/category";
 import { useOnClickOutside } from "shared/hooks/useOnClickOutside";
 import { CommonButton } from "./CommonButton";
 
 type SelectboxType = {
-  data: string[];
+  data: CategoryType[];
   placeholder: string;
-  selectOption: string;
-  setSelectOption: React.Dispatch<React.SetStateAction<string>>;
+  selectOption?: CategoryType;
+  setSelectOption: (value: SetStateAction<CategoryType | undefined>) => void;
+  disabled?: boolean;
 };
 
 export const Selectbox = ({
@@ -17,6 +20,7 @@ export const Selectbox = ({
   placeholder,
   selectOption,
   setSelectOption,
+  disabled,
 }: SelectboxType) => {
   const selectRef = useRef(null);
   const [isClick, setIsClick] = useState(false);
@@ -26,9 +30,10 @@ export const Selectbox = ({
   };
 
   const handleClickOption = (e: React.MouseEvent<HTMLUListElement>) => {
-    const name = (e.target as HTMLButtonElement).name;
-    if (name !== undefined) {
-      setSelectOption(name);
+    const title = (e.target as HTMLElement).dataset.title;
+    if (title) {
+      const parsedData = JSON.parse(title);
+      setSelectOption(parsedData);
       setIsClick(false);
     }
   };
@@ -38,10 +43,11 @@ export const Selectbox = ({
   return (
     <div className="relative inline-block shrink-0" ref={selectRef}>
       <CommonButton
-        className="flex items-center gap-x-[20px] px-[20px] h-[34px] text-black-999 text-[13px] font-regular bg-black-F5 rounded-[5px]"
+        className={`flex items-center gap-x-[20px] px-[20px] h-[34px] ${disabled ? "text-black-BBB bg-black-DDD cursor-not-allowed" : "text-black-999 bg-black-F5"} text-[13px] font-regular rounded-[5px]`}
         onClick={handleClick}
+        disabled={disabled}
       >
-        {selectOption.length !== 0 ? selectOption : placeholder}
+        {selectOption ? selectOption.title : placeholder}
         <ArrowIcon className="rotate-180" />
       </CommonButton>
       {isClick && (
@@ -51,8 +57,11 @@ export const Selectbox = ({
         >
           {data.map((item, i) => (
             <li key={`select-${i}`}>
-              <CommonButton name={item} className="h-[34px] w-full">
-                {item}
+              <CommonButton
+                data-title={JSON.stringify(item)}
+                className="h-[34px] w-full"
+              >
+                {item.title}
               </CommonButton>
             </li>
           ))}

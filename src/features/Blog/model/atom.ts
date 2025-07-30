@@ -1,5 +1,13 @@
-import { atom } from "jotai";
+import { atomWithReset, atomWithStorage } from "jotai/utils";
 
-export const largeCategoryAtom = atom<string>("");
-export const middleCategoryAtom = atom<string>("");
-export const hashtagListAtom = atom<string[]>([]);
+import { CategoryType } from "entities/category";
+import { BlogType } from "./type";
+
+export const selectedLargeCategoryAtom = atomWithReset<
+  CategoryType | undefined
+>(undefined);
+export const selectedMiddleCategoryAtom = atomWithReset<
+  CategoryType | undefined
+>(undefined);
+export const hashtagListAtom = atomWithReset<string[] | []>([]);
+export const blogListAtom = atomWithStorage<BlogType[] | []>("blogList", []);

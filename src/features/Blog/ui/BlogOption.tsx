@@ -1,33 +1,50 @@
+"use client";
 import { useAtom } from "jotai";
 
+import { CategoryType } from "entities/category";
+import { Selectbox } from "shared/ui";
 import { HashtagList } from "./HashtagList";
 import {
   hashtagListAtom,
-  largeCategoryAtom,
-  middleCategoryAtom,
+  selectedLargeCategoryAtom,
+  selectedMiddleCategoryAtom,
 } from "../model";
-import { Selectbox } from "shared/ui";
 
-export const BlogOption = () => {
-  const [largeCategoryId, setLargeCategoryId] = useAtom(largeCategoryAtom);
-  const [middleCategoryId, setMiddleCategoryId] = useAtom(middleCategoryAtom);
+type BlogOptionType = {
+  categories: CategoryType[];
+};
+
+export const BlogOption = ({ categories }: BlogOptionType) => {
+  const [selectedLargeCategory, setSelectedLargeCategory] = useAtom(
+    selectedLargeCategoryAtom
+  );
+  const [selectedMiddleCategory, setSelectedMiddleCategory] = useAtom(
+    selectedMiddleCategoryAtom
+  );
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
-  const tmpArr = ["하나", "둘", "셋"];
+  const filteredLargeCategoryArr = categories?.filter(
+    (item) => item.parent_id === null
+  );
+
+  const filteredMiddleCategoryArr = categories?.filter(
+    (item) => item.parent_id === selectedLargeCategory?.id
+  );
 
   return (
-    <div className="flex gap-x-2 mb-[20px]">
+    <div className="flex gap-x-2 mb-[10px]">
       <Selectbox
-        data={tmpArr}
-        selectOption={largeCategoryId}
-        setSelectOption={setLargeCategoryId}
+        data={filteredLargeCategoryArr}
+        selectOption={selectedLargeCategory}
+        setSelectOption={setSelectedLargeCategory}
         placeholder="카테고리 대분류"
       />
       <Selectbox
-        data={tmpArr}
-        selectOption={middleCategoryId}
-        setSelectOption={setMiddleCategoryId}
+        data={filteredMiddleCategoryArr}
+        selectOption={selectedMiddleCategory}
+        setSelectOption={setSelectedMiddleCategory}
         placeholder="카테고리 중분류"
+        disabled={!selectedLargeCategory?.id}
       />
       <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
     </div>

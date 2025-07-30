@@ -73,6 +73,7 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
       setSelectedLCate(RESET);
       setSelectedMCate(RESET);
       setHashtags(RESET);
+      router.refresh();
       router.push("/");
     } else toast.error("블로그 발행에 실패했습니다.");
   };

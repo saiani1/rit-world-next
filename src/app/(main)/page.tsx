@@ -1,16 +1,10 @@
-"use client";
-import { useAtomValue } from "jotai";
+import BlogListScreen from "pages/BlogList/ui/BlogListScreen";
+import { getBlogList } from "entities/blog";
 
-import AllBlogListScreen from "pages/BlogList/ui/AllBlogListScreen";
-import NewBlogListScreen from "pages/BlogList/ui/NewBlogListScreen";
-import { filterAtom } from "entities/blog";
+const HomePage = async () => {
+  const blogData = await getBlogList();
 
-const HomePage = () => {
-  const filterName = useAtomValue(filterAtom);
-
-  return (
-    <>{filterName === "all" ? <AllBlogListScreen /> : <NewBlogListScreen />}</>
-  );
+  return <BlogListScreen data={blogData} />;
 };
 
 export default HomePage;

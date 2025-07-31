@@ -1849,19 +1849,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tinymce/tinymce-react@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@tinymce/tinymce-react@npm:5.1.1"
-  dependencies:
-    prop-types: "npm:^15.6.2"
-    tinymce: "npm:^7.0.0 || ^6.0.0 || ^5.5.1"
-  peerDependencies:
-    react: ^18.0.0 || ^17.0.1 || ^16.7.0
-    react-dom: ^18.0.0 || ^17.0.1 || ^16.7.0
-  checksum: 10c0/101c6385514cba8f63ce80161240409a211cd88e54e0b1cdf33bbfb930e5cf05ae5ea77168f4c3bde9bfb828f9da6fe8dbd97cbad1d0542546c13284d0ae14f4
-  languageName: node
-  linkType: hard
-
 "@trysound/sax@npm:0.2.0":
   version: 0.2.0
   resolution: "@trysound/sax@npm:0.2.0"
@@ -6015,7 +6002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -6409,7 +6396,6 @@ __metadata:
     "@svgr/webpack": "npm:^8.1.0"
     "@tanstack/query-core": "npm:^5.45.0"
     "@tanstack/react-query": "npm:^5.45.1"
-    "@tinymce/tinymce-react": "npm:^5.1.1"
     "@types/dompurify": "npm:^3"
     "@types/js-cookie": "npm:^3"
     "@types/node": "npm:^20"
@@ -6449,7 +6435,6 @@ __metadata:
     react-server-dom-webpack: "npm:^19.1.0"
     rollup-plugin-visualizer: "npm:^5.12.0"
     tailwindcss: "npm:^3.4.1"
-    tinymce: "npm:^7.2.0"
     typescript: "npm:^5"
   languageName: unknown
   linkType: soft
@@ -7120,13 +7105,6 @@ __metadata:
     fdir: "npm:^6.4.3"
     picomatch: "npm:^4.0.2"
   checksum: 10c0/7c9be4fd3625630e262dcb19015302aad3b4ba7fc620f269313e688f2161ea8724d6cb4444baab5ef2826eb6bed72647b169a33ec8eea37501832a2526ff540f
-  languageName: node
-  linkType: hard
-
-"tinymce@npm:^7.0.0 || ^6.0.0 || ^5.5.1, tinymce@npm:^7.2.0":
-  version: 7.7.2
-  resolution: "tinymce@npm:7.7.2"
-  checksum: 10c0/7191cd382aaaa54c90bf1baff754380569c3ba3420cf40542d72ac9557b12e43d270b40205b906b478ff07e78d3c5ba123a451b040fd8b5975a76c1254f69fa5
   languageName: node
   linkType: hard
 

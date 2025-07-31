@@ -32,7 +32,6 @@ const RAW_RUNTIME_STATE =
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@tanstack/query-core", "npm:5.69.0"],\
           ["@tanstack/react-query", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.69.0"],\
-          ["@tinymce/tinymce-react", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.1.1"],\
           ["@types/dompurify", "npm:3.0.5"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.17.28"],\
@@ -72,7 +71,6 @@ const RAW_RUNTIME_STATE =
           ["react-server-dom-webpack", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:19.1.0"],\
           ["rollup-plugin-visualizer", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.14.0"],\
           ["tailwindcss", "npm:3.4.17"],\
-          ["tinymce", "npm:7.7.2"],\
           ["typescript", "patch:typescript@npm%3A5.8.2#optional!builtin<compat/typescript>::version=5.8.2&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -3132,34 +3130,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "packagePeers": [\
           "@types/react",\
-          "react"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@tinymce/tinymce-react", [\
-      ["npm:5.1.1", {\
-        "packageLocation": "./.yarn/cache/@tinymce-tinymce-react-npm-5.1.1-acde25b3b4-101c638551.zip/node_modules/@tinymce/tinymce-react/",\
-        "packageDependencies": [\
-          ["@tinymce/tinymce-react", "npm:5.1.1"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
-      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.1.1", {\
-        "packageLocation": "./.yarn/__virtual__/@tinymce-tinymce-react-virtual-277644075a/0/cache/@tinymce-tinymce-react-npm-5.1.1-acde25b3b4-101c638551.zip/node_modules/@tinymce/tinymce-react/",\
-        "packageDependencies": [\
-          ["@tinymce/tinymce-react", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.1.1"],\
-          ["@types/react", "npm:18.3.20"],\
-          ["@types/react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.5"],\
-          ["prop-types", "npm:15.8.1"],\
-          ["react", "npm:18.3.1"],\
-          ["react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.1"],\
-          ["tinymce", "npm:7.7.2"]\
-        ],\
-        "packagePeers": [\
-          "@types/react-dom",\
-          "@types/react",\
-          "react-dom",\
           "react"\
         ],\
         "linkType": "HARD"\
@@ -8806,7 +8776,6 @@ const RAW_RUNTIME_STATE =
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@tanstack/query-core", "npm:5.69.0"],\
           ["@tanstack/react-query", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.69.0"],\
-          ["@tinymce/tinymce-react", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.1.1"],\
           ["@types/dompurify", "npm:3.0.5"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.17.28"],\
@@ -8846,7 +8815,6 @@ const RAW_RUNTIME_STATE =
           ["react-server-dom-webpack", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:19.1.0"],\
           ["rollup-plugin-visualizer", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.14.0"],\
           ["tailwindcss", "npm:3.4.17"],\
-          ["tinymce", "npm:7.7.2"],\
           ["typescript", "patch:typescript@npm%3A5.8.2#optional!builtin<compat/typescript>::version=5.8.2&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -9602,15 +9570,6 @@ const RAW_RUNTIME_STATE =
           ["tinyglobby", "npm:0.2.12"],\
           ["fdir", "virtual:c8807de691826868d9a774dfe20fb184997709c19896ccda6c1d382d679c7c2453bf893d9e0510372bd84566a8523db06ec721126eb95bb24e97992998e8a625#npm:6.4.3"],\
           ["picomatch", "npm:4.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["tinymce", [\
-      ["npm:7.7.2", {\
-        "packageLocation": "./.yarn/cache/tinymce-npm-7.7.2-c1498bea5e-7191cd382a.zip/node_modules/tinymce/",\
-        "packageDependencies": [\
-          ["tinymce", "npm:7.7.2"]\
         ],\
         "linkType": "HARD"\
       }]\

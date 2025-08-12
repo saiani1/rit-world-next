@@ -1,64 +1,78 @@
 "use client";
+import { useEffect, useRef } from "react";
+import { type Control, type FieldValues, useController } from "react-hook-form";
+import { v4 as uuid } from "uuid";
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
-import { useId } from "react";
-import {
-  type Control,
-  type FieldValues,
-  type Path,
-  useController,
-} from "react-hook-form";
-import { Editor } from "@tinymce/tinymce-react";
+import { getImageUrl } from "entities/blog";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
   control: Control<TFieldValues>;
-  name: Path<TFieldValues>;
+  name: TFieldValues["path"];
+  path: string;
 };
 
 export const CustomEditor = <TFieldValues extends FieldValues>({
   control,
   name,
+  path,
 }: CustomEditorType<TFieldValues>) => {
+  const editorRef = useRef<Editor>(null);
   const {
     field: { onChange, ...field },
   } = useController({
     name,
     control,
   });
-  const id = useId();
+
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().setMarkdown("");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!editorRef.current || !path) return;
+    const editor = editorRef.current.getInstance();
+
+    // 혹시 이전에 등록한 hook이 있으면 제거
+    editor.removeHook("addImageBlobHook");
+
+    // 새로운 hook 등록
+    editor.addHook(
+      "addImageBlobHook",
+      async (blob: Blob, callback: (url: string, name: string) => void) => {
+        const fileId = uuid();
+        if (!path) return;
+        const transformFile = new File([blob], fileId, { type: blob.type });
+        const params = {
+          file: transformFile,
+          path: `content-images/${path}/${fileId}`,
+        };
+        const publicUrl = await getImageUrl(params);
+        if (publicUrl) callback(publicUrl, fileId);
+      }
+    );
+  }, [path]);
 
   return (
     <>
       <Editor
         {...field}
-        id={id}
-        tinymceScriptSrc={"/tinymce/tinymce.min.js"}
-        onEditorChange={onChange}
-        init={{
-          height: 500,
-          menubar: false,
-          statusbar: false,
-          promotion: false,
-          plugins: [
-            "advlist",
-            "autolink",
-            "lists",
-            "link",
-            "image",
-            "charmap",
-            "anchor",
-            "searchreplace",
-            "visualblocks",
-            "code",
-            "media",
-            "table",
-          ],
-          toolbar:
-            " blocks | image table " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | ",
-          content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+        ref={editorRef}
+        onChange={() => {
+          const markdown = editorRef.current?.getInstance().getMarkdown();
+          onChange(markdown);
         }}
+        previewStyle="tab"
+        height="600px"
+        initialValue=""
+        initialEditType="markdown"
+        hideModeSwitch={true}
+        useCommandShortcut={false}
+        language="ko-KR"
       />
     </>
   );

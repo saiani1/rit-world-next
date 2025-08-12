@@ -3,7 +3,7 @@ import { getCategories } from "entities/category";
 
 const CreateBlogPage = async () => {
   const categories = await getCategories();
-  return <CreateBlogScreen categories={categories} />;
+  return <>{categories && <CreateBlogScreen categories={categories} />}</>;
 };
 
 export default CreateBlogPage;

@@ -25,7 +25,7 @@ export default async function MainLayout({
       <div className="flex justify-between w-[80%] mt-[10px] mb-[40px] gap-x-[10px] overflow-hidden">
         <div className="flex flex-col">
           <ProfileAside data={profileData} />
-          <Category data={categoryData} />
+          {categoryData && <Category data={categoryData} />}
         </div>
         <div className="pt-[105px] px-[50px] pb-[40px] w-full bg-white rounded-xl overflow-scroll">
           <div>{children}</div>

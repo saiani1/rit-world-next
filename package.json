@@ -13,6 +13,8 @@
     "@supabase/supabase-js": "^2.49.4",
     "@tanstack/query-core": "^5.45.0",
     "@tanstack/react-query": "^5.45.1",
+    "@toast-ui/editor": "^3.2.2",
+    "@toast-ui/react-editor": "^3.2.3",
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
@@ -23,6 +25,7 @@
     "jotai-tanstack-query": "^0.8.5",
     "js-cookie": "^3.0.5",
     "next": "14.2.4",
+    "prosemirror-transform": "^1.10.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.52.0",
@@ -30,7 +33,8 @@
     "react-icons": "^5.2.1",
     "react-pdf": "^9.0.0",
     "react-server-dom-webpack": "^19.1.0",
-    "rollup-plugin-visualizer": "^5.12.0"
+    "rollup-plugin-visualizer": "^5.12.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@supabase/ssr": "^0.6.1",

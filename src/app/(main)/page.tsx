@@ -4,7 +4,7 @@ import { getBlogList } from "entities/blog";
 const HomePage = async () => {
   const blogData = await getBlogList();
 
-  return <BlogListScreen data={blogData} />;
+  return <>{blogData && <BlogListScreen data={blogData} />}</>;
 };
 
 export default HomePage;

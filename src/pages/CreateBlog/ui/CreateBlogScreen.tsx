@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
@@ -15,8 +16,12 @@ import {
   ThumbnailWithTitle,
 } from "features/Blog";
 import { CategoryType } from "entities/category";
-import { getThumbnailUrl, postBlog } from "entities/blog";
-import { CommonButton, CommonInput, CustomEditor, Title } from "shared/ui";
+import { getImageUrl, postBlog } from "entities/blog";
+import { CommonButton, CommonInput, Title } from "shared/ui";
+
+const CustomEditor = dynamic(() => import("shared/ui/CustomEditor"), {
+  ssr: false,
+});
 
 type CreateBlogScreenType = {
   categories: CategoryType[];
@@ -30,7 +35,7 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
   const [selectedMCate, setSelectedMCate] = useAtom(selectedMiddleCategoryAtom);
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
-  const { getValues, setValue, register, control, handleSubmit } =
+  const { getValues, setValue, watch, register, control, handleSubmit } =
     useForm<BlogType>();
 
   const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,10 +63,14 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
 
     const thumbnailParams = {
       file: imageFile,
-      path: data.path,
+      path: `blog-thumbnail/${data.path}`,
     };
-    const publicUrl = await getThumbnailUrl(thumbnailParams);
-    setValue("thumbnail", publicUrl);
+    const publicUrl = await getImageUrl(thumbnailParams);
+    if (publicUrl) setValue("thumbnail", publicUrl);
+    else {
+      toast.error("썸네일 추가에 실패했습니다. 다시 시도해주세요.");
+      return;
+    }
 
     const blogParams = {
       data: getValues(),
@@ -119,7 +128,7 @@ const CreateBlogScreen = ({ categories }: CreateBlogScreenType) => {
           {...register("path")}
         />
       </div>
-      <CustomEditor control={control} name="content" />
+      <CustomEditor control={control} name="content" path={watch("path")} />
     </form>
   );
 };

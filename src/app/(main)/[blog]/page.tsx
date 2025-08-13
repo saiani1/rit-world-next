@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAtomValue } from "jotai";
 import dayjs from "dayjs";
+import ReactMarkdown from "react-markdown";
 
 import { blogListAtom, BlogType } from "features/Blog";
 import { Hashtag } from "shared/ui";
@@ -57,8 +58,8 @@ const BlogContentPage = () => {
               </div>
             </div>
           </div>
-          <div className="my-[50px]">
-            <p dangerouslySetInnerHTML={{ __html: filteredData.content }} />
+          <div className="prose my-[50px]">
+            <ReactMarkdown>{filteredData.content}</ReactMarkdown>
           </div>
         </div>
       )}

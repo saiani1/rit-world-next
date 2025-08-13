@@ -1,17 +1,19 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSetAtom } from "jotai";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
-import { SignInUserInfoType } from "entities/user";
+import { isLoginAtom, SignInUserInfoType } from "entities/user";
 import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
+  const setIsLogin = useSetAtom(isLoginAtom);
   const {
     register,
     handleSubmit,
@@ -28,6 +30,7 @@ const SignInScreen = () => {
         if (error) return toast.error("로그인 실패");
         else {
           Cookies.set("login", "Y");
+          setIsLogin(true);
           router.replace("/");
           toast.success("로그인 되었습니다.");
         }

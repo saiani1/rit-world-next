@@ -7,3 +7,5 @@ const CreateBlogPage = async () => {
 };
 
 export default CreateBlogPage;
+
+export const dynamic = "force-dynamic";

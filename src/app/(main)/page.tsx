@@ -8,3 +8,5 @@ const HomePage = async () => {
 };
 
 export default HomePage;
+
+export const dynamic = "force-dynamic";

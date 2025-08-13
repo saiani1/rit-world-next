@@ -15,7 +15,7 @@ type CustomEditorType<TFieldValues extends FieldValues> = {
   path: string;
 };
 
-export const CustomEditor = <TFieldValues extends FieldValues>({
+const CustomEditor = <TFieldValues extends FieldValues>({
   control,
   name,
   path,
@@ -78,3 +78,5 @@ export const CustomEditor = <TFieldValues extends FieldValues>({
     </>
   );
 };
+
+export default CustomEditor;

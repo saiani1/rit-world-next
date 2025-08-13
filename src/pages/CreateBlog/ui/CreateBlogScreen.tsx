@@ -19,10 +19,9 @@ import { CategoryType } from "entities/category";
 import { getImageUrl, postBlog } from "entities/blog";
 import { CommonButton, CommonInput, Title } from "shared/ui";
 
-const CustomEditor = dynamic(
-  () => import("shared/ui/CustomEditor").then((mod) => mod.CustomEditor),
-  { ssr: false }
-);
+const CustomEditor = dynamic(() => import("shared/ui/CustomEditor"), {
+  ssr: false,
+});
 
 type CreateBlogScreenType = {
   categories: CategoryType[];

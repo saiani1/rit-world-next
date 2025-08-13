@@ -7,9 +7,10 @@ import "@toast-ui/editor/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 
 import { getImageUrl } from "entities/blog";
+import { BlogType } from "features/Blog";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
-  control: Control<TFieldValues>;
+  control: Control<BlogType>;
   name: TFieldValues["path"];
   path: string;
 };
@@ -19,7 +20,7 @@ export const CustomEditor = <TFieldValues extends FieldValues>({
   name,
   path,
 }: CustomEditorType<TFieldValues>) => {
-  const editorRef = useRef<Editor>(null);
+  const editorRef = useRef<Editor | null>(null);
   const {
     field: { onChange, ...field },
   } = useController({

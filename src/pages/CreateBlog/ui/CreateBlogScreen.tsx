@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
@@ -16,7 +17,12 @@ import {
 } from "features/Blog";
 import { CategoryType } from "entities/category";
 import { getImageUrl, postBlog } from "entities/blog";
-import { CommonButton, CommonInput, CustomEditor, Title } from "shared/ui";
+import { CommonButton, CommonInput, Title } from "shared/ui";
+
+const CustomEditor = dynamic(
+  () => import("shared/ui/CustomEditor").then((mod) => mod.CustomEditor),
+  { ssr: false }
+);
 
 type CreateBlogScreenType = {
   categories: CategoryType[];

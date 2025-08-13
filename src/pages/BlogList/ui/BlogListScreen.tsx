@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useSetAtom } from "jotai";
-import Cookies from "js-cookie";
+import { useAtomValue, useSetAtom } from "jotai";
 
 import { BlogItem, blogListAtom, BlogType, WriteButton } from "features/Blog";
+import { isLoginAtom } from "entities/user";
 import { Title } from "shared/ui";
 
 type BlogListScreenType = {
@@ -12,13 +12,13 @@ type BlogListScreenType = {
 
 const BlogListScreen = ({ data }: BlogListScreenType) => {
   const setBlogList = useSetAtom(blogListAtom);
-  const isLogin = Cookies.get("login") === "Y";
+  const isLogin = useAtomValue(isLoginAtom);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
     setBlogList(data);
-  }, [data]);
+  }, [data, setBlogList]);
 
   return (
     <div>

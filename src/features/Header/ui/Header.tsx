@@ -3,20 +3,22 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useAtom } from "jotai";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
+import { isLoginAtom } from "entities/user";
 import { CommonButton, supabase } from "shared/index";
 import { DarkmodeToggle } from "./DarkmodeToggle";
 import { HEADER_ARR } from "../lib";
 import { HeaderType } from "../model";
 
 export const Header = () => {
-  const isLogin = Cookies.get("login") === "Y";
   const router = useRouter();
   const [isActive, setIsActive] = useState("BLOG");
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
+  const [isLogin, setIsLogin] = useAtom(isLoginAtom);
   const handleClick = () => router.push("/");
 
   const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
@@ -28,6 +30,7 @@ export const Header = () => {
       let { error } = await supabase.auth.signOut();
       if (error) return toast.error("로그아웃이 실패했습니다.");
       Cookies.remove("login");
+      setIsLogin(false);
       toast.success("로그아웃 되었습니다.");
       setIsActive("BLOG");
     } else if (name === "LOG IN" && !isLogin) router.push("/signin");

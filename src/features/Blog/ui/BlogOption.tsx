@@ -5,7 +5,6 @@ import { CategoryType } from "entities/category";
 import { Selectbox } from "shared/ui";
 import { HashtagList } from "./HashtagList";
 import {
-  hashtagListAtom,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
 } from "../model";
@@ -21,7 +20,6 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
   const [selectedMiddleCategory, setSelectedMiddleCategory] = useAtom(
     selectedMiddleCategoryAtom
   );
-  const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
   const filteredLargeCategoryArr = categories?.filter(
     (item) => item.parent_id === null
@@ -46,7 +44,7 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
         placeholder="카테고리 중분류"
         disabled={!selectedLargeCategory?.id}
       />
-      <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
+      <HashtagList />
     </div>
   );
 };

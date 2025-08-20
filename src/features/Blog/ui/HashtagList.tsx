@@ -1,12 +1,11 @@
 import { useState } from "react";
 
 import { CommonInput, Hashtag } from "shared/ui";
+import { hashtagListAtom } from "../model";
+import { useAtom } from "jotai";
 
-type HashtagListType = {
-  hashtags: string[];
-  setHashtags: React.Dispatch<React.SetStateAction<string[]>>;
-};
-export const HashtagList = ({ hashtags, setHashtags }: HashtagListType) => {
+export const HashtagList = () => {
+  const [hashtags, setHashtags] = useAtom(hashtagListAtom);
   const [inputValue, setInputValue] = useState("");
 
   const handleClickHashtag = (e: React.MouseEvent<HTMLButtonElement>) => {

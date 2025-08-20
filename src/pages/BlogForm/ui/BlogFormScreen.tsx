@@ -31,7 +31,7 @@ type BlogFormScreenType = {
 
 const BlogFormScreen = ({ categories, isEdit }: BlogFormScreenType) => {
   const router = useRouter();
-  const { blog } = useParams() as { blog: string };
+  const { blog } = useParams() || {};
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const blogListData = useAtomValue(blogListAtom);
@@ -93,7 +93,7 @@ const BlogFormScreen = ({ categories, isEdit }: BlogFormScreenType) => {
     setValue("middle_category_id", selectedMCate?.id, { shouldDirty: true });
 
     // previewUrl에 path가 포함되어 있으면 supabase에 업로드 하는 절차를 패스한다.
-    const isSameImg = previewUrl?.includes(blog);
+    const isSameImg = isEdit && previewUrl?.includes(blog as string);
     if (!isSameImg) {
       const thumbnailParams = {
         file: imageFile!,

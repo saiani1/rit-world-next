@@ -1,3 +1,5 @@
+import { CategoryType } from "entities/category";
+
 export type BlogType = {
   id?: string;
   create_at?: string;
@@ -9,17 +11,13 @@ export type BlogType = {
   large_category_id: string;
   middle_category_id: string;
   blog_hashtag?: BlogHashtagType[];
-  category_large?: BlogCategoryType;
-  category_middle?: BlogCategoryType;
+  category_large?: CategoryType;
+  category_middle?: CategoryType;
 };
 
-type BlogHashtagType = {
+export type BlogHashtagType = {
   hashtag_id: {
     id: string;
     name: string;
   };
-};
-
-type BlogCategoryType = {
-  title: string;
 };

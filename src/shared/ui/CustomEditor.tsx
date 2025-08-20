@@ -13,12 +13,14 @@ type CustomEditorType<TFieldValues extends FieldValues> = {
   control: Control<BlogType>;
   name: TFieldValues["path"];
   path: string;
+  initialValue?: string;
 };
 
 const CustomEditor = <TFieldValues extends FieldValues>({
   control,
   name,
   path,
+  initialValue,
 }: CustomEditorType<TFieldValues>) => {
   const editorRef = useRef<Editor | null>(null);
   const {
@@ -30,9 +32,9 @@ const CustomEditor = <TFieldValues extends FieldValues>({
 
   useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.getInstance().setMarkdown("");
+      editorRef.current.getInstance().setMarkdown(initialValue ?? "");
     }
-  }, []);
+  }, [initialValue]);
 
   useEffect(() => {
     if (!editorRef.current || !path) return;
@@ -69,7 +71,6 @@ const CustomEditor = <TFieldValues extends FieldValues>({
         }}
         previewStyle="tab"
         height="600px"
-        initialValue=""
         initialEditType="markdown"
         hideModeSwitch={true}
         useCommandShortcut={false}

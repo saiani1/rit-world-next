@@ -4,3 +4,4 @@ export { upsertHashtag } from "./upsertHashtag";
 export { getImageUrl } from "./getImageUrl";
 export { postBlog } from "./postBlog";
 export { getBlogList } from "./getBlogList";
+export { deleteBlog } from "./deleteBlog";

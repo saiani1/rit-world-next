@@ -154,7 +154,7 @@ const BlogFormScreen = ({ categories, isEdit }: BlogFormScreenType) => {
         handleChange={handleChangeFileInput}
         {...register("subject")}
       />
-      <BlogOption categories={categories} />
+      {hashtags && <BlogOption categories={categories} />}
       <div className="flex flex-col gap-y-2 mb-[20px]">
         <CommonInput
           className="px-[10px] w-full h-[34px] bg-black-F5 rounded-[5px] text-[13px]"

@@ -120,7 +120,6 @@ const BlogFormScreen = ({ categories, isEdit }: BlogFormScreenType) => {
       setSelectedLCate(RESET);
       setSelectedMCate(RESET);
       setHashtags(RESET);
-      router.refresh();
       router.push("/");
     } else toast.error(`블로그 ${isEdit ? "수정" : "발행"}에 실패했습니다.`);
   };

@@ -29,7 +29,7 @@ const BlogListScreen = ({ data }: BlogListScreenType) => {
         </div>
       </div>
       <ul className="flex flex-wrap justify-between gap-y-[40px]">
-        {data.length !== 0 ? (
+        {data && data.length !== 0 ? (
           data.map((blog) => <BlogItem key={blog.id} data={blog} />)
         ) : (
           <p className="mt-8 text-black-888">작성한 블로그 글이 없습니다.</p>

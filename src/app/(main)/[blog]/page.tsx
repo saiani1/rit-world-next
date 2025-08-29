@@ -30,7 +30,7 @@ const BlogContentPage = () => {
               <span className="mt-[-1px]">{`<`}</span>
               <span>{filteredData.category_middle?.title}</span>
             </div>
-            <div>{isLogin && <ButtonWrap />}</div>
+            <div>{isLogin && <ButtonWrap id={filteredData.id!} />}</div>
           </div>
           <div
             className="relative flex flex-col justify-end p-[20px] w-full h-[350px] overflow-hidden bg-cover bg-top"

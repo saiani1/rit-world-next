@@ -6,21 +6,25 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 
-import { getImageUrl } from "entities/blog";
 import { BlogType } from "features/Blog";
+import { getImageUrl } from "entities/blog";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
   control: Control<BlogType>;
   name: TFieldValues["path"];
   path: string;
+  initialValue?: string;
 };
 
 const CustomEditor = <TFieldValues extends FieldValues>({
   control,
   name,
   path,
+  initialValue,
 }: CustomEditorType<TFieldValues>) => {
   const editorRef = useRef<Editor | null>(null);
+  const isInitialMount = useRef(true);
+
   const {
     field: { onChange, ...field },
   } = useController({
@@ -29,10 +33,19 @@ const CustomEditor = <TFieldValues extends FieldValues>({
   });
 
   useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.getInstance().setMarkdown("");
+    if (!editorRef.current) return;
+    const editor = editorRef.current.getInstance();
+
+    if (isInitialMount.current) {
+      editor.setMarkdown(initialValue ?? "");
+      isInitialMount.current = false;
+      return;
     }
-  }, []);
+
+    if (editor.getMarkdown() !== initialValue) {
+      editor.setMarkdown(initialValue ?? "");
+    }
+  }, [initialValue]);
 
   useEffect(() => {
     if (!editorRef.current || !path) return;
@@ -69,7 +82,6 @@ const CustomEditor = <TFieldValues extends FieldValues>({
         }}
         previewStyle="tab"
         height="600px"
-        initialValue=""
         initialEditType="markdown"
         hideModeSwitch={true}
         useCommandShortcut={false}

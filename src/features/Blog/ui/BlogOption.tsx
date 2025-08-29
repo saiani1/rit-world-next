@@ -5,7 +5,6 @@ import { CategoryType } from "entities/category";
 import { Selectbox } from "shared/ui";
 import { HashtagList } from "./HashtagList";
 import {
-  hashtagListAtom,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
 } from "../model";
@@ -21,32 +20,34 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
   const [selectedMiddleCategory, setSelectedMiddleCategory] = useAtom(
     selectedMiddleCategoryAtom
   );
-  const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
-  const filteredLargeCategoryArr = categories?.filter(
-    (item) => item.parent_id === null
-  );
+  const filteredLargeCategoryArr =
+    categories && categories?.filter((item) => item.parent_id === null);
 
-  const filteredMiddleCategoryArr = categories?.filter(
-    (item) => item.parent_id === selectedLargeCategory?.id
-  );
+  const filteredMiddleCategoryArr =
+    categories &&
+    categories?.filter((item) => item.parent_id === selectedLargeCategory?.id);
 
   return (
     <div className="flex gap-x-2 mb-[10px]">
-      <Selectbox
-        data={filteredLargeCategoryArr}
-        selectOption={selectedLargeCategory}
-        setSelectOption={setSelectedLargeCategory}
-        placeholder="카테고리 대분류"
-      />
-      <Selectbox
-        data={filteredMiddleCategoryArr}
-        selectOption={selectedMiddleCategory}
-        setSelectOption={setSelectedMiddleCategory}
-        placeholder="카테고리 중분류"
-        disabled={!selectedLargeCategory?.id}
-      />
-      <HashtagList hashtags={hashtags} setHashtags={setHashtags} />
+      {filteredLargeCategoryArr?.length !== 0 && (
+        <Selectbox
+          data={filteredLargeCategoryArr}
+          selectOption={selectedLargeCategory}
+          setSelectOption={setSelectedLargeCategory}
+          placeholder="카테고리 대분류"
+        />
+      )}
+      {filteredMiddleCategoryArr?.length !== 0 && (
+        <Selectbox
+          data={filteredMiddleCategoryArr}
+          selectOption={selectedMiddleCategory}
+          setSelectOption={setSelectedMiddleCategory}
+          placeholder="카테고리 중분류"
+          disabled={!selectedLargeCategory?.id}
+        />
+      )}
+      <HashtagList />
     </div>
   );
 };

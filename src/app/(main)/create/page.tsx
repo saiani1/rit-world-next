@@ -1,9 +1,9 @@
-import CreateBlogScreen from "pages/CreateBlog/ui/CreateBlogScreen";
+import BlogFormScreen from "pages/BlogForm/ui/BlogFormScreen";
 import { getCategories } from "entities/category";
 
 const CreateBlogPage = async () => {
   const categories = await getCategories();
-  return <>{categories && <CreateBlogScreen categories={categories} />}</>;
+  return <>{categories && <BlogFormScreen categories={categories} />}</>;
 };
 
 export default CreateBlogPage;

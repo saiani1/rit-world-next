@@ -3,21 +3,30 @@ import { supabase } from "shared/index";
 import { upsertHashtag } from "./upsertHashtag";
 import { postBlogHashtag } from "./postBlogHashtag";
 
-type postBlogType = {
+type updateBlogType = {
   data: BlogType;
   hashtags: string[];
 };
 
-export const postBlog = async ({ data, hashtags }: postBlogType) => {
+export const updateBlog = async ({ data, hashtags }: updateBlogType) => {
   try {
     // blog테이블에 post요청
-    const { data: blog, error: blogError } = await supabase
+    const { error: blogError } = await supabase
       .from("blog")
-      .insert([data])
-      .select()
-      .single();
+      .update({
+        subject: data.subject,
+        summary: data.summary,
+        content: data.content,
+        thumbnail: data.thumbnail,
+        large_category_id: data.large_category_id,
+        middle_category_id: data.middle_category_id,
+      })
+      .eq("id", data.id);
 
-    if (blogError || !blog) return false;
+    if (blogError) return false;
+
+    // 해당 blog에 연결되어있던 기존 hashtag 삭제
+    await supabase.from("blog_hashtag").delete().eq("blog_id", data.id);
 
     // 해시태그 upsert
     const hashtagArr = await upsertHashtag({ hashtags });
@@ -25,7 +34,7 @@ export const postBlog = async ({ data, hashtags }: postBlogType) => {
 
     // blog_hashtag저장
     const blogHashtagData = hashtagArr?.map((hashtag) => ({
-      blog_id: blog.id,
+      blog_id: data.id!,
       hashtag_id: hashtag.id,
     }));
     const isPostBlogHashtag = await postBlogHashtag(blogHashtagData);
@@ -33,7 +42,7 @@ export const postBlog = async ({ data, hashtags }: postBlogType) => {
 
     return true;
   } catch (e) {
-    console.error("postBlog failed:", e);
+    console.error("updateBlog failed:", e);
     return false;
   }
 };

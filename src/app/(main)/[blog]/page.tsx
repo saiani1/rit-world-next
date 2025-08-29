@@ -5,12 +5,14 @@ import { useAtomValue } from "jotai";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 
-import { blogListAtom, BlogType } from "features/Blog";
+import { blogListAtom, BlogType, ButtonWrap } from "features/Blog";
 import { Hashtag } from "shared/ui";
+import { isLoginAtom } from "entities/user";
 
 const BlogContentPage = () => {
   const { blog } = useParams() as { blog: string };
   const blogListData = useAtomValue(blogListAtom);
+  const isLogin = useAtomValue(isLoginAtom);
   const [filteredData, setFilteredData] = useState<BlogType>();
 
   useEffect(() => {
@@ -22,10 +24,13 @@ const BlogContentPage = () => {
     <>
       {filteredData && (
         <div className="relative w-full">
-          <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">
-            <span>{filteredData.category_large?.title}</span>
-            <span className="mt-[-1px]">{`<`}</span>
-            <span>{filteredData.category_middle?.title}</span>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">
+              <span>{filteredData.category_large?.title}</span>
+              <span className="mt-[-1px]">{`<`}</span>
+              <span>{filteredData.category_middle?.title}</span>
+            </div>
+            <div>{isLogin && <ButtonWrap id={filteredData.id!} />}</div>
           </div>
           <div
             className="relative flex flex-col justify-end p-[20px] w-full h-[350px] overflow-hidden bg-cover bg-top"

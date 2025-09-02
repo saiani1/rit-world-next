@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
@@ -7,6 +6,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 import { ModalAtom } from "features/Modal";
 import { deleteBlog } from "entities/blog";
+import { CommonButton } from "shared/ui";
 
 type ButtonWrapType = {
   id: string;
@@ -18,6 +18,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   const { blog } = useParams() as { blog: string };
 
   const handleClickDeleteButton = () => {
+    router.push(`/${blog}/confirm`);
     setModalData({
       title: "블로그 삭제",
       description: "해당 블로그를 삭제하시겠습니까?",
@@ -39,6 +40,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   };
 
   const handleClickEditButton = () => {
+    router.push(`/${blog}/confirm`);
     setModalData({
       title: "블로그 수정",
       description: "해당 블로그를 수정하시겠습니까?",
@@ -49,22 +51,14 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   return (
     <ul className="flex gap-x-[4px] items-center">
       <li>
-        <Link
-          href={`/${blog}/confirm`}
-          className="p-1"
-          onClick={handleClickEditButton}
-        >
+        <CommonButton className="p-1" onClick={handleClickEditButton}>
           <TbEdit size={20} stroke="#777" />
-        </Link>
+        </CommonButton>
       </li>
       <li>
-        <Link
-          href={`/${blog}/confirm`}
-          className="p-1"
-          onClick={handleClickDeleteButton}
-        >
+        <CommonButton className="p-1" onClick={handleClickDeleteButton}>
           <FaRegTrashAlt size={17} fill="#777" />
-        </Link>
+        </CommonButton>
       </li>
     </ul>
   );

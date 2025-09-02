@@ -36,7 +36,7 @@ export const Category = ({ data }: CategoryProps) => {
 
   useEffect(() => {
     setCategoryList(data);
-  }, [data, setCategoryList]);
+  }, [data]);
 
   return (
     <nav className="relative flex flex-col grow mt-[10px] py-[20px] px-[32px] w-[250px] bg-white rounded-xl">

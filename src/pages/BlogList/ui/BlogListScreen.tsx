@@ -1,43 +1,48 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 
-import { BlogItem, blogListAtom, BlogType, WriteButton } from "features/Blog";
+import { BlogItem, BlogType, WriteButton } from "features/Blog";
 import { isLoginAtom } from "entities/user";
 import { Title } from "shared/ui";
 import { CategoryListAtom } from "features/Category";
 
-type BlogListScreenType = {
+type BlogListScreenProps = {
   data: BlogType[];
 };
 
-const BlogListScreen = ({ data }: BlogListScreenType) => {
+const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
-  const [isClient, setIsClient] = useState(false);
-  const [categoryTitle, setCategoryTitle] = useState("");
-  const [blogList, setBlogList] = useAtom(blogListAtom);
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-    if (categoryId) {
-      const filteredData = data.filter(
-        (blog) =>
-          blog.large_category_id === categoryId ||
-          blog.middle_category_id === categoryId
-      );
-      setBlogList(filteredData);
-      const filteredCategory = categoryList?.find(
-        (cate) => cate.id === categoryId || cate.parent_id === categoryId
-      );
-      filteredCategory && setCategoryTitle(filteredCategory.title);
-    } else {
-      setBlogList(data);
+    setIsMounted(true);
+  }, []);
+
+  const { blogList, categoryTitle } = useMemo(() => {
+    if (!categoryId) {
+      return { blogList: data, categoryTitle: "전체 포스트" };
     }
-  }, [categoryId, categoryList, data, setBlogList]);
+
+    const filteredList = data.filter(
+      (blog) =>
+        blog.large_category_id === categoryId ||
+        blog.middle_category_id === categoryId
+    );
+
+    const currentCategory = categoryList?.find(
+      (cate) => cate.id === categoryId
+    );
+
+    return {
+      blogList: filteredList,
+      categoryTitle: currentCategory?.title || "카테고리 없음",
+    };
+  }, [categoryId, data, categoryList]);
 
   return (
     <div>
@@ -46,14 +51,14 @@ const BlogListScreen = ({ data }: BlogListScreenType) => {
           {categoryId && (
             <span className="text-black-777 text-[17px]">카테고리 :</span>
           )}
-          <Title name={categoryId ? categoryTitle : "전체 포스트"} />
+          <Title name={categoryTitle} />
         </div>
         <div className="flex gap-x-[13px]">
-          {isLogin && isClient && <WriteButton />}
+          {isMounted && isLogin && <WriteButton />}
         </div>
       </div>
       <ul className="flex flex-wrap justify-between gap-y-[40px] pt-[10px]">
-        {blogList && blogList.length !== 0 ? (
+        {blogList && blogList.length > 0 ? (
           blogList.map((blog) => <BlogItem key={blog.id} data={blog} />)
         ) : (
           <p className="mt-8 text-black-888">작성한 블로그 글이 없습니다.</p>

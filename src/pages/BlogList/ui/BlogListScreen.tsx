@@ -23,7 +23,6 @@ const BlogListScreen = ({ data }: BlogListScreenType) => {
 
   useEffect(() => {
     setIsClient(true);
-    setBlogList(data);
     if (categoryId) {
       const filteredData = data.filter(
         (blog) =>
@@ -31,10 +30,12 @@ const BlogListScreen = ({ data }: BlogListScreenType) => {
           blog.middle_category_id === categoryId
       );
       setBlogList(filteredData);
-      const filteredCategory = categoryList?.filter(
+      const filteredCategory = categoryList?.find(
         (cate) => cate.id === categoryId || cate.parent_id === categoryId
       );
-      filteredCategory && setCategoryTitle(filteredCategory[0].title);
+      filteredCategory && setCategoryTitle(filteredCategory.title);
+    } else {
+      setBlogList(data);
     }
   }, [categoryId, categoryList, data, setBlogList]);
 

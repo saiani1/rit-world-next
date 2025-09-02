@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useSetAtom } from "jotai";
+import toast from "react-hot-toast";
 import { TbEdit } from "react-icons/tb";
 import { FaRegTrashAlt } from "react-icons/fa";
 
@@ -20,7 +21,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
     setModalData({
       title: "블로그 삭제",
       description: "해당 블로그를 삭제하시겠습니까?",
-      confirm: () => callDeleteBlog,
+      confirm: callDeleteBlog,
     });
   };
 
@@ -31,6 +32,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
     };
     const isDeleteBlog = await deleteBlog(params);
     if (isDeleteBlog) {
+      toast.success("블로그가 삭제되었습니다.");
       router.refresh();
       router.push("/");
     }

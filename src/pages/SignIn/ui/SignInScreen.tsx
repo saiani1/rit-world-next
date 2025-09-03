@@ -1,44 +1,54 @@
 "use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useSetAtom } from "jotai";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 
 import logo from "public/assets/logo.png";
+import { useRouter } from "i18n/routing";
 import { isLoginAtom, SignInUserInfoType } from "entities/user";
 import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
+  const t = useTranslations("signin");
   const setIsLogin = useSetAtom(isLoginAtom);
+  const [isMounted, setIsMounted] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInUserInfoType>({ mode: "onChange" });
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const onSubmit: SubmitHandler<SignInUserInfoType> = async (data) => {
-    if (!errors.userId && data.password.length !== 0) {
-      try {
-        let { error } = await supabase.auth.signInWithPassword({
-          email: data.userId,
-          password: data.password,
-        });
-        if (error) return toast.error("로그인 실패");
-        else {
-          Cookies.set("login", "Y");
-          setIsLogin(true);
-          router.replace("/");
-          toast.success("로그인 되었습니다.");
-        }
-      } catch (err) {
-        console.error(err);
+    try {
+      let { error } = await supabase.auth.signInWithPassword({
+        email: data.userId,
+        password: data.password,
+      });
+      if (error) return toast.error("로그인 실패");
+      else {
+        Cookies.set("login", "Y");
+        setIsLogin(true);
+        router.replace("/");
+        toast.success("로그인 되었습니다.");
       }
+    } catch (err) {
+      console.error(err);
     }
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-slate-200">
@@ -57,7 +67,7 @@ const SignInScreen = () => {
           <CommonInput
             type="email"
             page="signin"
-            placeholder="이메일"
+            placeholder={t("email")}
             {...register("userId", {
               required: true,
               pattern: {
@@ -65,15 +75,13 @@ const SignInScreen = () => {
                 message: "이메일 형식에 맞지 않습니다.",
               },
               setValueAs: (v: string) => v.trim(),
-              onBlur: (e: any) =>
-                (e.currentTarget.value = e.currentTarget.value.trim()),
             })}
           />
           {errors.userId && <ErrorMsg message={errors.userId.message} />}
           <CommonInput
             type="password"
             page="signin"
-            placeholder="비밀번호"
+            placeholder={t("password")}
             {...register("password", { required: true })}
           />
         </motion.div>
@@ -81,7 +89,7 @@ const SignInScreen = () => {
           type="submit"
           className="w-64 py-1.5 mt-5 bg-gray-700 text-white rounded-full "
         >
-          로그인
+          {t("login")}
         </CommonButton>
       </form>
     </div>

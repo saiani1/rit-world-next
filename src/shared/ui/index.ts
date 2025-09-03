@@ -1,3 +1,4 @@
+export { SelectLangBox } from "./SelectLangBox";
 export { ErrorMsg } from "./ErrorMsg";
 export { CommonInput } from "./CommonInput";
 export { Hashtag } from "./Hashtag";

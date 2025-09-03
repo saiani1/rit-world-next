@@ -1,9 +1,10 @@
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 import { TbEdit } from "react-icons/tb";
 import { FaRegTrashAlt } from "react-icons/fa";
 
+import { useRouter } from "i18n/routing";
 import { ModalAtom } from "features/Modal";
 import { deleteBlog } from "entities/blog";
 import { CommonButton } from "shared/ui";
@@ -18,7 +19,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   const { blog } = useParams() as { blog: string };
 
   const handleClickDeleteButton = () => {
-    router.push(`/${blog}/confirm`);
+    router.push(`/post/${blog}/confirm`);
     setModalData({
       title: "블로그 삭제",
       description: "해당 블로그를 삭제하시겠습니까?",
@@ -40,7 +41,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   };
 
   const handleClickEditButton = () => {
-    router.push(`/${blog}/confirm`);
+    router.push(`/post/${blog}/confirm`);
     setModalData({
       title: "블로그 수정",
       description: "해당 블로그를 수정하시겠습니까?",

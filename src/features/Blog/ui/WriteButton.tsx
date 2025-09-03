@@ -1,7 +1,6 @@
 "use client";
-import { useRouter } from "next/navigation";
-
 import PencilIcon from "public/assets/svg/pencil-icon.svg";
+import { useRouter } from "i18n/routing";
 import { CommonButton } from "shared/ui";
 
 export const WriteButton = () => {

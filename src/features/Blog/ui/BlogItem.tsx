@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import dayjs from "dayjs";
 
+import { Link } from "i18n/routing";
 import { Hashtag } from "shared/ui";
 import { BlogType } from "../model";
 
@@ -14,7 +14,7 @@ export const BlogItem = ({ data }: BlogItemType) => {
   return (
     <li>
       <Link
-        href={data.path}
+        href={`/post/${data.path}`}
         className={`flex flex-col items-start w-[250px] text-left`}
       >
         <div className="w-full h-[150px] relative overflow-hidden rounded-[5px]">

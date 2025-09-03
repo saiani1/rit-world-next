@@ -50,8 +50,6 @@ export const Header = () => {
     setHeaderArr(menuItems);
   }, [isLogin, tH]);
 
-  console.log("headerArr", headerArr, " tL('login')", tL("login"));
-
   return (
     <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
       <div className="flex justify-between items-center w-[80%] h-full">

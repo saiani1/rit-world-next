@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
+import { useRouter } from "i18n/routing";
 import {
   blogListAtom,
   BlogOption,

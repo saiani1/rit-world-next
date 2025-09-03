@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useState } from "react";
-import Link from "next/link";
 import { ImAttachment } from "react-icons/im";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
@@ -8,6 +7,7 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
+import { Link } from "i18n/routing";
 import { ProfileType } from "entities/user";
 import { CommonButton, Tooltip, useOnClickOutside } from "shared/index";
 import { ProfileImage } from "./ProfileImage";

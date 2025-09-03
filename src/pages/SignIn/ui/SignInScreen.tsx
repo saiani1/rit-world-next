@@ -82,7 +82,10 @@ const SignInScreen = () => {
             type="password"
             page="signin"
             placeholder={t("password")}
-            {...register("password", { required: true })}
+            autoComplete="current-password"
+            {...register("password", {
+              required: true,
+            })}
           />
         </motion.div>
         <CommonButton

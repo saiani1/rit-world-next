@@ -4,9 +4,9 @@ import { useSearchParams } from "next/navigation";
 import { useAtomValue } from "jotai";
 
 import { BlogItem, BlogType, WriteButton } from "features/Blog";
+import { CategoryListAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
 import { Title } from "shared/ui";
-import { CategoryListAtom } from "features/Category";
 
 type BlogListScreenProps = {
   data: BlogType[];

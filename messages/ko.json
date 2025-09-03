@@ -1,0 +1,28 @@
+{
+  "MainPage": {
+    "title": "메인페이지에 어서오세요",
+    "description": "안녕하세요."
+  },
+  "Header": {
+    "menu": [
+      {
+        "id": 1,
+        "title": "LOG OUT",
+        "url": "/"
+      },
+      {
+        "id": 2,
+        "title": "BLOG",
+        "url": "/"
+      }
+    ]
+  },
+  "Login": {
+    "login": "LOG IN"
+  },
+  "signin": {
+    "email": "이메일",
+    "password": "패스워드",
+    "login": "로그인하기"
+  }
+}

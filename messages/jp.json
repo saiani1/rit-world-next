@@ -1,0 +1,28 @@
+{
+  "MainPage": {
+    "title": "ようこそ、メインページへ！",
+    "description": "ようこそ！"
+  },
+  "Header": {
+    "menu": [
+      {
+        "id": 1,
+        "title": "ロフアウト",
+        "url": "/"
+      },
+      {
+        "id": 2,
+        "title": "ブログ",
+        "url": "/"
+      }
+    ]
+  },
+  "Login": {
+    "login": "ログイン"
+  },
+  "signin": {
+    "email": "メール",
+    "password": "パスワード",
+    "login": "ログインする"
+  }
+}

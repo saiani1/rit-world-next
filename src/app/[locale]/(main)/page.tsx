@@ -1,4 +1,4 @@
-import BlogListScreen from "pages/BlogList/ui/BlogListScreen";
+import BlogListScreen from "page/BlogList/ui/BlogListScreen";
 import { getBlogList } from "entities/blog";
 
 const HomePage = async () => {

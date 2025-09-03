@@ -1,5 +1,5 @@
 import { getCategories } from "entities/category";
-import BlogFormScreen from "pages/BlogForm/ui/BlogFormScreen";
+import BlogFormScreen from "page/BlogForm/ui/BlogFormScreen";
 
 const EditBlogPage = async () => {
   const categories = await getCategories();

@@ -76,12 +76,12 @@ const CustomEditor = <TFieldValues extends FieldValues>({
       <Editor
         {...field}
         ref={editorRef}
+        height="inherit"
         onChange={() => {
           const markdown = editorRef.current?.getInstance().getMarkdown();
           onChange(markdown);
         }}
         previewStyle="tab"
-        height="600px"
         initialEditType="markdown"
         hideModeSwitch={true}
         useCommandShortcut={false}

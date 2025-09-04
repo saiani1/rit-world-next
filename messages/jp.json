@@ -27,7 +27,10 @@
   "Signin": {
     "email": "メール",
     "password": "パスワード",
-    "login": "ログインする"
+    "login": "ログインする",
+    "loginSuccess": "ログインに成功しました。",
+    "loginFail": "ログイン失敗",
+    "emailValidFail": "メール形式に合致しません。"
   },
   "BlogList": {
     "title": "全ブログ一覧",

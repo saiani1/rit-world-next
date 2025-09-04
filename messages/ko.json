@@ -26,7 +26,10 @@
   "Signin": {
     "email": "이메일",
     "password": "패스워드",
-    "login": "로그인하기"
+    "login": "로그인하기",
+    "loginSuccess": "로그인 되었습니다.",
+    "loginFail": "로그인 실패",
+    "emailValidFail": "이메일 형식에 맞지 않습니다"
   },
   "BlogList": {
     "title": "전체 포스트",

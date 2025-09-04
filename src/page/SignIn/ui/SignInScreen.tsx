@@ -34,12 +34,12 @@ const SignInScreen = () => {
         email: data.userId,
         password: data.password,
       });
-      if (error) return toast.error("로그인 실패");
+      if (error) return toast.error(t("loginFail"));
       else {
         Cookies.set("login", "Y");
         setIsLogin(true);
         router.replace("/");
-        toast.success("로그인 되었습니다.");
+        toast.success(t("loginSuccess"));
       }
     } catch (err) {
       console.error(err);
@@ -72,7 +72,7 @@ const SignInScreen = () => {
               required: true,
               pattern: {
                 value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message: "이메일 형식에 맞지 않습니다.",
+                message: t("emailValidFail"),
               },
               setValueAs: (v: string) => v.trim(),
             })}

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Header } from "features/Header";
 import { Category } from "features/Category";
 import { ProfileAside } from "features/Profile";
-import { getProfileInfo } from "entities/user";
+import { getProfileInfo, getProfileInfoJp } from "entities/user";
 import { getCategories } from "entities/category";
 
 export const metadata: Metadata = {
@@ -13,10 +13,13 @@ export const metadata: Metadata = {
 
 export default async function MainLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
-  const profileData = await getProfileInfo();
+  const profileData =
+    locale === "ko" ? await getProfileInfo() : await getProfileInfoJp();
   const categoryData = await getCategories();
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useAtomValue } from "jotai";
 
 import { BlogItem, BlogType, WriteButton } from "features/Blog";
@@ -15,6 +15,7 @@ type BlogListScreenProps = {
 
 const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const t = useTranslations("BlogList");
+  const locale = useLocale();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const isLogin = useAtomValue(isLoginAtom);
@@ -56,7 +57,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
           <Title name={categoryTitle} />
         </div>
         <div className="flex gap-x-[13px]">
-          {isMounted && isLogin && <WriteButton />}
+          {isMounted && isLogin && locale === "ko" && <WriteButton />}
         </div>
       </div>
       <ul className="flex flex-wrap justify-between gap-y-[40px] pt-[10px]">

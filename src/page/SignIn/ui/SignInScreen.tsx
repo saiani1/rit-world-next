@@ -15,7 +15,7 @@ import { supabase, CommonInput, ErrorMsg, CommonButton } from "shared/index";
 
 const SignInScreen = () => {
   const router = useRouter();
-  const t = useTranslations("signin");
+  const t = useTranslations("Signin");
   const setIsLogin = useSetAtom(isLoginAtom);
   const [isMounted, setIsMounted] = useState(false);
   const {

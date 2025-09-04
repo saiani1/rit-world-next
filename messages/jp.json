@@ -3,6 +3,10 @@
     "title": "ようこそ、メインページへ！",
     "description": "ようこそ！"
   },
+  "Locale": {
+    "locale": "日本語"
+  },
+
   "Header": {
     "menu": [
       {
@@ -20,9 +24,24 @@
   "Login": {
     "login": "ログイン"
   },
-  "signin": {
+  "Signin": {
     "email": "メール",
     "password": "パスワード",
     "login": "ログインする"
+  },
+  "BlogList": {
+    "title": "全ブログ一覧",
+    "category": "カテゴリ",
+    "noCategory": "カテゴリなし",
+    "noBlog": "作成したブログはありません。"
+  },
+  "Profile": {
+    "portfolio": "ポートフォリオ",
+    "email": "メール",
+    "linkedin": "リンクトイン",
+    "github": "ギットハブ",
+    "copy": "コピー",
+    "copySuccess": "メールアドレスがコピーされました。",
+    "copyFail": "コピー失敗、もう一度お試しください。"
   }
 }

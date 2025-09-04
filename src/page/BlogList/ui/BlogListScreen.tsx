@@ -1,6 +1,7 @@
 "use client";
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useAtomValue } from "jotai";
 
 import { BlogItem, BlogType, WriteButton } from "features/Blog";
@@ -13,6 +14,7 @@ type BlogListScreenProps = {
 };
 
 const BlogListScreen = ({ data }: BlogListScreenProps) => {
+  const t = useTranslations("BlogList");
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const isLogin = useAtomValue(isLoginAtom);
@@ -25,7 +27,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
 
   const { blogList, categoryTitle } = useMemo(() => {
     if (!categoryId) {
-      return { blogList: data, categoryTitle: "전체 포스트" };
+      return { blogList: data, categoryTitle: t("title") };
     }
 
     const filteredList = data.filter(
@@ -40,16 +42,16 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
 
     return {
       blogList: filteredList,
-      categoryTitle: currentCategory?.title || "카테고리 없음",
+      categoryTitle: currentCategory?.title || t("noCategory"),
     };
   }, [categoryId, data, categoryList]);
 
   return (
     <div>
-      <div className="flex justify-between items-center pb-[15px] mb-[10px] border-b">
+      <div className="flex justify-between items-center pb-[15px] mb-[20px] border-b">
         <div className="flex items-baseline gap-x-[5px]">
           {categoryId && (
-            <span className="text-black-777 text-[17px]">카테고리 :</span>
+            <span className="text-black-777 text-[17px]">{`${t("category")} :`}</span>
           )}
           <Title name={categoryTitle} />
         </div>
@@ -61,7 +63,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         {blogList && blogList.length > 0 ? (
           blogList.map((blog) => <BlogItem key={blog.id} data={blog} />)
         ) : (
-          <p className="mt-8 text-black-888">작성한 블로그 글이 없습니다.</p>
+          <p className="text-black-999">{t("noBlog")}</p>
         )}
       </ul>
     </div>

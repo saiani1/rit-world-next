@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import React from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import { usePathname, useRouter } from "i18n/routing";
@@ -10,6 +10,7 @@ import { langData } from "../model";
 import { CommonButton } from "./CommonButton";
 
 export const SelectLangBox = () => {
+  const t = useTranslations("Locale");
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -37,9 +38,7 @@ export const SelectLangBox = () => {
         className="flex items-center gap-x-[15px] px-[14px] h-[34px] text-black-999 text-[13px] font-regular rounded-[5px] border border-black-AAA"
         onClick={handleClick}
       >
-        <div className="flex items-center gap-x-1">
-          {locale === "ko" ? "한국어" : "日本語"}
-        </div>
+        <div className="flex items-center gap-x-1">{t("locale")}</div>
         <ArrowIcon
           className={`transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
         />

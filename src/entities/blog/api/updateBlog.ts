@@ -1,10 +1,10 @@
-import { BlogType } from "features/Blog";
 import { supabase } from "shared/index";
 import { upsertHashtag } from "./upsertHashtag";
 import { postBlogHashtag } from "./postBlogHashtag";
+import { PostBlogType } from "../model";
 
 type updateBlogType = {
-  data: BlogType;
+  data: PostBlogType;
   hashtags: string[];
 };
 

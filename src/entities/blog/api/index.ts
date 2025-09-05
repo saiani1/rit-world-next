@@ -1,8 +1,11 @@
 export { updateBlog } from "./updateBlog";
 export { postBlogHashtag } from "./postBlogHashtag";
+export { postBlogHashtagJp } from "./postBlogHashtagJp";
 export { upsertHashtag } from "./upsertHashtag";
+export { upsertHashtagJp } from "./upsertHashtagJp";
 export { getImageUrl } from "./getImageUrl";
 export { postBlog } from "./postBlog";
+export { postBlogJp } from "./postBlogJp";
 export { getBlogList } from "./getBlogList";
 export { getBlogListJp } from "./getBlogListJp";
 export { deleteBlog } from "./deleteBlog";

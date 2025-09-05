@@ -9,8 +9,6 @@ const HomePage = async ({
   const blogData =
     locale === "ko" ? await getBlogList() : await getBlogListJp();
 
-  console.log("blogData", blogData);
-
   return <>{blogData && <BlogListScreen data={blogData} />}</>;
 };
 

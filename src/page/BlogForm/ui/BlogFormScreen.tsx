@@ -11,14 +11,22 @@ import { useRouter } from "i18n/routing";
 import {
   blogListAtom,
   BlogOption,
-  BlogType,
   hashtagListAtom,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
   ThumbnailWithTitle,
 } from "features/Blog";
 import { CategoryType } from "entities/category";
-import { getImageUrl, postBlog, updateBlog } from "entities/blog";
+import {
+  BlogJpType,
+  BlogType,
+  getImageUrl,
+  postBlog,
+  postBlogJp,
+  PostBlogJpType,
+  PostBlogType,
+  updateBlog,
+} from "entities/blog";
 import { CommonButton, CommonInput, Title } from "shared/ui";
 
 const CustomEditor = dynamic(() => import("shared/ui/CustomEditor"), {
@@ -42,14 +50,14 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
   const { blog } = useParams() || {};
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [blogData, setBlogData] = useState<BlogType | null>(null);
+  const [blogData, setBlogData] = useState<BlogType | BlogJpType | null>(null);
   const blogListData = useAtomValue(blogListAtom);
   const [selectedLCate, setSelectedLCate] = useAtom(selectedLargeCategoryAtom);
   const [selectedMCate, setSelectedMCate] = useAtom(selectedMiddleCategoryAtom);
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
 
   const { getValues, setValue, watch, register, control, handleSubmit, reset } =
-    useForm<BlogType>();
+    useForm<BlogType | BlogJpType>();
 
   useEffect(() => {
     if (
@@ -90,23 +98,23 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
     setPreviewUrl(preview);
   };
 
-  const onSubmit = async (data: BlogType) => {
+  const onSubmit = async (data: PostBlogType | PostBlogJpType) => {
     if (
       !selectedLCate ||
       !selectedMCate ||
-      !previewUrl ||
       !data.path ||
+      !previewUrl ||
       !hashtags
     ) {
       toast.error("빈칸을 입력하세요.");
       return;
     }
 
-    setValue("large_category_id", selectedLCate?.id, { shouldDirty: true });
-    setValue("middle_category_id", selectedMCate?.id, { shouldDirty: true });
+    setValue("large_category_id", selectedLCate?.id);
+    setValue("middle_category_id", selectedMCate?.id);
 
     // previewUrl에 path가 포함되어 있으면 supabase에 업로드 하는 절차를 패스한다.
-    const isSameImg = page === "edit" && previewUrl?.includes(blog as string);
+    const isSameImg = page !== "create" && previewUrl?.includes(blog as string);
     if (!isSameImg) {
       const thumbnailParams = {
         file: imageFile!,
@@ -120,16 +128,46 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
       }
     }
 
-    // isEdit일 경우, update함수 호출. postBlog에 hashtag로직 분리
-    const blogParams = {
-      data: getValues(),
-      hashtags: hashtags,
+    type BlogParams<T> = {
+      data: T;
+      hashtags: string[];
     };
-    const isBloging =
-      page === "edit"
-        ? await updateBlog(blogParams)
-        : await postBlog(blogParams);
-    if (isBloging) {
+
+    const isBloging = async () => {
+      let isTrue: Boolean;
+      switch (page) {
+        case "edit": {
+          const blogParams: BlogParams<BlogType> = {
+            data: getValues() as BlogType,
+            hashtags,
+          };
+          isTrue = await updateBlog(blogParams);
+          break;
+        }
+        case "translate": {
+          setValue("blog_id", blogData?.id!);
+          setValue("locale", "jp");
+          const blogParams: BlogParams<BlogJpType> = {
+            data: getValues() as BlogJpType,
+            hashtags,
+          };
+          isTrue = await postBlogJp(blogParams);
+          break;
+        }
+        case "create": {
+          const blogParams: BlogParams<BlogType> = {
+            data: getValues() as BlogType,
+            hashtags,
+          };
+          isTrue = await postBlog(blogParams);
+          break;
+        }
+        default:
+          isTrue = false;
+      }
+      return isTrue;
+    };
+    if (await isBloging()) {
       toast.success(
         `블로그 ${page === "edit" ? "수정" : "발행"}에 성공했습니다.`
       );
@@ -224,7 +262,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           <CustomEditor
             control={control}
             name="content"
-            path={watch("path")}
+            path={watch("path")!}
             initialValue={watch("content")}
           />
         </div>

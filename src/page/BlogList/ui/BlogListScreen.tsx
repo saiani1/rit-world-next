@@ -2,15 +2,16 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 
-import { BlogItem, BlogType, WriteButton } from "features/Blog";
+import { BlogItem, blogListAtom, WriteButton } from "features/Blog";
 import { CategoryListAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
+import { BlogJpType, BlogType } from "entities/blog";
 import { Title } from "shared/ui";
 
 type BlogListScreenProps = {
-  data: BlogType[];
+  data: BlogType[] | BlogJpType[];
 };
 
 const BlogListScreen = ({ data }: BlogListScreenProps) => {
@@ -20,11 +21,16 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const categoryId = searchParams?.get("category");
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
+  const setBlogList = useSetAtom(blogListAtom);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    setBlogList(data);
+  }, [data]);
 
   const { blogList, categoryTitle } = useMemo(() => {
     if (!categoryId) {

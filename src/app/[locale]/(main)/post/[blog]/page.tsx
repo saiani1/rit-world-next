@@ -5,15 +5,16 @@ import { useAtomValue } from "jotai";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 
-import { blogListAtom, BlogType, ButtonWrap } from "features/Blog";
-import { Hashtag } from "shared/ui";
+import { blogListAtom, ButtonWrap } from "features/Blog";
+import { BlogJpType, BlogType } from "entities/blog";
 import { isLoginAtom } from "entities/user";
+import { Hashtag } from "shared/ui";
 
 const BlogContentPage = () => {
   const { blog } = useParams() as { blog: string };
   const blogListData = useAtomValue(blogListAtom);
   const isLogin = useAtomValue(isLoginAtom);
-  const [filteredData, setFilteredData] = useState<BlogType>();
+  const [filteredData, setFilteredData] = useState<BlogType | BlogJpType>();
 
   useEffect(() => {
     const filterdBlog = blogListData.filter((item) => item.path === blog);

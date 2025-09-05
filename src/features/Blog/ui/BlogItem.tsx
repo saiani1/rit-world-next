@@ -3,11 +3,11 @@ import Image from "next/image";
 import dayjs from "dayjs";
 
 import { Link } from "i18n/routing";
+import { BlogType, BlogJpType } from "entities/blog";
 import { Hashtag } from "shared/ui";
-import { BlogType } from "../model";
 
 type BlogItemType = {
-  data: BlogType;
+  data: BlogType | BlogJpType;
 };
 
 export const BlogItem = ({ data }: BlogItemType) => {

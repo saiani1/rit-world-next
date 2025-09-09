@@ -1,10 +1,22 @@
-import { getCategories } from "entities/category";
 import BlogFormScreen from "page/BlogForm/ui/BlogFormScreen";
+import { getCategories } from "entities/category";
 
-const EditBlogPage = async () => {
+const EditBlogPage = async ({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) => {
   const categories = await getCategories();
+
   return (
-    <>{categories && <BlogFormScreen page="edit" categories={categories} />}</>
+    <>
+      {categories && (
+        <BlogFormScreen
+          page={locale === "ko" ? "edit" : "editTranslate"}
+          categories={categories}
+        />
+      )}
+    </>
   );
 };
 

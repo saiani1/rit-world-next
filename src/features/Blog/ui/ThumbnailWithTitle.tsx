@@ -6,13 +6,14 @@ import { CommonInput, FileInput } from "shared/ui";
 type ThumbnailWithTitleType = React.ComponentProps<"input"> & {
   previewUrl: string | null;
   titleData?: string;
+  page: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const ThumbnailWithTitle = forwardRef<
   HTMLInputElement,
   ThumbnailWithTitleType
->(({ previewUrl, titleData, handleChange, ...rest }, ref) => {
+>(({ previewUrl, titleData, page, handleChange, ...rest }, ref) => {
   return (
     <div
       style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}
@@ -40,7 +41,7 @@ export const ThumbnailWithTitle = forwardRef<
       >
         썸네일을 업로드하려면 아이콘을 클릭하세요.
       </span>
-      {titleData && (
+      {page === "translate" && (
         <p className="absolute left-[20px] bottom-[60px] text-[20px] font-regular opacity-40">
           {titleData}
         </p>

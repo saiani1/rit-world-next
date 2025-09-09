@@ -6,11 +6,10 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 
-import { BlogType } from "features/Blog";
-import { getImageUrl } from "entities/blog";
+import { BlogJpType, BlogType, getImageUrl } from "entities/blog";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
-  control: Control<BlogType>;
+  control: Control<BlogType | BlogJpType, any>;
   name: TFieldValues["path"];
   path: string;
   initialValue?: string;

@@ -46,5 +46,17 @@
     "copy": "コピー",
     "copySuccess": "メールアドレスがコピーされました。",
     "copyFail": "コピー失敗、もう一度お試しください。"
+  },
+  "Blog": {
+    "edit": "修正",
+    "editBlog": "ブログ修正",
+    "editDescription": "該当のブログを修正しますか？",
+    "translate": "翻訳",
+    "translateBlog": "ブログ翻訳",
+    "translateDescription": "該当のブログを翻訳しますか？",
+    "delete": "削除",
+    "deleteBlog": "ブログ削除",
+    "deleteDescription": "該当のブログを削除しますか？",
+    "deleteSuccess": "ブログが削除されました。"
   }
 }

@@ -45,5 +45,17 @@
     "copy": "복사",
     "copySuccess": "이메일 주소가 복사되었습니다",
     "copyFail": "복사 실패, 다시 시도해주세요"
+  },
+  "Blog": {
+    "edit": "수정",
+    "editBlog": "블로그 수정",
+    "editDescription": "해당 블로그를 수정하시겠습니까?",
+    "translate": "번역",
+    "translateBlog": "블로그 번역",
+    "translateDescription": "해당 블로그를 번역하시겠습니까?",
+    "delete": "삭제",
+    "deleteBlog": "블로그 삭제",
+    "deleteDescription": "해당 블로그를 삭제하시겠습니까?",
+    "deleteSuccess": "블로그가 삭제되었습니다."
   }
 }

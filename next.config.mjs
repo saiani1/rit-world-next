@@ -4,7 +4,6 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // next.config.js의 내용을 여기에 복사합니다.
   images: {
     remotePatterns: [
       {

@@ -48,7 +48,7 @@ export const HashtagList = () => {
       <CommonInput
         value={inputValue}
         className="px-[10px] w-full h-[34px] bg-black-F5 rounded-[5px] text-[13px]"
-        placeholder="해시태그를 입력하세요."
+        placeholder={hashtags.length !== 0 ? "" : "해시태그를 입력하세요."}
         onKeyDown={handleKeyDown}
         onChange={handleChangeInput}
       />

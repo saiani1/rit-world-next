@@ -1,4 +1,5 @@
 export { updateBlog } from "./updateBlog";
+export { updateBlogJp } from "./updateBlogJp";
 export { postBlogHashtag } from "./postBlogHashtag";
 export { postBlogHashtagJp } from "./postBlogHashtagJp";
 export { upsertHashtag } from "./upsertHashtag";
@@ -9,3 +10,4 @@ export { postBlogJp } from "./postBlogJp";
 export { getBlogList } from "./getBlogList";
 export { getBlogListJp } from "./getBlogListJp";
 export { deleteBlog } from "./deleteBlog";
+export { deleteBlogJp } from "./deleteBlogJp";

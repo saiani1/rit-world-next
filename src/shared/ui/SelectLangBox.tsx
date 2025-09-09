@@ -4,7 +4,7 @@ import React from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
-import { usePathname, useRouter } from "i18n/routing";
+import { useRouter } from "i18n/routing";
 import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { langData } from "../model";
 import { CommonButton } from "./CommonButton";
@@ -12,7 +12,6 @@ import { CommonButton } from "./CommonButton";
 export const SelectLangBox = () => {
   const t = useTranslations("Locale");
   const locale = useLocale();
-  const pathname = usePathname();
   const router = useRouter();
   const selectRef = useRef(null);
   const [isClick, setIsClick] = useState(false);
@@ -27,7 +26,7 @@ export const SelectLangBox = () => {
       setIsClick((prev) => !prev);
       return;
     }
-    router.push({ pathname }, { locale: name });
+    router.push("/", { locale: name });
   };
 
   useOnClickOutside(selectRef, () => setIsClick(false));

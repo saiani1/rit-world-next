@@ -1,6 +1,5 @@
 "use server";
 import { createClient } from "shared/api/server";
-import { BlogJpType } from "../model";
 
 export const getBlogListJp = async () => {
   try {
@@ -33,7 +32,7 @@ export const getBlogListJp = async () => {
       return [];
     }
 
-    const transfomData = blog.map((item) => ({
+    const transformData = blog.map((item) => ({
       id: item.id,
       subject: item.subject,
       summary: item.summary,
@@ -51,7 +50,7 @@ export const getBlogListJp = async () => {
       blog_hashtag: item.blog_translation_hashtag,
     }));
 
-    return transfomData;
+    return transformData;
   } catch (err) {
     console.error(err);
   }

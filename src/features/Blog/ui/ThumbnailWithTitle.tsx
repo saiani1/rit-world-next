@@ -14,6 +14,8 @@ export const ThumbnailWithTitle = forwardRef<
   HTMLInputElement,
   ThumbnailWithTitleType
 >(({ previewUrl, titleData, page, handleChange, ...rest }, ref) => {
+  const isTranslate = page === "editTranslate" || page === "translate";
+
   return (
     <div
       style={previewUrl ? { backgroundImage: `url(${previewUrl})` } : {}}
@@ -21,10 +23,7 @@ export const ThumbnailWithTitle = forwardRef<
     >
       {previewUrl && (
         <div
-          className={`
-        absolute inset-0 rounded-[5px] pointer-events-none
-        ${titleData ? "bg-black-EEE/90" : "bg-transparent"}
-      `}
+          className={`absolute inset-0 rounded-[5px] pointer-events-none ${isTranslate ? "bg-black-EEE/90" : "bg-transparent"}`}
         />
       )}
       <FileInput
@@ -32,12 +31,12 @@ export const ThumbnailWithTitle = forwardRef<
         onChange={handleChange}
         id="imageInput"
         accept="image/*"
-        labelStyle={`${previewUrl ? "opacity-50" : ""} ${titleData ? "cursor-no-allowed hidden" : "cursor-pointer"}`}
+        labelStyle={`${previewUrl ? "opacity-50" : ""} ${isTranslate ? "cursor-no-allowed hidden" : "cursor-pointer"}`}
         icon={<ImageIcon />}
-        disabled={titleData !== undefined}
+        disabled={page === "editTranslate" || page === "translate"}
       />
       <span
-        className={`${previewUrl ? "opacity-70" : ""} ${titleData ? "hidden" : ""} text-black-999 text-[12px] font-light`}
+        className={`${previewUrl ? "opacity-70" : ""} ${isTranslate ? "hidden" : ""} text-black-999 text-[12px] font-light`}
       >
         썸네일을 업로드하려면 아이콘을 클릭하세요.
       </span>

@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
-import { useLocale } from "next-intl";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
@@ -48,7 +47,6 @@ type BlogFormScreenType = {
 };
 
 const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
-  const locale = useLocale();
   const router = useRouter();
   const { blog } = useParams() || {};
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -177,7 +175,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
     };
     if (await isBloging()) {
       toast.success(
-        `블로그 ${page === "create" ? "발행" : "수정"}에 성공했습니다.`
+        `블로그 ${page === "edit" ? "수정" : "발행"}에 성공했습니다.`
       );
       setSelectedLCate(RESET);
       setSelectedMCate(RESET);
@@ -185,7 +183,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
       router.push("/");
     } else
       toast.error(
-        `블로그 ${page === "create" ? "발행" : "수정"}에 실패했습니다.`
+        `블로그 ${page === "edit" ? "수정" : "발행"}에 실패했습니다.`
       );
   };
 
@@ -240,7 +238,10 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
         {...register("subject")}
       />
       {hashtags && (
-        <BlogOption categories={categories!} disabled={locale === "jp"} />
+        <BlogOption
+          categories={categories!}
+          disabled={page === "translate" || page === "editTranslate"}
+        />
       )}
       <div className="flex flex-col gap-y-2 mb-[20px]">
         <CommonInput
@@ -262,7 +263,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
         <div
           className={`${page === "translate" ? "w-1/2 h-full overflow-auto" : "hidden"}`}
         >
-          <Viewer initialValue={blogData?.content} />
+          {blogData && <Viewer initialValue={blogData?.content} />}
         </div>
         <div
           className={`${page === "translate" ? "w-1/2 overflow-auto" : ""} h-full`}

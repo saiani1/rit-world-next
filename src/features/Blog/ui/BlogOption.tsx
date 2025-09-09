@@ -11,9 +11,10 @@ import {
 
 type BlogOptionType = {
   categories: CategoryType[];
+  disabled?: boolean;
 };
 
-export const BlogOption = ({ categories }: BlogOptionType) => {
+export const BlogOption = ({ categories, disabled }: BlogOptionType) => {
   const [selectedLargeCategory, setSelectedLargeCategory] = useAtom(
     selectedLargeCategoryAtom
   );
@@ -36,6 +37,7 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
           selectOption={selectedLargeCategory}
           setSelectOption={setSelectedLargeCategory}
           placeholder="카테고리 대분류"
+          disabled={disabled}
         />
       )}
       {filteredMiddleCategoryArr?.length !== 0 && (
@@ -44,7 +46,7 @@ export const BlogOption = ({ categories }: BlogOptionType) => {
           selectOption={selectedMiddleCategory}
           setSelectOption={setSelectedMiddleCategory}
           placeholder="카테고리 중분류"
-          disabled={!selectedLargeCategory?.id}
+          disabled={!selectedLargeCategory?.id || disabled}
         />
       )}
       <HashtagList />

@@ -1,7 +1,7 @@
-import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import { IoMdAlert } from "react-icons/io";
 
+import { useRouter } from "i18n/routing";
 import { CommonButton } from "shared/ui";
 import { ModalAtom } from "../model";
 

@@ -48,7 +48,9 @@ export const Selectbox = ({
         disabled={disabled}
       >
         {selectOption ? selectOption.title : placeholder}
-        <ArrowIcon className="rotate-180" />
+        <ArrowIcon
+          className={`transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
+        />
       </CommonButton>
       {isClick && (
         <ul

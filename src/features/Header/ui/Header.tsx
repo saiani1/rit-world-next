@@ -1,39 +1,39 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { useAtom } from "jotai";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useTranslations } from "next-intl";
 
 import logo from "public/assets/logo.png";
+import { Link, useRouter } from "i18n/routing";
 import { isLoginAtom } from "entities/user";
-import { CommonButton, supabase } from "shared/index";
-import { DarkmodeToggle } from "./DarkmodeToggle";
-import { HEADER_ARR } from "../lib";
+import { CommonButton, SelectLangBox, supabase } from "shared/index";
 import { HeaderType } from "../model";
 
 export const Header = () => {
   const router = useRouter();
-  const [isActive, setIsActive] = useState("BLOG");
+  const [isActive, setIsActive] = useState(2);
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const [isLogin, setIsLogin] = useAtom(isLoginAtom);
   const handleClick = () => router.push("/");
+  const tH = useTranslations("Header");
+  const menuItems: HeaderType = tH.raw("menu");
+  const tL = useTranslations("Login");
 
   const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
-    const name = (e.target as HTMLElement).closest("li")?.dataset
-      .name as string;
-    if (name === undefined) return;
-    if (name !== "LOG OUT" && name !== "LOG IN") setIsActive(name);
-    if (name === "LOG OUT") {
+    const id = Number((e.target as HTMLElement).closest("li")?.dataset.id);
+    if (id === undefined) return;
+    if (id === 1) setIsActive(id);
+    if (id === 1 && isLogin) {
       let { error } = await supabase.auth.signOut();
       if (error) return toast.error("로그아웃이 실패했습니다.");
       Cookies.remove("login");
       setIsLogin(false);
       toast.success("로그아웃 되었습니다.");
-      setIsActive("BLOG");
-    } else if (name === "LOG IN" && !isLogin) router.push("/signin");
+      setIsActive(2);
+    } else if (id === 1 && !isLogin) router.push("/signin");
   };
 
   useEffect(() => {
@@ -47,14 +47,8 @@ export const Header = () => {
   }, []);
 
   useEffect(() => {
-    if (isLogin) setHeaderArr(HEADER_ARR);
-    else {
-      const filterdArr: typeof HEADER_ARR = HEADER_ARR.filter((item) => {
-        return item.title === "LOG OUT" || item.title === "BLOG";
-      });
-      setHeaderArr(filterdArr);
-    }
-  }, [isLogin]);
+    setHeaderArr(menuItems);
+  }, [isLogin, tH]);
 
   return (
     <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
@@ -71,22 +65,17 @@ export const Header = () => {
           >
             {headerArr &&
               headerArr.map((header) => (
-                <li
-                  key={header.id}
-                  data-name={
-                    header.id === 1 && !isLogin ? "LOG IN" : header.title
-                  }
-                >
+                <li key={header.id} data-id={header.id}>
                   <Link
-                    className={`${isActive === header.title ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
+                    className={`${isActive === header.id ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
                     href={header.url}
                   >
-                    {header.id === 1 && !isLogin ? "LOG IN" : header.title}
+                    {header.id === 1 && !isLogin ? tL("login") : header.title}
                   </Link>
                 </li>
               ))}
             <li className="ml-[15px]">
-              <DarkmodeToggle />
+              <SelectLangBox />
             </li>
           </ul>
         </nav>

@@ -1,14 +1,14 @@
-import { BlogType } from "features/Blog";
 import { supabase } from "shared/index";
 import { upsertHashtag } from "./upsertHashtag";
 import { postBlogHashtag } from "./postBlogHashtag";
+import { PostBlogType } from "../model";
 
-type postBlogType = {
-  data: BlogType;
+type postBlogApiType = {
+  data: PostBlogType;
   hashtags: string[];
 };
 
-export const postBlog = async ({ data, hashtags }: postBlogType) => {
+export const postBlog = async ({ data, hashtags }: postBlogApiType) => {
   try {
     // blog테이블에 post요청
     const { data: blog, error: blogError } = await supabase

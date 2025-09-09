@@ -1,0 +1,62 @@
+{
+  "MainPage": {
+    "title": "ようこそ、メインページへ！",
+    "description": "ようこそ！"
+  },
+  "Locale": {
+    "locale": "日本語"
+  },
+
+  "Header": {
+    "menu": [
+      {
+        "id": 1,
+        "title": "ログアウト",
+        "url": "/"
+      },
+      {
+        "id": 2,
+        "title": "ブログ",
+        "url": "/"
+      }
+    ]
+  },
+  "Login": {
+    "login": "ログイン"
+  },
+  "Signin": {
+    "email": "メール",
+    "password": "パスワード",
+    "login": "ログインする",
+    "loginSuccess": "ログインに成功しました。",
+    "loginFail": "ログイン失敗",
+    "emailValidFail": "メール形式に合致しません。"
+  },
+  "BlogList": {
+    "title": "全ブログ一覧",
+    "category": "カテゴリ",
+    "noCategory": "カテゴリなし",
+    "noBlog": "作成したブログはありません。"
+  },
+  "Profile": {
+    "portfolio": "ポートフォリオ",
+    "email": "メール",
+    "linkedin": "リンクトイン",
+    "github": "ギットハブ",
+    "copy": "コピー",
+    "copySuccess": "メールアドレスがコピーされました。",
+    "copyFail": "コピー失敗、もう一度お試しください。"
+  },
+  "Blog": {
+    "edit": "修正",
+    "editBlog": "ブログ修正",
+    "editDescription": "該当のブログを修正しますか？",
+    "translate": "翻訳",
+    "translateBlog": "ブログ翻訳",
+    "translateDescription": "該当のブログを翻訳しますか？",
+    "delete": "削除",
+    "deleteBlog": "ブログ削除",
+    "deleteDescription": "該当のブログを削除しますか？",
+    "deleteSuccess": "ブログが削除されました。"
+  }
+}

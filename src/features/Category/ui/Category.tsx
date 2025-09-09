@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSetAtom } from "jotai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
 
+import { Link } from "i18n/routing";
 import { CategoryType } from "entities/category";
 import { CategoryListAtom } from "../model";
 import { useEffect, useMemo } from "react";

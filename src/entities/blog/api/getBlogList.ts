@@ -8,16 +8,16 @@ export const getBlogList = async () => {
       .from("blog")
       .select(
         `
-      *,
-      blog_hashtag (
-        hashtag_id (
-          id,
-          name
-        )
-      ),
-      category_large:category!fk_large_category(title),
-      category_middle:category!fk_middle_category(title)
-      `
+        *,
+        blog_hashtag (
+          hashtag_id (
+            id,
+            name
+          )
+        ),
+        category_large:category!fk_large_category(title),
+        category_middle:category!fk_middle_category(title)
+        `
       )
       .order("create_at", { ascending: false });
     if (error) {

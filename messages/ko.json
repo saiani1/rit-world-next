@@ -1,0 +1,61 @@
+{
+  "MainPage": {
+    "title": "메인페이지에 어서오세요",
+    "description": "안녕하세요."
+  },
+  "Locale": {
+    "locale": "한국어"
+  },
+  "Header": {
+    "menu": [
+      {
+        "id": 1,
+        "title": "LOG OUT",
+        "url": "/"
+      },
+      {
+        "id": 2,
+        "title": "BLOG",
+        "url": "/"
+      }
+    ]
+  },
+  "Login": {
+    "login": "LOG IN"
+  },
+  "Signin": {
+    "email": "이메일",
+    "password": "패스워드",
+    "login": "로그인하기",
+    "loginSuccess": "로그인 되었습니다.",
+    "loginFail": "로그인 실패",
+    "emailValidFail": "이메일 형식에 맞지 않습니다"
+  },
+  "BlogList": {
+    "title": "전체 포스트",
+    "category": "카테고리",
+    "noCategory": "카테고리 없음",
+    "noBlog": "작성한 블로그 글이 없습니다."
+  },
+  "Profile": {
+    "portfolio": "포트폴리오",
+    "email": "이메일",
+    "linkedin": "링크드인",
+    "github": "깃허브",
+    "copy": "복사",
+    "copySuccess": "이메일 주소가 복사되었습니다",
+    "copyFail": "복사 실패, 다시 시도해주세요"
+  },
+  "Blog": {
+    "edit": "수정",
+    "editBlog": "블로그 수정",
+    "editDescription": "해당 블로그를 수정하시겠습니까?",
+    "translate": "번역",
+    "translateBlog": "블로그 번역",
+    "translateDescription": "해당 블로그를 번역하시겠습니까?",
+    "delete": "삭제",
+    "deleteBlog": "블로그 삭제",
+    "deleteDescription": "해당 블로그를 삭제하시겠습니까?",
+    "deleteSuccess": "블로그가 삭제되었습니다."
+  }
+}

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSetAtom } from "jotai";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";

@@ -35,6 +35,7 @@ const config = {
           EEE: "#eee",
           FFF: "#fff",
           F5: "#f5f5f5",
+          "10": "#F7FAFC",
           "50": "#ECEFF1",
           "100": "#C2C2C2",
           "200": "#2D3540",

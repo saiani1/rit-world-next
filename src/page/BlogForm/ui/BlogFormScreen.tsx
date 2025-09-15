@@ -188,8 +188,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
   };
 
   const handleClickResetBtn = () => {
-    if (page === "edit") router.back();
-    else router.push("/");
+    router.back();
   };
 
   const title = () => {

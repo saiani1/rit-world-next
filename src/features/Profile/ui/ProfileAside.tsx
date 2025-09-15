@@ -7,7 +7,7 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
-import { Link } from "i18n/routing";
+import { Link, usePathname } from "i18n/routing";
 import { ProfileType } from "entities/user";
 import { CommonButton, Tooltip, useOnClickOutside } from "shared/index";
 import { ProfileImage } from "./ProfileImage";
@@ -19,9 +19,14 @@ type ProfileAsideType = {
 
 export const ProfileAside = ({ data }: ProfileAsideType) => {
   const locale = useLocale();
+  const pathname = usePathname();
   const t = useTranslations("Profile");
   const tooltipRef = useRef(null);
   const [isEmailClick, setIsEmailClick] = useState(false);
+  const isEditMode =
+    pathname.includes("edit") ||
+    pathname.includes("translate") ||
+    pathname.includes("create");
 
   const handleEmailBtnClick = () => {
     setIsEmailClick((prev) => !prev);
@@ -41,7 +46,9 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
   useOnClickOutside(tooltipRef, () => setIsEmailClick(false));
 
   return (
-    <aside className="flex flex-col gap-y-2 justify-between w-[250px] h-[410px] bg-black-10 rounded-xl">
+    <aside
+      className={`${isEditMode ? "hidden" : ""} flex flex-col gap-y-2 justify-between w-[250px] h-[410px] bg-black-10 rounded-xl`}
+    >
       <ProfileImage imgSrc={data.imgUrl} />
       <div className="px-[29px] pb-[12px]">
         <div

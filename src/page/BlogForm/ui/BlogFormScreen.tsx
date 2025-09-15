@@ -212,6 +212,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           e.preventDefault();
         }
       }}
+      className="sm:mx-0 mx-[20px]"
     >
       <div className="flex justify-between items-center pb-[15px] mb-[10px]">
         <Title name={title()} />

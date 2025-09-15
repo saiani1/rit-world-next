@@ -4,7 +4,7 @@ import { useSetAtom } from "jotai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
 
-import { Link } from "i18n/routing";
+import { Link, usePathname } from "i18n/routing";
 import { CategoryType } from "entities/category";
 import { CategoryListAtom } from "../model";
 import { useEffect, useMemo } from "react";
@@ -14,9 +14,14 @@ type CategoryProps = {
 };
 
 export const Category = ({ data }: CategoryProps) => {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
+  const isEditMode =
+    pathname.includes("edit") ||
+    pathname.includes("translate") ||
+    pathname.includes("create");
   const { topLevelCategories, childCategoriesMap } = useMemo(() => {
     const topLevelCategories: CategoryType[] = [];
     const childCategoriesMap = new Map<string, CategoryType[]>();
@@ -39,7 +44,9 @@ export const Category = ({ data }: CategoryProps) => {
   }, [data]);
 
   return (
-    <nav className="relative flex flex-col mt-[10px] py-[30px] px-[32px] w-[250px] bg-black-10 rounded-xl">
+    <nav
+      className={`${isEditMode ? "hidden" : ""} relative flex flex-col mt-[10px] py-[30px] px-[32px] w-[250px] bg-black-10 rounded-xl`}
+    >
       <p className="pb-[4px] mb-[20px] text-black-888 text-[12px] border-b">
         CATEGORY
       </p>

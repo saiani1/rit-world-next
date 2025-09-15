@@ -39,7 +39,7 @@ export const Category = ({ data }: CategoryProps) => {
   }, [data]);
 
   return (
-    <nav className="relative flex flex-col grow mt-[10px] py-[20px] px-[32px] w-[250px] bg-white rounded-xl">
+    <nav className="relative flex flex-col mt-[10px] py-[30px] px-[32px] w-[250px] bg-black-10 rounded-xl">
       <p className="pb-[4px] mb-[20px] text-black-888 text-[12px] border-b">
         CATEGORY
       </p>

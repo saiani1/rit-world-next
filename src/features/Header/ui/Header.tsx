@@ -51,8 +51,8 @@ export const Header = () => {
   }, [isLogin, tH]);
 
   return (
-    <header className="flex justify-center items-center w-full min-h-[80px] bg-white">
-      <div className="flex justify-between items-center w-[80%] h-full">
+    <header className="flex justify-center items-center w-full min-h-[80px] bg-black-10">
+      <div className="flex justify-between items-center lg:w-[80%] md:w-full sm:w-full w-full lg:px-0 md:px-[50px] sm:px-[50px] px-[20px] h-full">
         <CommonButton onClick={handleClick}>
           <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
             <Image src={logo} alt="로고" />
@@ -65,7 +65,11 @@ export const Header = () => {
           >
             {headerArr &&
               headerArr.map((header) => (
-                <li key={header.id} data-id={header.id}>
+                <li
+                  key={header.id}
+                  data-id={header.id}
+                  className="hidden sm:block"
+                >
                   <Link
                     className={`${isActive === header.id ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
                     href={header.url}

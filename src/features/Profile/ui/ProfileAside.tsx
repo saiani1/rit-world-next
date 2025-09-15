@@ -41,7 +41,7 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
   useOnClickOutside(tooltipRef, () => setIsEmailClick(false));
 
   return (
-    <aside className="flex flex-col gap-y-2 justify-between w-[250px] h-[410px] bg-white rounded-xl">
+    <aside className="flex flex-col gap-y-2 justify-between w-[250px] h-[410px] bg-black-10 rounded-xl">
       <ProfileImage imgSrc={data.imgUrl} />
       <div className="px-[29px] pb-[12px]">
         <div

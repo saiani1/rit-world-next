@@ -5,18 +5,20 @@ import { useAtom } from "jotai";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
+import { IoMenu } from "react-icons/io5";
 
 import logo from "public/assets/logo.png";
 import { Link, useRouter } from "i18n/routing";
 import { isLoginAtom } from "entities/user";
 import { CommonButton, SelectLangBox, supabase } from "shared/index";
-import { HeaderType } from "../model";
+import { HeaderType, isClickMenuAtom } from "../model";
 
 export const Header = () => {
   const router = useRouter();
   const [isActive, setIsActive] = useState(2);
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const [isLogin, setIsLogin] = useAtom(isLoginAtom);
+  const [isClickMenu, setIsClickMenu] = useAtom(isClickMenuAtom);
   const handleClick = () => router.push("/");
   const tH = useTranslations("Header");
   const menuItems: HeaderType = tH.raw("menu");
@@ -68,7 +70,7 @@ export const Header = () => {
                 <li
                   key={header.id}
                   data-id={header.id}
-                  className="hidden sm:block"
+                  className="hidden sm:flex"
                 >
                   <Link
                     className={`${isActive === header.id ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
@@ -78,8 +80,13 @@ export const Header = () => {
                   </Link>
                 </li>
               ))}
-            <li className="ml-[15px]">
+            <li className="hidden sm:flex ml-[15px]">
               <SelectLangBox />
+            </li>
+            <li className="block sm:hidden">
+              <CommonButton onClick={() => setIsClickMenu((prev) => !prev)}>
+                <IoMenu size={30} stroke="#888" className="mt-[8px]" />
+              </CommonButton>
             </li>
           </ul>
         </nav>

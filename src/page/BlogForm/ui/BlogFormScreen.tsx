@@ -188,8 +188,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
   };
 
   const handleClickResetBtn = () => {
-    if (page === "edit") router.back();
-    else router.push("/");
+    router.back();
   };
 
   const title = () => {
@@ -212,6 +211,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           e.preventDefault();
         }
       }}
+      className="sm:mx-0 mx-[20px]"
     >
       <div className="flex justify-between items-center pb-[15px] mb-[10px]">
         <Title name={title()} />

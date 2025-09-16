@@ -54,7 +54,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   }, [categoryId, data, categoryList]);
 
   return (
-    <div>
+    <div className="mx-[20px] sm:mx-0">
       <div className="flex justify-between items-center pb-[15px] mb-[20px] border-b">
         <div className="flex items-baseline gap-x-[5px]">
           {categoryId && (

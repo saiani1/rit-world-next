@@ -57,11 +57,11 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-prettier", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.2.5"],\
           ["eslint-plugin-react", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:7.37.4"],\
           ["eslint-plugin-react-hooks", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.6.2"],\
-          ["framer-motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:11.18.2"],\
           ["i18next", "npm:23.16.8"],\
           ["jotai", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:2.12.2"],\
           ["jotai-tanstack-query", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.8.8"],\
           ["js-cookie", "npm:3.0.5"],\
+          ["motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12"],\
           ["next", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:14.2.4"],\
           ["next-intl", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.3.5"],\
           ["postcss", "npm:8.5.3"],\
@@ -6387,23 +6387,23 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["framer-motion", [\
-      ["npm:11.18.2", {\
-        "packageLocation": "./.yarn/cache/framer-motion-npm-11.18.2-badab02ede-41b1ef1b4e.zip/node_modules/framer-motion/",\
+      ["npm:12.23.12", {\
+        "packageLocation": "./.yarn/cache/framer-motion-npm-12.23.12-10920233e6-40dfb57bf7.zip/node_modules/framer-motion/",\
         "packageDependencies": [\
-          ["framer-motion", "npm:11.18.2"]\
+          ["framer-motion", "npm:12.23.12"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:11.18.2", {\
-        "packageLocation": "./.yarn/__virtual__/framer-motion-virtual-6f7e274f4b/0/cache/framer-motion-npm-11.18.2-badab02ede-41b1ef1b4e.zip/node_modules/framer-motion/",\
+      ["virtual:5efd5e3eec10db727fdeb94831586f7beb542aacf8c8a2d84837502fe0b4dd049eb095e3e753820daa3bd67efbb292c4015a122bc5b5332bfdbb4afdd5f456bd#npm:12.23.12", {\
+        "packageLocation": "./.yarn/__virtual__/framer-motion-virtual-e7fb5757de/0/cache/framer-motion-npm-12.23.12-10920233e6-40dfb57bf7.zip/node_modules/framer-motion/",\
         "packageDependencies": [\
-          ["framer-motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:11.18.2"],\
+          ["framer-motion", "virtual:5efd5e3eec10db727fdeb94831586f7beb542aacf8c8a2d84837502fe0b4dd049eb095e3e753820daa3bd67efbb292c4015a122bc5b5332bfdbb4afdd5f456bd#npm:12.23.12"],\
           ["@emotion/is-prop-valid", null],\
           ["@types/emotion__is-prop-valid", null],\
           ["@types/react", "npm:18.3.20"],\
           ["@types/react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.5"],\
-          ["motion-dom", "npm:11.18.1"],\
-          ["motion-utils", "npm:11.18.1"],\
+          ["motion-dom", "npm:12.23.12"],\
+          ["motion-utils", "npm:12.23.6"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.1"],\
           ["tslib", "npm:2.8.1"]\
@@ -8401,21 +8401,53 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["motion-dom", [\
-      ["npm:11.18.1", {\
-        "packageLocation": "./.yarn/cache/motion-dom-npm-11.18.1-328a240ed0-98378bdf9d.zip/node_modules/motion-dom/",\
+    ["motion", [\
+      ["npm:12.23.12", {\
+        "packageLocation": "./.yarn/cache/motion-npm-12.23.12-9b50ca1bb6-48137c82b4.zip/node_modules/motion/",\
         "packageDependencies": [\
-          ["motion-dom", "npm:11.18.1"],\
-          ["motion-utils", "npm:11.18.1"]\
+          ["motion", "npm:12.23.12"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12", {\
+        "packageLocation": "./.yarn/__virtual__/motion-virtual-5efd5e3eec/0/cache/motion-npm-12.23.12-9b50ca1bb6-48137c82b4.zip/node_modules/motion/",\
+        "packageDependencies": [\
+          ["motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12"],\
+          ["@emotion/is-prop-valid", null],\
+          ["@types/emotion__is-prop-valid", null],\
+          ["@types/react", "npm:18.3.20"],\
+          ["@types/react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.5"],\
+          ["framer-motion", "virtual:5efd5e3eec10db727fdeb94831586f7beb542aacf8c8a2d84837502fe0b4dd049eb095e3e753820daa3bd67efbb292c4015a122bc5b5332bfdbb4afdd5f456bd#npm:12.23.12"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.1"],\
+          ["tslib", "npm:2.8.1"]\
+        ],\
+        "packagePeers": [\
+          "@emotion/is-prop-valid",\
+          "@types/emotion__is-prop-valid",\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["motion-dom", [\
+      ["npm:12.23.12", {\
+        "packageLocation": "./.yarn/cache/motion-dom-npm-12.23.12-e3649d47fb-1b6a4b86c1.zip/node_modules/motion-dom/",\
+        "packageDependencies": [\
+          ["motion-dom", "npm:12.23.12"],\
+          ["motion-utils", "npm:12.23.6"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["motion-utils", [\
-      ["npm:11.18.1", {\
-        "packageLocation": "./.yarn/cache/motion-utils-npm-11.18.1-2341a6fcf2-dac083bdeb.zip/node_modules/motion-utils/",\
+      ["npm:12.23.6", {\
+        "packageLocation": "./.yarn/cache/motion-utils-npm-12.23.6-c060c881d0-c058e8ba64.zip/node_modules/motion-utils/",\
         "packageDependencies": [\
-          ["motion-utils", "npm:11.18.1"]\
+          ["motion-utils", "npm:12.23.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9915,11 +9947,11 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-prettier", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:5.2.5"],\
           ["eslint-plugin-react", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:7.37.4"],\
           ["eslint-plugin-react-hooks", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.6.2"],\
-          ["framer-motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:11.18.2"],\
           ["i18next", "npm:23.16.8"],\
           ["jotai", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:2.12.2"],\
           ["jotai-tanstack-query", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.8.8"],\
           ["js-cookie", "npm:3.0.5"],\
+          ["motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12"],\
           ["next", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:14.2.4"],\
           ["next-intl", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.3.5"],\
           ["postcss", "npm:8.5.3"],\

@@ -1,49 +1,51 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import { useSetAtom } from "jotai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
 
-import { Link } from "i18n/routing";
+import { Link, usePathname } from "i18n/routing";
+import { isClickMobileMenuAtom } from "features/MobileMenu";
 import { CategoryType } from "entities/category";
+import { useIsEditMode } from "shared/index";
 import { CategoryListAtom } from "../model";
-import { useEffect, useMemo } from "react";
+import { filteredCategory } from "../util";
 
 type CategoryProps = {
   data: CategoryType[];
+  isMobile?: boolean;
 };
 
-export const Category = ({ data }: CategoryProps) => {
+export const Category = ({ data, isMobile }: CategoryProps) => {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
-  const { topLevelCategories, childCategoriesMap } = useMemo(() => {
-    const topLevelCategories: CategoryType[] = [];
-    const childCategoriesMap = new Map<string, CategoryType[]>();
-
-    data.forEach((category) => {
-      if (category.parent_id === null) {
-        topLevelCategories.push(category);
-      } else {
-        const children = childCategoriesMap.get(category.parent_id) || [];
-        children.push(category);
-        childCategoriesMap.set(category.parent_id, children);
-      }
-    });
-
-    return { topLevelCategories, childCategoriesMap };
-  }, [data]);
+  const setIsClickMenu = useSetAtom(isClickMobileMenuAtom);
+  const isEditMode = useIsEditMode();
+  const { topLevelCategories, childCategoriesMap } = useMemo(
+    () => filteredCategory(data),
+    [data]
+  );
 
   useEffect(() => {
     setCategoryList(data);
   }, [data]);
 
   return (
-    <nav className="relative flex flex-col grow mt-[10px] py-[20px] px-[32px] w-[250px] bg-white rounded-xl">
-      <p className="pb-[4px] mb-[20px] text-black-888 text-[12px] border-b">
+    <nav
+      className={`${isEditMode ? "hidden" : ""} relative flex flex-col mt-[10px] py-[30px] ${isMobile ? "" : "px-[32px] w-[250px] bg-black-10"} rounded-xl`}
+    >
+      <p
+        className={`${isMobile ? "hidden" : ""} pb-[4px] mb-[20px] text-black-888 text-[12px] border-b`}
+      >
         CATEGORY
       </p>
-      <ul className="flex flex-col gap-y-2">
+      <ul
+        className={`flex flex-col ${isMobile ? "gap-y-4" : "gap-y-2"}`}
+        onClick={() => setIsClickMenu(false)}
+      >
         <li>
           <Link
             href={{ pathname: "/" }}
@@ -62,7 +64,7 @@ export const Category = ({ data }: CategoryProps) => {
               <IoDocumentTextOutline size={16} />
               <span>{cate.title}</span>
             </Link>
-            <ul className="flex flex-col gap-y-1">
+            <ul className={`flex flex-col ${isMobile ? "gap-y-2" : "gap-y-1"}`}>
               {childCategoriesMap.get(cate.id)?.map((item) => (
                 <li key={item.id}>
                   <Link

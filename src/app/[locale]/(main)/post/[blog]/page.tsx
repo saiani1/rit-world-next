@@ -25,7 +25,7 @@ const BlogContentPage = () => {
     <>
       {filteredData && (
         <div className="relative w-full">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mx-[20px] sm:mx-0">
             <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">
               <span>{filteredData.category_large?.title}</span>
               <span className="mt-[-1px]">{`<`}</span>
@@ -39,10 +39,10 @@ const BlogContentPage = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black-444/70 to-transparent z-100" />
             <div className="relative">
-              <p className="mb-[20px] text-[33px] font-semibold text-white">
+              <p className="mb-[20px] sm:text-[33px] text-[28px] font-semibold text-white">
                 {filteredData.subject}
               </p>
-              <div className="flex justify-between items-start gap-x-[50px]">
+              <div className="flex sm:flex-row flex-col justify-between items-start sm:gap-x-[50px] gap-y-[10px]">
                 <div className="flex flex-col gap-y-[4px] text-white">
                   <span className="text-[13px]">Published on</span>
                   <span className="font-medium">
@@ -64,7 +64,7 @@ const BlogContentPage = () => {
               </div>
             </div>
           </div>
-          <div className="prose my-[50px]">
+          <div className="prose my-[50px] mx-[20px] sm:mx-0">
             <ReactMarkdown>{filteredData.content}</ReactMarkdown>
           </div>
         </div>

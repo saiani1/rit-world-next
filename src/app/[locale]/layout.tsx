@@ -72,7 +72,7 @@ export default async function RootLayout({
     <html lang={locale} className={`${pretendard.variable} h-full`}>
       <body className="h-full bg-slate-200">
         <NextIntlClientProvider messages={messages}>
-          <div className="flex flex-col items-center w-full max-h-[1000px]">
+          <div className="flex flex-col items-center w-full">
             <main className="w-full">{children}</main>
             <Toaster
               containerStyle={{

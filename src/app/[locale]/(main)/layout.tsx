@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Header } from "features/Header";
+import { Header } from "widgets/Header";
 import { Category } from "features/Category";
 import { ProfileAside } from "features/Profile";
 import { getProfileInfo, getProfileInfoJp } from "entities/user";
@@ -23,14 +23,14 @@ export default async function MainLayout({
   const categoryData = await getCategories();
 
   return (
-    <div className="flex flex-col items-center w-full max-h-[1000px]">
-      <Header />
-      <div className="flex justify-between w-[80%] mt-[10px] mb-[40px] gap-x-[10px] overflow-hidden">
-        <div className="flex flex-col">
+    <div className="flex flex-col items-center w-full">
+      {categoryData && <Header data={categoryData} />}
+      <div className="flex justify-between w-full lg:w-[80%] md:w-full sm:w-full mt-[10px] mb-0 md:mb-[40px] gap-x-[10px] overflow-hidden">
+        <div className="hidden lg:flex flex-col">
           <ProfileAside data={profileData} />
           {categoryData && <Category data={categoryData} />}
         </div>
-        <div className="pt-[105px] px-[50px] pb-[40px] w-full bg-white rounded-xl overflow-scroll">
+        <div className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full bg-black-10 sm:rounded-xl">
           <div>{children}</div>
         </div>
       </div>

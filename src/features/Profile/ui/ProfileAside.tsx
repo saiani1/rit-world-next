@@ -1,17 +1,22 @@
 "use client";
 import { useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import toast from "react-hot-toast";
 import { ImAttachment } from "react-icons/im";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
-import toast from "react-hot-toast";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
 import { Link, usePathname } from "i18n/routing";
 import { ProfileType } from "entities/user";
-import { CommonButton, Tooltip, useOnClickOutside } from "shared/index";
+import {
+  CommonButton,
+  Tooltip,
+  useIsEditMode,
+  useOnClickOutside,
+} from "shared/index";
 import { ProfileImage } from "./ProfileImage";
-import { useLocale, useTranslations } from "next-intl";
 
 type ProfileAsideType = {
   data: ProfileType;
@@ -23,10 +28,7 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
   const t = useTranslations("Profile");
   const tooltipRef = useRef(null);
   const [isEmailClick, setIsEmailClick] = useState(false);
-  const isEditMode =
-    pathname.includes("edit") ||
-    pathname.includes("translate") ||
-    pathname.includes("create");
+  const isEditMode = useIsEditMode();
 
   const handleEmailBtnClick = () => {
     setIsEmailClick((prev) => !prev);

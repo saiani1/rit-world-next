@@ -6,10 +6,11 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
 
 import { Link, usePathname } from "i18n/routing";
+import { isClickMobileMenuAtom } from "features/MobileMenu";
 import { CategoryType } from "entities/category";
+import { useIsEditMode } from "shared/index";
 import { CategoryListAtom } from "../model";
 import { filteredCategory } from "../util";
-import { isClickMobileMenuAtom } from "features/MobileMenu";
 
 type CategoryProps = {
   data: CategoryType[];
@@ -22,10 +23,7 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
   const setIsClickMenu = useSetAtom(isClickMobileMenuAtom);
-  const isEditMode =
-    pathname.includes("edit") ||
-    pathname.includes("translate") ||
-    pathname.includes("create");
+  const isEditMode = useIsEditMode();
   const { topLevelCategories, childCategoriesMap } = useMemo(
     () => filteredCategory(data),
     [data]

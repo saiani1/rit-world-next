@@ -1,0 +1,1 @@
+export { filteredCategory } from "./filteredCategory";

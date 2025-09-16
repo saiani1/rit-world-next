@@ -1,5 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo } from "react";
 import { useSetAtom } from "jotai";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
@@ -7,37 +8,28 @@ import { BiSubdirectoryRight } from "react-icons/bi";
 import { Link, usePathname } from "i18n/routing";
 import { CategoryType } from "entities/category";
 import { CategoryListAtom } from "../model";
-import { useEffect, useMemo } from "react";
+import { filteredCategory } from "../util";
+import { isClickMobileMenuAtom } from "features/MobileMenu";
 
 type CategoryProps = {
   data: CategoryType[];
+  isMobile?: boolean;
 };
 
-export const Category = ({ data }: CategoryProps) => {
+export const Category = ({ data, isMobile }: CategoryProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
+  const setIsClickMenu = useSetAtom(isClickMobileMenuAtom);
   const isEditMode =
     pathname.includes("edit") ||
     pathname.includes("translate") ||
     pathname.includes("create");
-  const { topLevelCategories, childCategoriesMap } = useMemo(() => {
-    const topLevelCategories: CategoryType[] = [];
-    const childCategoriesMap = new Map<string, CategoryType[]>();
-
-    data.forEach((category) => {
-      if (category.parent_id === null) {
-        topLevelCategories.push(category);
-      } else {
-        const children = childCategoriesMap.get(category.parent_id) || [];
-        children.push(category);
-        childCategoriesMap.set(category.parent_id, children);
-      }
-    });
-
-    return { topLevelCategories, childCategoriesMap };
-  }, [data]);
+  const { topLevelCategories, childCategoriesMap } = useMemo(
+    () => filteredCategory(data),
+    [data]
+  );
 
   useEffect(() => {
     setCategoryList(data);
@@ -45,12 +37,17 @@ export const Category = ({ data }: CategoryProps) => {
 
   return (
     <nav
-      className={`${isEditMode ? "hidden" : ""} relative flex flex-col mt-[10px] py-[30px] px-[32px] w-[250px] bg-black-10 rounded-xl`}
+      className={`${isEditMode ? "hidden" : ""} relative flex flex-col mt-[10px] py-[30px] ${isMobile ? "" : "px-[32px] w-[250px] bg-black-10"} rounded-xl`}
     >
-      <p className="pb-[4px] mb-[20px] text-black-888 text-[12px] border-b">
+      <p
+        className={`${isMobile ? "hidden" : ""} pb-[4px] mb-[20px] text-black-888 text-[12px] border-b`}
+      >
         CATEGORY
       </p>
-      <ul className="flex flex-col gap-y-2">
+      <ul
+        className={`flex flex-col ${isMobile ? "gap-y-4" : "gap-y-2"}`}
+        onClick={() => setIsClickMenu(false)}
+      >
         <li>
           <Link
             href={{ pathname: "/" }}
@@ -69,7 +66,7 @@ export const Category = ({ data }: CategoryProps) => {
               <IoDocumentTextOutline size={16} />
               <span>{cate.title}</span>
             </Link>
-            <ul className="flex flex-col gap-y-1">
+            <ul className={`flex flex-col ${isMobile ? "gap-y-2" : "gap-y-1"}`}>
               {childCategoriesMap.get(cate.id)?.map((item) => (
                 <li key={item.id}>
                   <Link

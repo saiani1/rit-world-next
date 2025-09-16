@@ -25,8 +25,8 @@ const BlogContentPage = () => {
     <>
       {filteredData && (
         <div className="relative w-full">
-          <div className="flex justify-between items-center">
-            <div className="flex gap-x-2 mb-[5px] ml-[20px] sm:ml-0 text-[13px] text-black-888">
+          <div className="flex justify-between items-center mx-[20px] sm:mx-0">
+            <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">
               <span>{filteredData.category_large?.title}</span>
               <span className="mt-[-1px]">{`<`}</span>
               <span>{filteredData.category_middle?.title}</span>

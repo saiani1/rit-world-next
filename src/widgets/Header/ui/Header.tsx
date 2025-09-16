@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { IoMenu } from "react-icons/io5";
 
 import logo from "public/assets/logo.png";
-import { Link, useRouter } from "i18n/routing";
+import { Link, useRouter, usePathname } from "i18n/routing";
 import { isClickMobileMenuAtom, MobileMenu } from "features/MobileMenu";
 import { isLoginAtom } from "entities/user";
 import { CategoryType } from "entities/category";
@@ -21,27 +21,25 @@ type HeaderCompType = {
 
 export const Header = ({ data }: HeaderCompType) => {
   const router = useRouter();
-  const [isActive, setIsActive] = useState(2);
+  const pathname = usePathname();
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
   const [isLogin, setIsLogin] = useAtom(isLoginAtom);
   const [isClickMenu, setIsClickMenu] = useAtom(isClickMobileMenuAtom);
-  const handleClick = () => router.push("/");
+  const handleLogoClick = () => router.push("/");
   const tH = useTranslations("Header");
   const menuItems: HeaderType = tH.raw("menu");
   const tL = useTranslations("Login");
 
-  const handleClickHeader = async (e: React.MouseEvent<HTMLUListElement>) => {
-    const id = Number((e.target as HTMLElement).closest("li")?.dataset.id);
-    if (id === undefined) return;
-    if (id === 1) setIsActive(id);
-    if (id === 1 && isLogin) {
+  const handleAuthClick = async () => {
+    if (isLogin) {
       let { error } = await supabase.auth.signOut();
       if (error) return toast.error("로그아웃이 실패했습니다.");
       Cookies.remove("login");
       setIsLogin(false);
       toast.success("로그아웃 되었습니다.");
-      setIsActive(2);
-    } else if (id === 1 && !isLogin) router.push("/signin");
+    } else {
+      router.push("/signin");
+    }
   };
 
   useEffect(() => {
@@ -63,31 +61,39 @@ export const Header = ({ data }: HeaderCompType) => {
       {isClickMenu && <MobileMenu data={data} />}
       <header className="flex justify-center items-center w-full min-h-[80px] bg-black-10">
         <div className="flex justify-between items-center lg:w-[80%] md:w-full sm:w-full w-full lg:px-0 md:px-[50px] sm:px-[50px] px-[20px] h-full">
-          <CommonButton onClick={handleClick}>
+          <CommonButton onClick={handleLogoClick}>
             <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
               <Image src={logo} alt="로고" />
             </h1>
           </CommonButton>
           <nav>
-            <ul
-              className="flex items-center gap-x-[3px]"
-              onClick={handleClickHeader}
-            >
+            <ul className="flex items-center gap-x-[3px]">
               {headerArr &&
-                headerArr.map((header) => (
-                  <li
-                    key={header.id}
-                    data-id={header.id}
-                    className="hidden sm:flex"
-                  >
-                    <Link
-                      className={`${isActive === header.id ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
-                      href={header.url}
-                    >
-                      {header.id === 1 && !isLogin ? tL("login") : header.title}
-                    </Link>
-                  </li>
-                ))}
+                headerArr.map((header) => {
+                  const isActive = pathname === header.url;
+                  if (header.id === 1) {
+                    return (
+                      <li key={header.id} className="hidden sm:flex">
+                        <CommonButton
+                          onClick={handleAuthClick}
+                          className={`${pathname === "/signin" ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
+                        >
+                          {!isLogin ? tL("login") : header.title}
+                        </CommonButton>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={header.id} className="hidden sm:flex">
+                      <Link
+                        className={`${isActive ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
+                        href={header.url}
+                      >
+                        {header.title}
+                      </Link>
+                    </li>
+                  );
+                })}
               <li className="hidden sm:flex ml-[15px]">
                 <SelectLangBox />
               </li>

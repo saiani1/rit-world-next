@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 const config = {
-  plugins: [require("@tailwindcss/typography")],
   content: [
     "./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/entities/**/*.{js,ts,jsx,tsx,mdx}",

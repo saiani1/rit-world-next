@@ -1,14 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { useAtomValue } from "jotai";
 import dayjs from "dayjs";
-import ReactMarkdown from "react-markdown";
 
 import { blogListAtom, ButtonWrap } from "features/Blog";
 import { BlogJpType, BlogType } from "entities/blog";
 import { isLoginAtom } from "entities/user";
 import { Hashtag } from "shared/ui";
+import "@toast-ui/editor/toastui-editor.css";
+import "shared/ui/editor.css";
+
+const Viewer = dynamic(
+  () => import("@toast-ui/react-editor").then((m) => m.Viewer),
+  {
+    ssr: false,
+  }
+);
 
 const BlogContentPage = () => {
   const { blog } = useParams() as { blog: string };
@@ -64,8 +73,8 @@ const BlogContentPage = () => {
               </div>
             </div>
           </div>
-          <div className="prose max-w-full my-[50px] mx-[20px] sm:mx-0">
-            <ReactMarkdown>{filteredData.content}</ReactMarkdown>
+          <div className="w-full h-full my-[50px] mx-[20px] sm:mx-0">
+            <Viewer initialValue={filteredData.content} />
           </div>
         </div>
       )}

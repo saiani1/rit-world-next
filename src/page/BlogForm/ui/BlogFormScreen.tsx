@@ -257,9 +257,7 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           {...register("path")}
         />
       </div>
-      <div
-        className={`${page === "translate" ? "flex gap-x-5 h-[700px]" : "h-[300px]"}`}
-      >
+      <div className={`${page === "translate" ? "flex gap-x-5" : ""}`}>
         <div
           className={`${page === "translate" ? "w-1/2 h-full overflow-auto" : "hidden"}`}
         >

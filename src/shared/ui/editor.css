@@ -1,0 +1,8 @@
+.toastui-editor-defaultUI
+  .toastui-editor-main
+  .toastui-editor-main-container
+  .toastui-editor
+  div {
+  font-size: 16px !important;
+  line-height: 1.6;
+}

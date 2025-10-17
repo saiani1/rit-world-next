@@ -1,9 +1,12 @@
 import { forwardRef } from "react";
 
 import ImageIcon from "public/assets/svg/image-icon.svg";
-import { CommonInput, FileInput } from "shared/ui";
+import { FileInput } from "shared/ui";
 
-type ThumbnailWithTitleType = React.ComponentProps<"input"> & {
+type ThumbnailWithTitleType = (
+  | React.ComponentProps<"input">
+  | React.ComponentProps<"textarea">
+) & {
   previewUrl: string | null;
   titleData?: string;
   page: string;
@@ -11,7 +14,7 @@ type ThumbnailWithTitleType = React.ComponentProps<"input"> & {
 };
 
 export const ThumbnailWithTitle = forwardRef<
-  HTMLInputElement,
+  HTMLTextAreaElement,
   ThumbnailWithTitleType
 >(({ previewUrl, titleData, page, handleChange, ...rest }, ref) => {
   const isTranslate = page === "editTranslate" || page === "translate";
@@ -23,7 +26,7 @@ export const ThumbnailWithTitle = forwardRef<
     >
       {previewUrl && (
         <div
-          className={`absolute inset-0 rounded-[5px] pointer-events-none ${isTranslate ? "bg-black-EEE/90" : "bg-transparent"}`}
+          className={`absolute inset-0 rounded-[5px] pointer-events-none bg-black-EEE/80`}
         />
       )}
       <FileInput
@@ -45,11 +48,11 @@ export const ThumbnailWithTitle = forwardRef<
           {titleData}
         </p>
       )}
-      <CommonInput
-        className="absolute left-0 bottom-0 flex w-full px-[16px] py-[2px] bg-transparent rounded-[5px] text-[42px] font-medium text-black-777 z-100"
+      <textarea
+        className="absolute left-0 bottom-0 flex flex-wrap w-full px-[16px] py-[2px] bg-transparent rounded-[5px] text-[42px] font-medium text-black-777 z-100"
         placeholder="제목을 입력하세요."
         ref={ref}
-        {...rest}
+        {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
       />
     </div>
   );

@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import "./editor.css";
 
 import { BlogJpType, BlogType, getImageUrl } from "entities/blog";
 
@@ -75,7 +76,7 @@ const CustomEditor = <TFieldValues extends FieldValues>({
       <Editor
         {...field}
         ref={editorRef}
-        height="inherit"
+        height="auto"
         onChange={() => {
           const markdown = editorRef.current?.getInstance().getMarkdown();
           onChange(markdown);

@@ -64,7 +64,7 @@ const BlogContentPage = () => {
               </div>
             </div>
           </div>
-          <div className="prose my-[50px] mx-[20px] sm:mx-0">
+          <div className="prose max-w-full my-[50px] mx-[20px] sm:mx-0">
             <ReactMarkdown>{filteredData.content}</ReactMarkdown>
           </div>
         </div>

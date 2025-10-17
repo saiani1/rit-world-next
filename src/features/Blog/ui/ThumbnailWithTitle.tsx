@@ -52,6 +52,7 @@ export const ThumbnailWithTitle = forwardRef<
         className="absolute left-0 bottom-0 flex flex-wrap w-full px-[16px] py-[2px] bg-transparent rounded-[5px] text-[42px] font-medium text-black-777 z-100"
         placeholder="제목을 입력하세요."
         ref={ref}
+        rows={1}
         {...(rest as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
       />
     </div>

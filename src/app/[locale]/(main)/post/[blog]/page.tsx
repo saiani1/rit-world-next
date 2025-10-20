@@ -58,3 +58,5 @@ const BlogContentPage = async ({
 };
 
 export default BlogContentPage;
+
+export const dynamic = "force-dynamic";

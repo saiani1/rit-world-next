@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /ko/signin
+Disallow: /jp/signin
+
+# Host
+Host: https://ritworld.dev
+
+# Sitemaps
+Sitemap: https://ritworld.dev/sitemap.xml

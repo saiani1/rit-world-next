@@ -55,6 +55,7 @@ const RAW_RUNTIME_STATE =
           ["motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12"],\
           ["next", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:14.2.4"],\
           ["next-intl", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.3.5"],\
+          ["next-sitemap", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3"],\
           ["postcss", "npm:8.5.3"],\
           ["prettier", "npm:3.5.3"],\
           ["prosemirror-transform", "npm:1.10.4"],\
@@ -2252,6 +2253,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@corex/deepmerge", [\
+      ["npm:4.0.43", {\
+        "packageLocation": "./.yarn/cache/@corex-deepmerge-npm-4.0.43-390ed1175e-3dc31721d1.zip/node_modules/@corex/deepmerge/",\
+        "packageDependencies": [\
+          ["@corex/deepmerge", "npm:4.0.43"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@emnapi/core", [\
       ["npm:1.3.1", {\
         "packageLocation": "./.yarn/cache/@emnapi-core-npm-1.3.1-58f907a31d-d3be1044ad.zip/node_modules/@emnapi/core/",\
@@ -2533,6 +2543,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@next/env", [\
+      ["npm:13.5.11", {\
+        "packageLocation": "./.yarn/cache/@next-env-npm-13.5.11-7bdb393acd-5274248b8f.zip/node_modules/@next/env/",\
+        "packageDependencies": [\
+          ["@next/env", "npm:13.5.11"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:14.2.4", {\
         "packageLocation": "./.yarn/cache/@next-env-npm-14.2.4-9859535528-cc284e3dd0.zip/node_modules/@next/env/",\
         "packageDependencies": [\
@@ -7334,6 +7351,32 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["next-sitemap", [\
+      ["npm:4.2.3", {\
+        "packageLocation": "./.yarn/cache/next-sitemap-npm-4.2.3-463254c2cb-8a367c9db8.zip/node_modules/next-sitemap/",\
+        "packageDependencies": [\
+          ["next-sitemap", "npm:4.2.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3", {\
+        "packageLocation": "./.yarn/__virtual__/next-sitemap-virtual-a49cdcbd00/0/cache/next-sitemap-npm-4.2.3-463254c2cb-8a367c9db8.zip/node_modules/next-sitemap/",\
+        "packageDependencies": [\
+          ["next-sitemap", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3"],\
+          ["@corex/deepmerge", "npm:4.0.43"],\
+          ["@next/env", "npm:13.5.11"],\
+          ["@types/next", null],\
+          ["fast-glob", "npm:3.3.3"],\
+          ["minimist", "npm:1.2.8"],\
+          ["next", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:14.2.4"]\
+        ],\
+        "packagePeers": [\
+          "@types/next",\
+          "next"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["no-case", [\
       ["npm:3.0.4", {\
         "packageLocation": "./.yarn/cache/no-case-npm-3.0.4-12884c3d98-8ef545f0b3.zip/node_modules/no-case/",\
@@ -8377,6 +8420,7 @@ const RAW_RUNTIME_STATE =
           ["motion", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:12.23.12"],\
           ["next", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:14.2.4"],\
           ["next-intl", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.3.5"],\
+          ["next-sitemap", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3"],\
           ["postcss", "npm:8.5.3"],\
           ["prettier", "npm:3.5.3"],\
           ["prosemirror-transform", "npm:1.10.4"],\

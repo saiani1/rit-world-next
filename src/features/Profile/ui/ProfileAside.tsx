@@ -8,7 +8,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 
 import GithubIcon from "public/assets/svg/github-icon.svg";
-import { Link, usePathname } from "i18n/routing";
+import { Link } from "i18n/routing";
 import { ProfileType } from "entities/user";
 import {
   CommonButton,
@@ -24,7 +24,6 @@ type ProfileAsideType = {
 
 export const ProfileAside = ({ data }: ProfileAsideType) => {
   const locale = useLocale();
-  const pathname = usePathname();
   const t = useTranslations("Profile");
   const tooltipRef = useRef(null);
   const [isEmailClick, setIsEmailClick] = useState(false);

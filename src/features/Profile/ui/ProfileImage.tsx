@@ -1,10 +1,8 @@
 "use client";
 import Image from "next/image";
 
-import profileImage from "public/assets/image/aibao.jpg";
-
 type ProfileImageType = {
-  imgSrc?: string;
+  imgSrc: string;
 };
 
 export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
@@ -12,7 +10,7 @@ export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
     <div className="relative flex flex-col">
       <div className="h-[130px] bg-[#eee] rounded-t-xl overflow-hidden">
         <Image
-          src={imgSrc ? imgSrc : profileImage}
+          src={imgSrc}
           width={250}
           height={250}
           alt="dimmed"
@@ -21,7 +19,7 @@ export const ProfileImage = ({ imgSrc }: ProfileImageType) => {
       </div>
       <div className="absolute top-[60px] left-[50%] translate-x-[-50%] w-[134px] h-[134px] bg-[#aaa] overflow-hidden rounded-[50%] border-[6px] border-white shadow-profileShadow">
         <Image
-          src={imgSrc ? imgSrc : profileImage}
+          src={imgSrc}
           width={134}
           height={134}
           className=""

@@ -1,83 +1,58 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import dynamic from "next/dynamic";
-import { useAtomValue } from "jotai";
-import dayjs from "dayjs";
+import BlogContentScreen from "page/BlogContent/ui/BlogContentScreen";
+import { BlogHashtagType, getBlogList, getBlogListJp } from "entities/blog";
+import DefaultImage from "public/assets/image/default-image.jpg";
 
-import { blogListAtom, ButtonWrap } from "features/Blog";
-import { BlogJpType, BlogType } from "entities/blog";
-import { isLoginAtom } from "entities/user";
-import { Hashtag } from "shared/ui";
-import "@toast-ui/editor/toastui-editor.css";
-import "shared/ui/editor.css";
+export const generateMetadata = async ({
+  params: { locale, blog },
+}: {
+  params: { locale: string; blog: string };
+}) => {
+  const blogData =
+    locale === "ko" ? await getBlogList() : await getBlogListJp();
+  const filteredData = blogData?.find((blogItem) => blogItem.path === blog);
 
-const Viewer = dynamic(
-  () => import("@toast-ui/react-editor").then((m) => m.Viewer),
-  {
-    ssr: false,
-  }
-);
+  const keywords = filteredData?.blog_hashtag
+    ?.map((hash: BlogHashtagType) => hash.hashtag_id.name)
+    .join(", ");
 
-const BlogContentPage = () => {
-  const { blog } = useParams() as { blog: string };
-  const blogListData = useAtomValue(blogListAtom);
-  const isLogin = useAtomValue(isLoginAtom);
-  const [filteredData, setFilteredData] = useState<BlogType | BlogJpType>();
+  return {
+    title: filteredData?.subject,
+    description: filteredData?.summary,
+    keywords: keywords,
+    openGraph: {
+      title: filteredData?.subject,
+      description: filteredData?.summary,
+      url: `https://ritworld.dev/${locale}/post/${blog}`,
+      images: [
+        {
+          url: filteredData?.thumbnail || DefaultImage,
+          alt: filteredData?.subject,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: filteredData?.subject,
+      description: filteredData?.summary,
+      images: [filteredData?.thumbnail || DefaultImage],
+    },
+  };
+};
 
-  useEffect(() => {
-    const filterdBlog = blogListData.filter((item) => item.path === blog);
-    setFilteredData(filterdBlog[0]);
-  }, [blogListData, blog]);
+const BlogContentPage = async ({
+  params: { locale, blog },
+}: {
+  params: { locale: string; blog: string };
+}) => {
+  const blogData =
+    locale === "ko" ? await getBlogList() : await getBlogListJp();
+  const filteredData = blogData?.find((blogItem) => blogItem.path === blog);
 
   return (
     <>
-      {filteredData && (
-        <div className="relative w-full">
-          <div className="flex justify-between items-center mx-[20px] sm:mx-0">
-            <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">
-              <span>{filteredData.category_large?.title}</span>
-              <span className="mt-[-1px]">{`<`}</span>
-              <span>{filteredData.category_middle?.title}</span>
-            </div>
-            <div>{isLogin && <ButtonWrap id={filteredData.id!} />}</div>
-          </div>
-          <div
-            className="relative flex flex-col justify-end p-[20px] w-full h-[350px] overflow-hidden bg-cover bg-top"
-            style={{ backgroundImage: `url(${filteredData.thumbnail}` }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-black-444/70 to-transparent z-100" />
-            <div className="relative">
-              <p className="mb-[20px] sm:text-[33px] text-[28px] font-semibold text-white">
-                {filteredData.subject}
-              </p>
-              <div className="flex sm:flex-row flex-col justify-between items-start sm:gap-x-[50px] gap-y-[10px]">
-                <div className="flex flex-col gap-y-[4px] text-white">
-                  <span className="text-[13px]">Published on</span>
-                  <span className="font-medium">
-                    {dayjs(filteredData.create_at).format("DD MMMM YYYY")}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-y-[4px] text-white">
-                  <span className="text-[13px]">Hashtag</span>
-                  <ul className="flex gap-x-1">
-                    {filteredData.blog_hashtag?.map((hash) => (
-                      <Hashtag
-                        page="blog"
-                        key={hash.hashtag_id.id}
-                        name={hash.hashtag_id.name}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="w-full h-full my-[50px] mx-[20px] sm:mx-0">
-            <Viewer initialValue={filteredData.content} />
-          </div>
-        </div>
-      )}
+      <BlogContentScreen data={filteredData} />
     </>
   );
 };

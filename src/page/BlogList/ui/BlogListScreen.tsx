@@ -2,9 +2,9 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue } from "jotai";
 
-import { BlogItem, blogListAtom, WriteButton } from "features/Blog";
+import { BlogItem, WriteButton } from "features/Blog";
 import { CategoryListAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
 import { BlogJpType, BlogType } from "entities/blog";
@@ -21,23 +21,27 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const categoryId = searchParams?.get("category");
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
-  const setBlogList = useSetAtom(blogListAtom);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    setBlogList(data);
-  }, [data]);
-
   const { blogList, categoryTitle } = useMemo(() => {
-    if (!categoryId) {
-      return { blogList: data, categoryTitle: t("title") };
+    if (!isMounted) {
+      const publicData = data.filter((blog) => blog.is_private !== true);
+      return { blogList: publicData, categoryTitle: t("title") };
+    }
+    let filteredData: (BlogType | BlogJpType)[] = data;
+    if (!isLogin) {
+      filteredData = filteredData.filter((blog) => blog.is_private !== true);
     }
 
-    const filteredList = data.filter(
+    if (!categoryId) {
+      return { blogList: filteredData, categoryTitle: t("title") };
+    }
+
+    filteredData = filteredData.filter(
       (blog) =>
         blog.large_category_id === categoryId ||
         blog.middle_category_id === categoryId
@@ -48,10 +52,10 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
     );
 
     return {
-      blogList: filteredList,
+      blogList: filteredData,
       categoryTitle: currentCategory?.title || t("noCategory"),
     };
-  }, [categoryId, data, categoryList]);
+  }, [categoryId, data, categoryList, isLogin, t, isMounted]);
 
   return (
     <div className="mx-[20px] sm:mx-0">

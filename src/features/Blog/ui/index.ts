@@ -4,3 +4,4 @@ export { BlogItem } from "./BlogItem";
 export { WriteButton } from "./WriteButton";
 export { ThumbnailWithTitle } from "./ThumbnailWithTitle";
 export { BlogOption } from "./BlogOption";
+export { PrivacySelector } from "./PrivacySelector";

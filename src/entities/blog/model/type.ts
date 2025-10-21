@@ -16,6 +16,7 @@ export type PostBlogType = {
   large_category_id: string;
   middle_category_id: string;
   path: string;
+  is_private?: boolean | string;
 };
 
 export type BlogJpType = PostBlogJpType & {
@@ -37,6 +38,7 @@ export type PostBlogJpType = {
   content: string;
   locale: string;
   blog_id: string;
+  is_private?: boolean | string;
 };
 
 export type BlogHashtagType = {

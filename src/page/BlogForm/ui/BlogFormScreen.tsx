@@ -12,6 +12,7 @@ import {
   blogListAtom,
   BlogOption,
   hashtagListAtom,
+  PrivacySelector,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
   ThumbnailWithTitle,
@@ -249,13 +250,16 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           placeholder="요약글을 입력하세요."
           {...register("summary")}
         />
-        <CommonInput
-          className={`px-[10px] w-full h-[34px] rounded-[5px] text-[13px] ${page !== "create" ? "text-black-BBB bg-black-DDD cursor-not-allowed" : "bg-black-F5"}`}
-          placeholder="path를 입력하세요."
-          defaultValue=""
-          disabled={page !== "create"}
-          {...register("path")}
-        />
+        <div className="flex justify-between items-center gap-x-2 w-full">
+          <CommonInput
+            className={`flex-1 px-[10px] w-full h-[34px] rounded-[5px] text-[13px] ${page !== "create" ? "text-black-BBB bg-black-DDD cursor-not-allowed" : "bg-black-F5"}`}
+            placeholder="path를 입력하세요."
+            defaultValue=""
+            disabled={page !== "create"}
+            {...register("path")}
+          />
+          <PrivacySelector control={control} name="is_private" />
+        </div>
       </div>
       <div className={`${page === "translate" ? "flex gap-x-5" : ""}`}>
         <div

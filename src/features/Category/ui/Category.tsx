@@ -6,10 +6,9 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
 
 import { Link, usePathname } from "i18n/routing";
-import { isClickMobileMenuAtom } from "features/MobileMenu";
 import { CategoryType } from "entities/category";
 import { useIsEditMode } from "shared/index";
-import { CategoryListAtom } from "../model";
+import { CategoryListAtom, isClickMobileMenuAtom } from "../model";
 import { filteredCategory } from "../util";
 
 type CategoryProps = {

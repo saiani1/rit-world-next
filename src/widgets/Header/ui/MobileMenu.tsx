@@ -7,12 +7,11 @@ import Cookies from "js-cookie";
 
 import logo from "public/assets/logo.png";
 import { useRouter } from "i18n/routing";
-import { Category } from "features/Category";
+import { Category, isClickMobileMenuAtom } from "features/Category";
 import { CategoryType } from "entities/category";
 import { isLoginAtom } from "entities/user";
 import { supabase } from "shared/index";
-import { CommonButton } from "shared/ui";
-import { isClickMobileMenuAtom } from "../model";
+import { CommonButton, SelectLangBox } from "shared/ui";
 
 type MobileMenuType = {
   data: CategoryType[];
@@ -36,7 +35,7 @@ export const MobileMenu = ({ data }: MobileMenuType) => {
   };
 
   return (
-    <div className="sm:hidden fixed p-8 w-screen h-screen bg-black-FFF z-[1000]">
+    <div className="sm:hidden fixed p-8 w-screen h-screen bg-black-FFF z-[1000] overflow-auto">
       <div className="flex flex-col justify-between h-full">
         <div>
           <div className="flex items-center justify-between">
@@ -51,12 +50,15 @@ export const MobileMenu = ({ data }: MobileMenuType) => {
           </div>
           <Category isMobile data={data} />
         </div>
-        <CommonButton
-          className="p-2 w-full bg-purple-100 text-white font-medium rounded-md"
-          onClick={handleClickLogin}
-        >
-          {isLogin ? t("logout") : t("login")}
-        </CommonButton>
+        <div className="flex items-center gap-x-[10px]">
+          <SelectLangBox isMobile />
+          <CommonButton
+            className="p-[5px] w-full bg-purple-100 text-white font-medium rounded-md"
+            onClick={handleClickLogin}
+          >
+            {isLogin ? t("logout") : t("login")}
+          </CommonButton>
+        </div>
       </div>
     </div>
   );

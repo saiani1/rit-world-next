@@ -202,9 +202,9 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
           e.preventDefault();
         }
       }}
-      className="sm:mx-0 mx-[20px]"
+      className="sm:mx-0 mx-[20px] h-full flex flex-col"
     >
-      <div className="flex justify-between items-center pb-[15px] mb-[10px]">
+      <div className="sticky top-0 flex justify-between items-center pb-[15px] mb-[10px] bg-black-10 pt-[20px] z-[100]">
         <Title name={title()} />
         <div className="flex gap-x-[5px]">
           <CommonButton
@@ -252,14 +252,10 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
         </div>
       </div>
       <div className={`${page === "translate" ? "flex gap-x-5" : ""}`}>
-        <div
-          className={`${page === "translate" ? "w-1/2 h-full overflow-auto" : "hidden"}`}
-        >
+        <div className={`${page === "translate" ? "w-1/2" : "hidden"}`}>
           {blogData && <Viewer initialValue={blogData?.content} />}
         </div>
-        <div
-          className={`${page === "translate" ? "w-1/2 overflow-auto" : ""} h-full`}
-        >
+        <div className={`${page === "translate" ? "w-1/2" : ""}`}>
           <CustomEditor
             control={control}
             name="content"

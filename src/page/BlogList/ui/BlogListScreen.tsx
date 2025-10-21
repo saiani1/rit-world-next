@@ -70,7 +70,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
           {isMounted && isLogin && locale === "ko" && <WriteButton />}
         </div>
       </div>
-      <ul className="flex flex-wrap justify-between gap-y-[40px] pt-[10px]">
+      <ul className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-x-5 gap-y-10 pt-[10px]">
         {blogList && blogList.length > 0 ? (
           blogList.map((blog) => <BlogItem key={blog.id} data={blog} />)
         ) : (

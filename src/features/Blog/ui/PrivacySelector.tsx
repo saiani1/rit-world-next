@@ -36,12 +36,11 @@ export const PrivacySelector = ({ control, name }: PrivacySelectorType) => {
     <Controller<BlogType | BlogJpType, "is_private">
       control={control}
       name={name}
-      defaultValue={true}
+      defaultValue={false}
       render={({ field }) => (
         <div className="flex gap-x-1">
           <BlogRadio
             label="공개"
-            defaultChecked
             checked={field.value === false}
             onChange={() => field.onChange(false)}
           />

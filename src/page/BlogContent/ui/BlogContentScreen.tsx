@@ -61,7 +61,9 @@ const BlogContentScreen = ({ data }: BlogContentScreenType) => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-y-[4px] text-white">
-                  <span className="text-[13px]">Hashtag</span>
+                  <span className="text-[13px]">
+                    {data.blog_hashtag.length !== 0 ? "Hashtag" : ""}
+                  </span>
                   <ul className="flex gap-x-1">
                     {data.blog_hashtag?.map((hash) => (
                       <Hashtag

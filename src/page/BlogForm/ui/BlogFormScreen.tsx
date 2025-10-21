@@ -273,6 +273,7 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
             name="content"
             path={watch("path")!}
             initialValue={watch("content")}
+            isTranslatePage={page === "translate"}
           />
         </div>
       </div>

@@ -19,3 +19,7 @@
   font-size: 16px !important;
   line-height: 1.6;
 }
+
+.toastui-editor-defaultUI .ProseMirror {
+  padding-bottom: 100px;
+}

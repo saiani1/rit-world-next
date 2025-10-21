@@ -12,7 +12,7 @@ export type PostBlogType = {
   subject: string;
   summary: string;
   content: string;
-  thumbnail: string;
+  thumbnail?: string | null;
   large_category_id: string;
   middle_category_id: string;
   path: string;
@@ -23,7 +23,7 @@ export type BlogJpType = PostBlogJpType & {
   id: string;
   create_at: string;
   subject: string;
-  thumbnail: string;
+  thumbnail?: string | null;
   blog_hashtag: BlogHashtagType[];
   large_category_id: string;
   middle_category_id: string;

@@ -44,7 +44,9 @@ const BlogContentScreen = ({ data }: BlogContentScreenType) => {
           </div>
           <div
             className="relative flex flex-col justify-end p-[20px] w-full h-[350px] overflow-hidden bg-cover bg-top"
-            style={{ backgroundImage: `url(${data.thumbnail}` }}
+            style={{
+              backgroundImage: `url(${data.thumbnail || "/assets/image/default-image.jpg"})`,
+            }}
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black-444/70 to-transparent z-100" />
             <div className="relative">

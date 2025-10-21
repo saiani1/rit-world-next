@@ -69,7 +69,7 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
         setHashtags(hashtagNames);
       }
       setBlogData(data);
-      setPreviewUrl(data.thumbnail);
+      setPreviewUrl(data.thumbnail || null);
       const categoryL = categories.find(
         (cate) => cate.title === data.category_large?.title
       );
@@ -96,23 +96,15 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
   };
 
   const onSubmit = async (data: PostBlogType | PostBlogJpType) => {
-    if (
-      !selectedLCate ||
-      !selectedMCate ||
-      !data.path ||
-      !previewUrl ||
-      !hashtags
-    ) {
+    if (!selectedLCate || !selectedMCate || !data.path || !hashtags) {
       toast.error("빈칸을 입력하세요.");
       return;
     }
-
     setValue("large_category_id", selectedLCate?.id);
     setValue("middle_category_id", selectedMCate?.id);
-
     // previewUrl에 path가 포함되어 있으면 supabase에 업로드 하는 절차를 패스한다.
     const isSameImg = page !== "create" && previewUrl?.includes(blog as string);
-    if (!isSameImg) {
+    if (!isSameImg && previewUrl !== null) {
       const thumbnailParams = {
         file: imageFile!,
         path: `blog-thumbnail/${data.path}`,
@@ -124,12 +116,12 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
         return;
       }
     }
+    if (previewUrl === null) setValue("thumbnail", null);
 
     type BlogParams<T> = {
       data: T;
       hashtags: string[];
     };
-
     const isBloging = async () => {
       let isTrue: Boolean;
       switch (page) {

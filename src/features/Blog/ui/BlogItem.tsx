@@ -6,6 +6,7 @@ import { RiLock2Fill } from "react-icons/ri";
 import { Link } from "i18n/routing";
 import { BlogType, BlogJpType } from "entities/blog";
 import { Hashtag } from "shared/ui";
+import defalutImg from "public/assets/image/default-image.jpg";
 
 type BlogItemType = {
   data: BlogType | BlogJpType;
@@ -20,7 +21,7 @@ export const BlogItem = ({ data }: BlogItemType) => {
       >
         <div className="w-full h-[200px] sm:h-[150px] xl:h-[220px] relative overflow-hidden bg-black-888">
           <Image
-            src={data.thumbnail}
+            src={data.thumbnail || defalutImg}
             style={{ objectFit: "cover", objectPosition: "top" }}
             fill
             alt={data.subject}

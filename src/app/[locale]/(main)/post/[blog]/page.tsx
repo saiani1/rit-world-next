@@ -1,28 +1,8 @@
 import { notFound } from "next/navigation";
 
 import BlogContentScreen from "page/BlogContent/ui/BlogContentScreen";
-import {
-  BlogHashtagType,
-  getBlogByPath,
-  getBlogByPathJp,
-  getBlogList,
-  getBlogListJp,
-} from "entities/blog";
+import { BlogHashtagType, getBlogByPath, getBlogByPathJp } from "entities/blog";
 import DefaultImage from "public/assets/image/default-image.jpg";
-
-export const generateStaticParams = async ({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) => {
-  const blogData =
-    locale === "ko" ? await getBlogList() : await getBlogListJp();
-
-  if (!blogData) return [];
-  return blogData.map((post) => ({
-    blog: post.path,
-  }));
-};
 
 const getPageData = async (locale: string, blog: string) => {
   const blogData =

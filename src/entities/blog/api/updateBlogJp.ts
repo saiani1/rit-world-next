@@ -17,6 +17,7 @@ export const updateBlogJp = async ({ data, hashtags }: updateBlogJpType) => {
         subject: data.subject,
         summary: data.summary,
         content: data.content,
+        is_private: data.is_private,
       })
       .eq("id", data.id);
 

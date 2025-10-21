@@ -42,13 +42,13 @@ export const PrivacySelector = ({ control, name }: PrivacySelectorType) => {
           <BlogRadio
             label="공개"
             defaultChecked
-            checked={field.value === true}
-            onChange={() => field.onChange(true)}
+            checked={field.value === false}
+            onChange={() => field.onChange(false)}
           />
           <BlogRadio
             label="비공개"
-            checked={field.value === false}
-            onChange={() => field.onChange(false)}
+            checked={field.value === true}
+            onChange={() => field.onChange(true)}
           />
         </div>
       )}

@@ -20,6 +20,7 @@ export const updateBlog = async ({ data, hashtags }: updateBlogType) => {
         thumbnail: data.thumbnail,
         large_category_id: data.large_category_id,
         middle_category_id: data.middle_category_id,
+        is_private: data.is_private,
       })
       .eq("id", data.id);
 

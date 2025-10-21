@@ -2,14 +2,13 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "i18n/routing";
 import {
-  blogListAtom,
   BlogOption,
   hashtagListAtom,
   PrivacySelector,
@@ -45,15 +44,15 @@ const Viewer = dynamic(
 type BlogFormScreenType = {
   categories: CategoryType[];
   page: string;
+  data?: BlogType | BlogJpType;
 };
 
-const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
+const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
   const router = useRouter();
   const { blog } = useParams() || {};
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [blogData, setBlogData] = useState<BlogType | BlogJpType | null>(null);
-  const blogListData = useAtomValue(blogListAtom);
   const [selectedLCate, setSelectedLCate] = useAtom(selectedLargeCategoryAtom);
   const [selectedMCate, setSelectedMCate] = useAtom(selectedMiddleCategoryAtom);
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
@@ -62,32 +61,31 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
     useForm<BlogType | BlogJpType>();
 
   useEffect(() => {
-    if (page !== "create" && blogListData.length !== 0) {
-      const filteredBlog = blogListData.filter((item) => item.path === blog);
-      if (filteredBlog && filteredBlog[0].blog_hashtag) {
-        const hashtagNames: string[] = filteredBlog[0].blog_hashtag.map(
+    if (page !== "create" && data) {
+      if (data.blog_hashtag) {
+        const hashtagNames: string[] = data.blog_hashtag.map(
           (item) => item.hashtag_id.name
         );
         setHashtags(hashtagNames);
       }
-      setBlogData(filteredBlog[0]);
-      setPreviewUrl(filteredBlog[0]?.thumbnail);
+      setBlogData(data);
+      setPreviewUrl(data.thumbnail);
       const categoryL = categories.find(
-        (cate) => cate.title === filteredBlog[0]?.category_large?.title
+        (cate) => cate.title === data.category_large?.title
       );
       setSelectedLCate(categoryL);
       const categoryM = categories.find(
-        (cate) => cate.title === filteredBlog[0]?.category_middle?.title
+        (cate) => cate.title === data.category_middle?.title
       );
       setSelectedMCate(categoryM);
-      reset(filteredBlog[0]);
+      reset(data);
     }
     if (page === "create") {
       setSelectedLCate(RESET);
       setSelectedMCate(RESET);
       setHashtags(RESET);
     }
-  }, [page, blogListData]);
+  }, [page, data]);
 
   const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

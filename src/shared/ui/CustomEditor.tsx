@@ -68,7 +68,7 @@ const CustomEditor = <TFieldValues extends FieldValues>({
 
   return (
     <>
-      {(initialValue || page === "create") && (
+      {(initialValue !== undefined || page === "create") && (
         <Editor
           {...field}
           ref={editorRef}

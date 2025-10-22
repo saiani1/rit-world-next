@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useAtom } from "jotai";
+import { AnimatePresence, motion } from "motion/react";
 
 import { CommonInput, Hashtag } from "shared/ui";
 import { hashtagListAtom } from "../model";
-import { useAtom } from "jotai";
 
 export const HashtagList = () => {
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
@@ -37,13 +38,19 @@ export const HashtagList = () => {
   return (
     <div className="flex px-[10px] w-full items-center bg-black-F5 rounded-[5px]">
       <ul className="flex gap-x-1 mb-[3px]">
-        {hashtags?.map((tag, i) => (
-          <Hashtag
-            key={`hashtag-${i}`}
-            name={tag}
-            onClick={handleClickHashtag}
-          />
-        ))}
+        <AnimatePresence>
+          {hashtags?.map((tag) => (
+            <motion.li
+              key={tag}
+              layout
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+            >
+              <Hashtag name={tag} onClick={handleClickHashtag} />
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
       <CommonInput
         value={inputValue}

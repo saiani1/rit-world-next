@@ -4,7 +4,6 @@ import { Header } from "widgets/Header";
 import { Category } from "features/Category";
 import { ProfileAside } from "features/Profile";
 import { getProfileInfo, getProfileInfoJp } from "entities/user";
-import { AnimatedContentWrapper } from "./AnimatedContentWrapper";
 import { getCategories } from "entities/category";
 
 export const metadata: Metadata = {
@@ -31,7 +30,9 @@ export default async function MainLayout({
           <ProfileAside data={profileData} />
           {categoryData && <Category data={categoryData} />}
         </div>
-        <AnimatedContentWrapper>{children}</AnimatedContentWrapper>
+        <div className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full bg-black-10 sm:rounded-xl">
+          {children}
+        </div>
       </div>
     </div>
   );

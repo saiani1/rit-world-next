@@ -36,7 +36,7 @@ export const HashtagList = () => {
   };
 
   return (
-    <div className="flex px-[10px] w-full items-center bg-black-F5 rounded-[5px]">
+    <div className="flex-1 px-[10px] w-full min-w-[100px] items-center bg-black-F5 rounded-[5px]">
       <ul className="flex gap-x-1 mb-[3px]">
         <AnimatePresence>
           {hashtags?.map((tag) => (
@@ -54,7 +54,7 @@ export const HashtagList = () => {
       </ul>
       <CommonInput
         value={inputValue}
-        className="px-[10px] w-full h-[34px] bg-black-F5 rounded-[5px] text-[13px]"
+        className="px-[10px] w-full min-w-[100px] h-[34px] bg-black-F5 rounded-[5px] text-[13px]"
         placeholder={hashtags.length !== 0 ? "" : "해시태그를 입력하세요."}
         onKeyDown={handleKeyDown}
         onChange={handleChangeInput}

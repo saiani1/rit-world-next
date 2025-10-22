@@ -30,7 +30,7 @@ export const BlogOption = ({ categories, disabled }: BlogOptionType) => {
     categories?.filter((item) => item.parent_id === selectedLargeCategory?.id);
 
   return (
-    <div className="flex flex-wrap gap-x-2 gap-y-2 mb-[10px]">
+    <div className="flex flex-wrap gap-x-2 gap-y-2 mb-[10px] w-full">
       {filteredLargeCategoryArr?.length !== 0 && (
         <Selectbox
           data={filteredLargeCategoryArr}

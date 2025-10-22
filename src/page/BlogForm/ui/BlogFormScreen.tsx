@@ -259,9 +259,10 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
           <CustomEditor
             control={control}
             name="content"
-            path={watch("path")!}
+            path={watch("path") ?? ""}
             initialValue={watch("content")}
             isTranslatePage={page === "translate"}
+            page={page}
           />
         </div>
       </div>

@@ -16,6 +16,7 @@ type CustomEditorType<TFieldValues extends FieldValues> = {
   path: string;
   initialValue?: string;
   isTranslatePage?: boolean;
+  page: string;
 };
 
 const CustomEditor = <TFieldValues extends FieldValues>({
@@ -24,9 +25,9 @@ const CustomEditor = <TFieldValues extends FieldValues>({
   path,
   initialValue,
   isTranslatePage,
+  page,
 }: CustomEditorType<TFieldValues>) => {
   const editorRef = useRef<Editor | null>(null);
-  const isInitialMount = useRef(true);
   const isDesktop = useBreakpoint(1200);
 
   const previewStyle = useMemo(
@@ -40,21 +41,6 @@ const CustomEditor = <TFieldValues extends FieldValues>({
     name,
     control,
   });
-
-  useEffect(() => {
-    if (!editorRef.current) return;
-    const editor = editorRef.current.getInstance();
-
-    if (isInitialMount.current) {
-      editor.setMarkdown(initialValue ?? "");
-      isInitialMount.current = false;
-      return;
-    }
-
-    if (editor.getMarkdown() !== initialValue) {
-      editor.setMarkdown(initialValue ?? "");
-    }
-  }, [initialValue]);
 
   useEffect(() => {
     if (!editorRef.current || !path) return;
@@ -82,20 +68,24 @@ const CustomEditor = <TFieldValues extends FieldValues>({
 
   return (
     <>
-      <Editor
-        {...field}
-        ref={editorRef}
-        height="auto"
-        onChange={() => {
-          const markdown = editorRef.current?.getInstance().getMarkdown();
-          onChange(markdown);
-        }}
-        previewStyle={previewStyle}
-        initialEditType="markdown"
-        hideModeSwitch={true}
-        useCommandShortcut={false}
-        language="ko-KR"
-      />
+      {(initialValue || page === "create") && (
+        <Editor
+          {...field}
+          ref={editorRef}
+          height="auto"
+          onChange={() => {
+            const markdown = editorRef.current?.getInstance().getMarkdown();
+            onChange(markdown);
+          }}
+          initialValue={initialValue ?? ""}
+          previewStyle={previewStyle}
+          initialEditType="markdown"
+          hideModeSwitch={true}
+          useCommandShortcut={false}
+          language="ko-KR"
+          autofocus={false}
+        />
+      )}
     </>
   );
 };

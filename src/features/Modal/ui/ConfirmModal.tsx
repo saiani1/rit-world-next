@@ -1,5 +1,6 @@
 "use client";
 import { useAtomValue } from "jotai";
+import { useLayoutEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { IoMdAlert } from "react-icons/io";
 
@@ -10,6 +11,20 @@ import { ModalAtom } from "../model";
 export const ConfirmModal = () => {
   const router = useRouter();
   const modalData = useAtomValue(ModalAtom);
+
+  useLayoutEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollBarWidth}px`;
+
+    return () => {
+      document.body.style.overflow = originalStyle;
+      document.body.style.paddingRight = "0px";
+    };
+  }, []);
 
   return (
     <AnimatePresence>

@@ -2,16 +2,16 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 import { useRouter } from "i18n/routing";
 import {
-  blogListAtom,
   BlogOption,
   hashtagListAtom,
+  PrivacySelector,
   selectedLargeCategoryAtom,
   selectedMiddleCategoryAtom,
   ThumbnailWithTitle,
@@ -44,15 +44,15 @@ const Viewer = dynamic(
 type BlogFormScreenType = {
   categories: CategoryType[];
   page: string;
+  data?: BlogType | BlogJpType;
 };
 
-const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
+const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
   const router = useRouter();
   const { blog } = useParams() || {};
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [blogData, setBlogData] = useState<BlogType | BlogJpType | null>(null);
-  const blogListData = useAtomValue(blogListAtom);
   const [selectedLCate, setSelectedLCate] = useAtom(selectedLargeCategoryAtom);
   const [selectedMCate, setSelectedMCate] = useAtom(selectedMiddleCategoryAtom);
   const [hashtags, setHashtags] = useAtom(hashtagListAtom);
@@ -61,32 +61,31 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
     useForm<BlogType | BlogJpType>();
 
   useEffect(() => {
-    if (page !== "create" && blogListData.length !== 0) {
-      const filteredBlog = blogListData.filter((item) => item.path === blog);
-      if (filteredBlog && filteredBlog[0].blog_hashtag) {
-        const hashtagNames: string[] = filteredBlog[0].blog_hashtag.map(
+    if (page !== "create" && data) {
+      if (data.blog_hashtag) {
+        const hashtagNames: string[] = data.blog_hashtag.map(
           (item) => item.hashtag_id.name
         );
         setHashtags(hashtagNames);
       }
-      setBlogData(filteredBlog[0]);
-      setPreviewUrl(filteredBlog[0]?.thumbnail);
+      setBlogData(data);
+      setPreviewUrl(data.thumbnail || null);
       const categoryL = categories.find(
-        (cate) => cate.title === filteredBlog[0]?.category_large?.title
+        (cate) => cate.title === data.category_large?.title
       );
       setSelectedLCate(categoryL);
       const categoryM = categories.find(
-        (cate) => cate.title === filteredBlog[0]?.category_middle?.title
+        (cate) => cate.title === data.category_middle?.title
       );
       setSelectedMCate(categoryM);
-      reset(filteredBlog[0]);
+      reset(data);
     }
     if (page === "create") {
       setSelectedLCate(RESET);
       setSelectedMCate(RESET);
       setHashtags(RESET);
     }
-  }, [page, blogListData]);
+  }, [page, data]);
 
   const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,23 +96,15 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
   };
 
   const onSubmit = async (data: PostBlogType | PostBlogJpType) => {
-    if (
-      !selectedLCate ||
-      !selectedMCate ||
-      !data.path ||
-      !previewUrl ||
-      !hashtags
-    ) {
+    if (!selectedLCate || !selectedMCate || !data.path) {
       toast.error("빈칸을 입력하세요.");
       return;
     }
-
     setValue("large_category_id", selectedLCate?.id);
     setValue("middle_category_id", selectedMCate?.id);
-
     // previewUrl에 path가 포함되어 있으면 supabase에 업로드 하는 절차를 패스한다.
     const isSameImg = page !== "create" && previewUrl?.includes(blog as string);
-    if (!isSameImg) {
+    if (!isSameImg && previewUrl !== null) {
       const thumbnailParams = {
         file: imageFile!,
         path: `blog-thumbnail/${data.path}`,
@@ -125,12 +116,12 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
         return;
       }
     }
+    if (previewUrl === null) setValue("thumbnail", null);
 
     type BlogParams<T> = {
       data: T;
       hashtags: string[];
     };
-
     const isBloging = async () => {
       let isTrue: Boolean;
       switch (page) {
@@ -211,9 +202,9 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           e.preventDefault();
         }
       }}
-      className="sm:mx-0 mx-[20px]"
+      className="sm:mx-0 mx-[20px] h-full flex flex-col"
     >
-      <div className="flex justify-between items-center pb-[15px] mb-[10px]">
+      <div className="sticky top-0 flex justify-between items-center pb-[15px] mb-[10px] bg-black-10 pt-[20px] z-[100]">
         <Title name={title()} />
         <div className="flex gap-x-[5px]">
           <CommonButton
@@ -249,28 +240,29 @@ const BlogFormScreen = ({ categories, page }: BlogFormScreenType) => {
           placeholder="요약글을 입력하세요."
           {...register("summary")}
         />
-        <CommonInput
-          className={`px-[10px] w-full h-[34px] rounded-[5px] text-[13px] ${page !== "create" ? "text-black-BBB bg-black-DDD cursor-not-allowed" : "bg-black-F5"}`}
-          placeholder="path를 입력하세요."
-          defaultValue=""
-          disabled={page !== "create"}
-          {...register("path")}
-        />
+        <div className="flex justify-between items-center gap-x-2 w-full">
+          <CommonInput
+            className={`flex-1 px-[10px] w-full h-[34px] rounded-[5px] text-[13px] ${page !== "create" ? "text-black-BBB bg-black-DDD cursor-not-allowed" : "bg-black-F5"}`}
+            placeholder="path를 입력하세요."
+            defaultValue=""
+            disabled={page !== "create"}
+            {...register("path")}
+          />
+          <PrivacySelector control={control} name="is_private" />
+        </div>
       </div>
       <div className={`${page === "translate" ? "flex gap-x-5" : ""}`}>
-        <div
-          className={`${page === "translate" ? "w-1/2 h-full overflow-auto" : "hidden"}`}
-        >
+        <div className={`${page === "translate" ? "w-1/2" : "hidden"}`}>
           {blogData && <Viewer initialValue={blogData?.content} />}
         </div>
-        <div
-          className={`${page === "translate" ? "w-1/2 overflow-auto" : ""} h-full`}
-        >
+        <div className={`${page === "translate" ? "w-1/2" : ""}`}>
           <CustomEditor
             control={control}
             name="content"
-            path={watch("path")!}
+            path={watch("path") ?? ""}
             initialValue={watch("content")}
+            isTranslatePage={page === "translate"}
+            page={page}
           />
         </div>
       </div>

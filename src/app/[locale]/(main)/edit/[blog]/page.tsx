@@ -1,19 +1,24 @@
 import BlogFormScreen from "page/BlogForm/ui/BlogFormScreen";
 import { getCategories } from "entities/category";
+import { getBlogByPath, getBlogByPathJp } from "entities/blog";
 
 const EditBlogPage = async ({
-  params: { locale },
+  params: { locale, blog },
 }: {
-  params: { locale: string };
+  params: { locale: string; blog: string };
 }) => {
-  const categories = await getCategories();
+  const [categories, blogData] = await Promise.all([
+    getCategories(),
+    locale === "ko" ? getBlogByPath(blog) : getBlogByPathJp(blog),
+  ]);
 
   return (
     <>
-      {categories && (
+      {categories && blogData && (
         <BlogFormScreen
           page={locale === "ko" ? "edit" : "editTranslate"}
           categories={categories}
+          data={blogData}
         />
       )}
     </>

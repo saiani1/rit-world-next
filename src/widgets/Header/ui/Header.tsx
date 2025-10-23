@@ -9,11 +9,12 @@ import { IoMenu } from "react-icons/io5";
 
 import logo from "public/assets/logo.png";
 import { Link, useRouter, usePathname } from "i18n/routing";
-import { isClickMobileMenuAtom, MobileMenu } from "features/MobileMenu";
 import { isLoginAtom } from "entities/user";
 import { CategoryType } from "entities/category";
 import { CommonButton, SelectLangBox, supabase } from "shared/index";
 import { HeaderType } from "../model";
+import { MobileMenu } from "./MobileMenu";
+import { isClickMobileMenuAtom } from "features/Category";
 
 type HeaderCompType = {
   data: CategoryType[];

@@ -1,3 +1,5 @@
+export { getBlogByPathJp } from "./getBlogByPathJp";
+export { getBlogByPath } from "./getBlogByPath";
 export { updateBlog } from "./updateBlog";
 export { updateBlogJp } from "./updateBlogJp";
 export { postBlogHashtag } from "./postBlogHashtag";

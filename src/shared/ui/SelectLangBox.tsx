@@ -9,7 +9,11 @@ import { useOnClickOutside } from "../hooks/useOnClickOutside";
 import { langData } from "../model";
 import { CommonButton } from "./CommonButton";
 
-export const SelectLangBox = () => {
+type SelectLangBoxType = {
+  isMobile?: boolean;
+};
+
+export const SelectLangBox = ({ isMobile }: SelectLangBoxType) => {
   const t = useTranslations("Locale");
   const locale = useLocale();
   const router = useRouter();
@@ -44,7 +48,7 @@ export const SelectLangBox = () => {
       </CommonButton>
       {isClick && (
         <ul
-          className="absolute top-[39px] left-0 text-center w-full z-10 bg-white text-black-999 text-[13px] divide-y divide-black-AAA divide-dashed rounded-[5px] border border-black-AAA"
+          className={`absolute ${isMobile ? "bottom-[39px]" : "top-[39px]"} left-0 text-center w-full z-10 bg-white text-black-999 text-[13px] divide-y divide-black-AAA divide-dashed rounded-[5px] border border-black-AAA`}
           onClick={handleClickOption}
         >
           {langData.map((item, i) => (

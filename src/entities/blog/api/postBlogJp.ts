@@ -16,6 +16,7 @@ export const postBlogJp = async ({ data, hashtags }: postBlogJpType) => {
       summary: data.summary,
       content: data.content,
       locale: data.locale,
+      is_private: data.is_private,
     };
 
     // blog_translation테이블에 post요청

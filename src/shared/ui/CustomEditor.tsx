@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { type Control, type FieldValues, useController } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { Editor } from "@toast-ui/react-editor";
@@ -8,12 +8,15 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import "./editor.css";
 
 import { BlogJpType, BlogType, getImageUrl } from "entities/blog";
+import { useBreakpoint } from "shared/hooks/useBreakpoint";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
   control: Control<BlogType | BlogJpType, any>;
   name: TFieldValues["path"];
   path: string;
   initialValue?: string;
+  isTranslatePage?: boolean;
+  page: string;
 };
 
 const CustomEditor = <TFieldValues extends FieldValues>({
@@ -21,9 +24,16 @@ const CustomEditor = <TFieldValues extends FieldValues>({
   name,
   path,
   initialValue,
+  isTranslatePage,
+  page,
 }: CustomEditorType<TFieldValues>) => {
   const editorRef = useRef<Editor | null>(null);
-  const isInitialMount = useRef(true);
+  const isDesktop = useBreakpoint(1200);
+
+  const previewStyle = useMemo(
+    () => (isTranslatePage ? "tab" : isDesktop ? "vertical" : "tab"),
+    [isDesktop, isTranslatePage]
+  );
 
   const {
     field: { onChange, ...field },
@@ -31,21 +41,6 @@ const CustomEditor = <TFieldValues extends FieldValues>({
     name,
     control,
   });
-
-  useEffect(() => {
-    if (!editorRef.current) return;
-    const editor = editorRef.current.getInstance();
-
-    if (isInitialMount.current) {
-      editor.setMarkdown(initialValue ?? "");
-      isInitialMount.current = false;
-      return;
-    }
-
-    if (editor.getMarkdown() !== initialValue) {
-      editor.setMarkdown(initialValue ?? "");
-    }
-  }, [initialValue]);
 
   useEffect(() => {
     if (!editorRef.current || !path) return;
@@ -73,20 +68,24 @@ const CustomEditor = <TFieldValues extends FieldValues>({
 
   return (
     <>
-      <Editor
-        {...field}
-        ref={editorRef}
-        height="auto"
-        onChange={() => {
-          const markdown = editorRef.current?.getInstance().getMarkdown();
-          onChange(markdown);
-        }}
-        previewStyle="tab"
-        initialEditType="markdown"
-        hideModeSwitch={true}
-        useCommandShortcut={false}
-        language="ko-KR"
-      />
+      {(initialValue !== undefined || page === "create") && (
+        <Editor
+          {...field}
+          ref={editorRef}
+          height="auto"
+          onChange={() => {
+            const markdown = editorRef.current?.getInstance().getMarkdown();
+            onChange(markdown);
+          }}
+          initialValue={initialValue ?? ""}
+          previewStyle={previewStyle}
+          initialEditType="markdown"
+          hideModeSwitch={true}
+          useCommandShortcut={false}
+          language="ko-KR"
+          autofocus={false}
+        />
+      )}
     </>
   );
 };

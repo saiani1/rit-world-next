@@ -25,13 +25,13 @@ export default async function MainLayout({
   return (
     <div className="flex flex-col items-center w-full">
       {categoryData && <Header data={categoryData} />}
-      <div className="flex justify-between w-full lg:w-[80%] md:w-full sm:w-full mt-[10px] mb-0 md:mb-[40px] gap-x-[10px] overflow-hidden">
+      <div className="flex justify-between w-full lg:w-[80%] md:w-full sm:w-full mt-[10px] mb-0 md:mb-[40px] gap-x-[10px]">
         <div className="hidden lg:flex flex-col">
           <ProfileAside data={profileData} />
           {categoryData && <Category data={categoryData} />}
         </div>
         <div className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full bg-black-10 sm:rounded-xl">
-          <div>{children}</div>
+          {children}
         </div>
       </div>
     </div>

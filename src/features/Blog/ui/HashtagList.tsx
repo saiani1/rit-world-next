@@ -36,7 +36,7 @@ export const HashtagList = () => {
   };
 
   return (
-    <div className="flex-1 px-[10px] w-full min-w-[100px] items-center bg-black-F5 rounded-[5px]">
+    <div className="flex flex-1 px-[10px] w-full min-w-[100px] items-center bg-black-F5 rounded-[5px]">
       <ul className="flex gap-x-1 mb-[3px]">
         <AnimatePresence>
           {hashtags?.map((tag) => (

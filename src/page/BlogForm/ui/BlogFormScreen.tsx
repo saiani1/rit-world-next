@@ -96,7 +96,7 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
   };
 
   const onSubmit = async (data: PostBlogType | PostBlogJpType) => {
-    if (!selectedLCate || !selectedMCate || !data.path || !hashtags) {
+    if (!selectedLCate || !selectedMCate || !data.path) {
       toast.error("빈칸을 입력하세요.");
       return;
     }

@@ -41,6 +41,7 @@ export const getBlogByPathJp = async (path: string) => {
       blog_id: blog.blog_id,
       locale: blog.locale,
       create_at: blog.create_at,
+      is_private: blog.is_private,
 
       path: blog.blog.path,
       thumbnail: blog.blog.thumbnail,

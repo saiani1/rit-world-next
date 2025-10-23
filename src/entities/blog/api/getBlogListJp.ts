@@ -40,6 +40,7 @@ export const getBlogListJp = async () => {
       blog_id: item.blog_id,
       locale: item.locale,
       create_at: item.create_at,
+      is_private: item.is_private,
 
       path: item.blog.path,
       thumbnail: item.blog.thumbnail,

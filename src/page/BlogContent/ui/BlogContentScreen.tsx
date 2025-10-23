@@ -23,7 +23,7 @@ type BlogContentScreenType = {
 };
 
 const BlogContentScreen = ({ data }: BlogContentScreenType) => {
-  const [isMounded, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const isLogin = useAtomValue(isLoginAtom);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const BlogContentScreen = ({ data }: BlogContentScreenType) => {
 
   return (
     <>
-      {isMounded && (
+      {isMounted && (
         <div className="relative w-full">
           <div className="flex justify-between items-center mx-[20px] sm:mx-0">
             <div className="flex gap-x-2 mb-[5px] text-[13px] text-black-888">

@@ -77,7 +77,7 @@ const BlogContentScreen = ({ data }: BlogContentScreenType) => {
               </div>
             </div>
           </div>
-          <div className="w-full h-full my-[50px] mx-[20px] sm:mx-0">
+          <div className="w-full h-full my-[50px] px-[20px] sm:px-0">
             <Viewer initialValue={data.content} />
           </div>
         </div>

@@ -31,9 +31,11 @@ const RAW_RUNTIME_STATE =
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@toast-ui/editor", "npm:3.2.2"],\
+          ["@toast-ui/editor-plugin-code-syntax-highlight", "npm:3.1.0"],\
           ["@toast-ui/react-editor", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:3.2.3"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.17.28"],\
+          ["@types/prismjs", "npm:1.26.5"],\
           ["@types/react", "npm:18.3.20"],\
           ["@types/react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.5"],\
           ["@typescript-eslint/eslint-plugin", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:7.18.0"],\
@@ -58,6 +60,7 @@ const RAW_RUNTIME_STATE =
           ["next-sitemap", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3"],\
           ["postcss", "npm:8.5.3"],\
           ["prettier", "npm:3.5.3"],\
+          ["prismjs", "npm:1.30.0"],\
           ["prosemirror-transform", "npm:1.10.4"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.1"],\
@@ -3195,6 +3198,16 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@toast-ui/editor-plugin-code-syntax-highlight", [\
+      ["npm:3.1.0", {\
+        "packageLocation": "./.yarn/cache/@toast-ui-editor-plugin-code-syntax-highlight-npm-3.1.0-c1ad588de9-3cc75815f6.zip/node_modules/@toast-ui/editor-plugin-code-syntax-highlight/",\
+        "packageDependencies": [\
+          ["@toast-ui/editor-plugin-code-syntax-highlight", "npm:3.1.0"],\
+          ["prismjs", "npm:1.30.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@toast-ui/react-editor", [\
       ["npm:3.2.3", {\
         "packageLocation": "./.yarn/cache/@toast-ui-react-editor-npm-3.2.3-aed61aa676-9850ee4b85.zip/node_modules/@toast-ui/react-editor/",\
@@ -3278,6 +3291,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-phoenix-npm-1.6.6-b47f7364f0-4dfcb3fd36.zip/node_modules/@types/phoenix/",\
         "packageDependencies": [\
           ["@types/phoenix", "npm:1.6.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/prismjs", [\
+      ["npm:1.26.5", {\
+        "packageLocation": "./.yarn/cache/@types-prismjs-npm-1.26.5-5c39951991-5619cb449e.zip/node_modules/@types/prismjs/",\
+        "packageDependencies": [\
+          ["@types/prismjs", "npm:1.26.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -7931,6 +7953,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["prismjs", [\
+      ["npm:1.30.0", {\
+        "packageLocation": "./.yarn/cache/prismjs-npm-1.30.0-c3c5ff824c-f56205bfd5.zip/node_modules/prismjs/",\
+        "packageDependencies": [\
+          ["prismjs", "npm:1.30.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["proc-log", [\
       ["npm:5.0.0", {\
         "packageLocation": "./.yarn/cache/proc-log-npm-5.0.0-405173f9b4-bbe5edb944.zip/node_modules/proc-log/",\
@@ -8396,9 +8427,11 @@ const RAW_RUNTIME_STATE =
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\
           ["@toast-ui/editor", "npm:3.2.2"],\
+          ["@toast-ui/editor-plugin-code-syntax-highlight", "npm:3.1.0"],\
           ["@toast-ui/react-editor", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:3.2.3"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.17.28"],\
+          ["@types/prismjs", "npm:1.26.5"],\
           ["@types/react", "npm:18.3.20"],\
           ["@types/react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.5"],\
           ["@typescript-eslint/eslint-plugin", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:7.18.0"],\
@@ -8423,6 +8456,7 @@ const RAW_RUNTIME_STATE =
           ["next-sitemap", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:4.2.3"],\
           ["postcss", "npm:8.5.3"],\
           ["prettier", "npm:3.5.3"],\
+          ["prismjs", "npm:1.30.0"],\
           ["prosemirror-transform", "npm:1.10.4"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:18.3.1"],\

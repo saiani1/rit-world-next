@@ -1905,6 +1905,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@toast-ui/editor-plugin-code-syntax-highlight@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@toast-ui/editor-plugin-code-syntax-highlight@npm:3.1.0"
+  dependencies:
+    prismjs: "npm:^1.23.0"
+  checksum: 10c0/3cc75815f608039b7b8a928c0e104f7e41774e0f2c022a56c90aebc01f69b49eb84bbacbdbb77040ff2a69745f2628414afbaa312506af66b7dca59fb128f71f
+  languageName: node
+  linkType: hard
+
 "@toast-ui/editor@npm:^3.2.2":
   version: 3.2.2
   resolution: "@toast-ui/editor@npm:3.2.2"
@@ -1984,6 +1993,13 @@ __metadata:
   version: 1.6.6
   resolution: "@types/phoenix@npm:1.6.6"
   checksum: 10c0/4dfcb3fd36341ed5500de030291af14163c599857e00d2d4ff065d4c4600317d5d20aa170913fb9609747a09436e3add44db7d0c709bdf80f36cddcc67a42021
+  languageName: node
+  linkType: hard
+
+"@types/prismjs@npm:^1":
+  version: 1.26.5
+  resolution: "@types/prismjs@npm:1.26.5"
+  checksum: 10c0/5619cb449e0d8df098c8759d6f47bf8fdd510abf5dbdfa999e55c6a2545efbd1e209cc85a33d8d9f4ff2898089a1a6d9a70737c9baffaae635c46852c40d384a
   languageName: node
   linkType: hard
 
@@ -5700,6 +5716,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prismjs@npm:^1.23.0, prismjs@npm:^1.30.0":
+  version: 1.30.0
+  resolution: "prismjs@npm:1.30.0"
+  checksum: 10c0/f56205bfd58ef71ccfcbcb691fd0eb84adc96c6ff21b0b69fc6fdcf02be42d6ef972ba4aed60466310de3d67733f6a746f89f2fb79c00bf217406d465b3e8f23
+  languageName: node
+  linkType: hard
+
 "proc-log@npm:^5.0.0":
   version: 5.0.0
   resolution: "proc-log@npm:5.0.0"
@@ -6106,9 +6129,11 @@ __metadata:
     "@supabase/supabase-js": "npm:^2.49.4"
     "@svgr/webpack": "npm:^8.1.0"
     "@toast-ui/editor": "npm:^3.2.2"
+    "@toast-ui/editor-plugin-code-syntax-highlight": "npm:^3.1.0"
     "@toast-ui/react-editor": "npm:^3.2.3"
     "@types/js-cookie": "npm:^3"
     "@types/node": "npm:^20"
+    "@types/prismjs": "npm:^1"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@typescript-eslint/eslint-plugin": "npm:^7.17.0"
@@ -6133,6 +6158,7 @@ __metadata:
     next-sitemap: "npm:^4.2.3"
     postcss: "npm:^8"
     prettier: "npm:^3.3.3"
+    prismjs: "npm:^1.30.0"
     prosemirror-transform: "npm:^1.10.4"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"

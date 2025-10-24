@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import type { ViewerProps } from "@toast-ui/react-editor";
 
 import { useRouter } from "i18n/routing";
 import {
@@ -29,13 +30,26 @@ import {
   updateBlogJp,
 } from "entities/blog";
 import { CommonButton, CommonInput, Title } from "shared/ui";
+import { loadCodeSyntaxHighlight } from "shared/lib";
 
 const CustomEditor = dynamic(() => import("shared/ui/CustomEditor"), {
   ssr: false,
 });
 
 const Viewer = dynamic(
-  () => import("@toast-ui/react-editor").then((m) => m.Viewer),
+  async () => {
+    const { Viewer } = await import("@toast-ui/react-editor");
+    const { codeSyntaxHighlight, Prism } = await loadCodeSyntaxHighlight();
+
+    const ViewerWithPlugins = (props: ViewerProps) => (
+      <Viewer
+        {...props}
+        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+      />
+    );
+    ViewerWithPlugins.displayName = "Viewer";
+    return ViewerWithPlugins;
+  },
   {
     ssr: false,
   }

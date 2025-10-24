@@ -1,14 +1,15 @@
 "use client";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { type Control, type FieldValues, useController } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { Editor } from "@toast-ui/react-editor";
+
 import "@toast-ui/editor/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import "./editor.css";
-
 import { BlogJpType, BlogType, getImageUrl } from "entities/blog";
 import { useBreakpoint } from "shared/hooks/useBreakpoint";
+import { loadCodeSyntaxHighlight } from "shared/lib";
 
 type CustomEditorType<TFieldValues extends FieldValues> = {
   control: Control<BlogType | BlogJpType, any>;
@@ -29,6 +30,7 @@ const CustomEditor = <TFieldValues extends FieldValues>({
 }: CustomEditorType<TFieldValues>) => {
   const editorRef = useRef<Editor | null>(null);
   const isDesktop = useBreakpoint(1200);
+  const [plugins, setPlugins] = useState<any[]>([]);
 
   const previewStyle = useMemo(
     () => (isTranslatePage ? "tab" : isDesktop ? "vertical" : "tab"),
@@ -41,6 +43,15 @@ const CustomEditor = <TFieldValues extends FieldValues>({
     name,
     control,
   });
+
+  useEffect(() => {
+    const loadPlugins = async () => {
+      const { codeSyntaxHighlight, Prism } = await loadCodeSyntaxHighlight();
+      setPlugins([[codeSyntaxHighlight, { highlighter: Prism }]]);
+    };
+
+    loadPlugins();
+  }, []);
 
   useEffect(() => {
     if (!editorRef.current || !path) return;
@@ -84,6 +95,7 @@ const CustomEditor = <TFieldValues extends FieldValues>({
           useCommandShortcut={false}
           language="ko-KR"
           autofocus={false}
+          plugins={plugins}
         />
       )}
     </>

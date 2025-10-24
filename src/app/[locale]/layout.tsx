@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import localFont from "next/font/local";
+import { Noto_Sans_JP } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -55,6 +56,11 @@ const pretendard = localFont({
   variable: "--pretendard",
 });
 
+const notoSansJp = Noto_Sans_JP({
+  subsets: ["latin"],
+  variable: "--noto-sans-jp",
+});
+
 export default async function RootLayout({
   children,
   params: { locale },
@@ -69,7 +75,10 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${pretendard.variable} h-full`}>
+    <html
+      lang={locale}
+      className={`${pretendard.variable} ${notoSansJp.variable} h-full`}
+    >
       <body className="h-full bg-slate-200">
         <NextIntlClientProvider messages={messages}>
           <div className="flex flex-col items-center w-full">

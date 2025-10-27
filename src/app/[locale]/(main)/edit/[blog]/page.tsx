@@ -1,4 +1,4 @@
-import BlogFormScreen from "pages/BlogForm/ui/BlogFormScreen";
+import BlogFormScreen from "page/BlogForm/ui/BlogFormScreen";
 import { getCategories } from "entities/category";
 import { getBlogByPath, getBlogByPathJp } from "entities/blog";
 

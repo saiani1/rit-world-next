@@ -4,6 +4,16 @@ import { createClient } from "shared/api/server";
 export const getBlogByPathJp = async (path: string) => {
   try {
     const supabase = await createClient();
+
+    // 1. blog테이블에서 path props와 일치하는 path조회
+    const { data: koBlog, error: blogError } = await supabase
+      .from("blog")
+      .select("*")
+      .eq("path", path)
+      .single();
+
+    if (blogError || !koBlog) return null;
+
     const { data: blog, error } = await supabase
       .from("blog_translation")
       .select(
@@ -25,7 +35,7 @@ export const getBlogByPathJp = async (path: string) => {
         )
         `
       )
-      .eq("blog.path", path)
+      .eq("blog_id", koBlog.id)
       .single();
 
     if (error) {

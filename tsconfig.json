@@ -22,7 +22,7 @@
       "app/*": ["src/app/*"],
       "entities/*": ["src/entities/*"],
       "features/*": ["src/features/*"],
-      "page/*": ["src/page/*"],
+      "pages/*": ["src/pages/*"],
       "shared/*": ["src/shared/*"],
       "widgets/*": ["src/widgets/*"],
       "i18n/*": ["src/i18n/*"]

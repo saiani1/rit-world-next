@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import BlogContentScreen from "page/BlogContent/ui/BlogContentScreen";
+import BlogContentScreen from "pages/BlogContent/ui/BlogContentScreen";
 import { BlogHashtagType, getBlogByPath, getBlogByPathJp } from "entities/blog";
 import DefaultImage from "public/assets/image/default-image.jpg";
 

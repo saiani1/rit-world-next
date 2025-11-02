@@ -87,7 +87,7 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
                         <BsFire
                           size={15}
                           color="#F5690D"
-                          className="ml-[-6px] animate-pulse"
+                          className="ml-[-6px] animate-slow-pulse"
                         />
                       )}
                     </li>

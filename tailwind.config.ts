@@ -12,7 +12,7 @@ const config = {
     extend: {
       keyframes: {
         slowPulse: {
-          "0%, 100%": { opacity: "0.7" },
+          "0%, 100%": { opacity: "0.6" },
           "50%": { opacity: "1" },
         },
       },

@@ -54,7 +54,7 @@ export const Selectbox = ({
       </CommonButton>
       {isClick && (
         <ul
-          className="absolute top-[39px] left-0 text-center w-full z-10 bg-black-F5 text-black-999 text-[13px] font-medium divide-y divide-black-FFF rounded-[5px]"
+          className="absolute top-[39px] left-0 text-center w-full z-[1000] bg-black-F5 text-black-999 text-[13px] font-medium divide-y divide-black-FFF rounded-[5px]"
           onClick={handleClickOption}
         >
           {data.map((item, i) => (

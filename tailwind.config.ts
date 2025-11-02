@@ -10,6 +10,15 @@ const config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        slowPulse: {
+          "0%, 100%": { opacity: "0.7" },
+          "50%": { opacity: "1" },
+        },
+      },
+      animation: {
+        "slow-pulse": "slowPulse 2s ease-in-out infinite",
+      },
       boxShadow: {
         profileShadow: "2px 2px 4px rgba(0, 0, 0, 0.15)",
         commonShadow: "0 0 4px rgba(0, 0, 0, 0.25)",

@@ -27,48 +27,60 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
     setIsMounted(true);
   }, []);
 
-  const { blogList, categoryTitle } = useMemo(() => {
-    if (!isMounted) {
-      const publicData = data.filter((blog) => blog.is_private !== true);
-      return { blogList: publicData, categoryTitle: t("title") };
-    }
-    let filteredData: (BlogType | BlogJpType)[] = data;
-    if (!isLogin) {
-      filteredData = filteredData.filter((blog) => blog.is_private !== true);
-    }
+  const { blogList, categoryTitle, categoryNoticeKo, categoryNoticeJp } =
+    useMemo(() => {
+      if (!isMounted) {
+        const publicData = data.filter((blog) => blog.is_private !== true);
+        return { blogList: publicData, categoryTitle: t("title") };
+      }
+      let filteredData: (BlogType | BlogJpType)[] = data;
+      if (!isLogin) {
+        filteredData = filteredData.filter((blog) => blog.is_private !== true);
+      }
 
-    if (!categoryId) {
-      return { blogList: filteredData, categoryTitle: t("title") };
-    }
+      if (!categoryId) {
+        return { blogList: filteredData, categoryTitle: t("title") };
+      }
 
-    filteredData = filteredData.filter(
-      (blog) =>
-        blog.large_category_id === categoryId ||
-        blog.middle_category_id === categoryId
-    );
+      filteredData = filteredData.filter(
+        (blog) =>
+          blog.large_category_id === categoryId ||
+          blog.middle_category_id === categoryId
+      );
 
-    const currentCategory = categoryList?.find(
-      (cate) => cate.id === categoryId
-    );
+      const currentCategory = categoryList?.find(
+        (cate) => cate.id === categoryId
+      );
 
-    return {
-      blogList: filteredData,
-      categoryTitle: currentCategory?.title || t("noCategory"),
-    };
-  }, [categoryId, data, categoryList, isLogin, t, isMounted]);
+      return {
+        blogList: filteredData,
+        categoryTitle: currentCategory?.title || t("noCategory"),
+        categoryNoticeKo: currentCategory?.notice_ko,
+        categoryNoticeJp: currentCategory?.notice_jp,
+      };
+    }, [categoryId, data, categoryList, isLogin, t, isMounted]);
 
   return (
     <div className="mx-[20px] sm:mx-0">
-      <div className="flex justify-between items-center pb-[15px] mb-[20px] border-b">
-        <div className="flex items-baseline gap-x-[5px]">
-          {categoryId && (
-            <span className="text-black-777 text-[17px]">{`${t("category")} :`}</span>
-          )}
-          <Title name={categoryTitle} />
+      <div className="flex flex-col justify-between items-baseline gap-y-1 pb-[15px] mb-[20px] border-b">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex items-baseline gap-x-[5px]">
+            {categoryId && (
+              <span className="text-black-777 text-[17px]">{`${t("category")} :`}</span>
+            )}
+            <Title name={categoryTitle} />
+          </div>
+          <div className="flex gap-x-[13px]">
+            {isMounted && isLogin && locale === "ko" && <WriteButton />}
+          </div>
         </div>
-        <div className="flex gap-x-[13px]">
-          {isMounted && isLogin && locale === "ko" && <WriteButton />}
-        </div>
+        {categoryNoticeKo && (
+          <div className="pl-2 py-2 w-full bg-gradient-to-r from-[#FF4E50]/80 via-[#FC913A]/80 to-[#F9D423]/80 rounded-md">
+            <p className="text-[13px] text-white">
+              {locale === "ko" ? categoryNoticeKo : categoryNoticeJp}
+            </p>
+          </div>
+        )}
       </div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-x-5 gap-y-10 pt-[10px]">
         {blogList && blogList.length > 0 ? (

@@ -13,6 +13,7 @@ type BlogItemType = {
 };
 
 export const BlogItem = ({ data }: BlogItemType) => {
+  console.log("data", data);
   return (
     <li className="flex flex-col items-start h-full text-left overflow-hidden">
       <Link
@@ -30,6 +31,9 @@ export const BlogItem = ({ data }: BlogItemType) => {
             <RiLock2Fill size={50} className="text-black-666/80" />
           </div>
         )}
+        <span className="absolute top-2 left-2 px-2 text-[12px] text-black-888 bg-white rounded-sm pointer-events-none">
+          {`${data.category_large.title} < ${data.category_middle.title}`}
+        </span>
       </Link>
       <div className="w-full">
         <span className="mt-[8px] mb-[10px] inline-block text-[13px] text-black-999 tracking-normal">

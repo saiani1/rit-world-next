@@ -5,8 +5,9 @@ import { useSetAtom } from "jotai";
 import { AnimatePresence, motion } from "motion/react";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { BiSubdirectoryRight } from "react-icons/bi";
+import { BsFire } from "react-icons/bs";
 
-import { Link, usePathname } from "i18n/routing";
+import { Link } from "i18n/routing";
 import { CategoryType } from "entities/category";
 import { useIsEditMode } from "shared/index";
 import { CategoryListAtom, isClickMobileMenuAtom } from "../model";
@@ -18,7 +19,6 @@ type CategoryProps = {
 };
 
 export const Category = ({ data, isMobile }: CategoryProps) => {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
@@ -75,7 +75,7 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
                   className={`flex flex-col ${isMobile ? "gap-y-2" : "gap-y-1"}`}
                 >
                   {childCategoriesMap.get(cate.id)?.map((item) => (
-                    <li key={item.id}>
+                    <li key={item.id} className="flex items-center gap-x-2">
                       <Link
                         href={{ pathname: "/", query: { category: item.id } }}
                         className={`flex items-center gap-x-2 ml-2 ${categoryId === item.id ? "text-purple-100 font-medium" : "text-black-777 font-normal"}`}
@@ -83,6 +83,13 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
                         <BiSubdirectoryRight />
                         <span>{item.title}</span>
                       </Link>
+                      {item.title.includes("rit") && (
+                        <BsFire
+                          size={15}
+                          color="#F5690D"
+                          className="ml-[-6px] animate-pulse"
+                        />
+                      )}
                     </li>
                   ))}
                 </ul>

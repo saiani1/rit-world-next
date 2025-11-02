@@ -13,7 +13,6 @@ type BlogItemType = {
 };
 
 export const BlogItem = ({ data }: BlogItemType) => {
-  console.log("data", data);
   return (
     <li className="flex flex-col items-start h-full text-left overflow-hidden">
       <Link

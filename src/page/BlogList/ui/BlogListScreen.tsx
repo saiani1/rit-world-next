@@ -9,6 +9,7 @@ import { CategoryListAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
 import { BlogJpType, BlogType } from "entities/blog";
 import { Title } from "shared/ui";
+import { getDisplayLabelAndTitle } from "../lib/getDisplayLabelAndTitle";
 
 type BlogListScreenProps = {
   data: BlogType[] | BlogJpType[];
@@ -19,7 +20,8 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
-  const keyword = searchParams?.get("keyword")?.trim() || "";
+  const keyword = searchParams?.get("keyword");
+  const hashtag = searchParams?.get("hashtag");
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
   const [isMounted, setIsMounted] = useState(false);
@@ -59,6 +61,12 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         });
       }
 
+      if (hashtag) {
+        filteredData = filteredData.filter((blog) =>
+          blog.blog_hashtag.some((h) => h.hashtag_id.name === hashtag)
+        );
+      }
+
       const currentCategory = categoryList?.find(
         (cate) => cate.id === categoryId
       );
@@ -69,29 +77,37 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         categoryNoticeKo: currentCategory?.notice_ko,
         categoryNoticeJp: currentCategory?.notice_jp,
       };
-    }, [categoryId, data, categoryList, isLogin, t, isMounted, keyword]);
+    }, [
+      categoryId,
+      data,
+      categoryList,
+      isLogin,
+      t,
+      isMounted,
+      keyword,
+      hashtag,
+    ]);
+
+  const { label, value } = getDisplayLabelAndTitle({
+    t,
+    categoryId,
+    keyword,
+    hashtag,
+    categoryTitle,
+  });
 
   return (
     <div className="mx-[20px] sm:mx-0">
       <div className="flex flex-col justify-between items-baseline gap-y-1 pb-[15px] mb-[20px] border-b">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-baseline gap-x-[5px]">
-            {categoryId && (
-              <>
-                <span className="text-black-777 text-[17px]">
-                  {t("category")} :
-                </span>
-                <Title name={categoryTitle} />
-              </>
+            {label && (
+              <span className="text-black-777 text-[17px]">{label} :</span>
             )}
-            {keyword && (
-              <>
-                <span className="text-black-777 text-[17px]">
-                  {t("keyword")} :
-                </span>
-                <Title name={keyword} />
-              </>
-            )}{" "}
+            <Title name={value} />
+            <span className="inline-block transform -translate-y-[2px] text-black-999 text-[14px]">
+              ({blogList.length})
+            </span>
           </div>
           <div className="flex gap-x-[13px]">
             {isMounted && isLogin && locale === "ko" && <WriteButton />}

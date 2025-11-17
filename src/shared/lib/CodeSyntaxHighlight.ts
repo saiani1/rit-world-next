@@ -8,6 +8,9 @@ export const loadCodeSyntaxHighlight = async () => {
     ),
     import("prismjs/components/prism-javascript"),
     import("prismjs/components/prism-typescript"),
+    import("prismjs/components/prism-java"),
+    import("prismjs/components/prism-python"),
+    import("prismjs/components/prism-c"),
     import("@toast-ui/editor-plugin-code-syntax-highlight"),
   ]);
 

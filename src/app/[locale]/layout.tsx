@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
-import "../globals.css";
 import { routing } from "i18n/routing";
 
 export const metadata: Metadata = {
@@ -61,7 +60,7 @@ const notoSansJp = Noto_Sans_JP({
   variable: "--noto-sans-jp",
 });
 
-export default async function RootLayout({
+export default async function LocaleLayout({
   children,
   params: { locale },
 }: {

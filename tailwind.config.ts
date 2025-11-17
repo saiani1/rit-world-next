@@ -18,6 +18,7 @@ const config = {
       },
       animation: {
         "slow-pulse": "slowPulse 2s ease-in-out infinite",
+        "spin-slow": "spin 3s linear infinite",
       },
       boxShadow: {
         profileShadow: "2px 2px 4px rgba(0, 0, 0, 0.15)",

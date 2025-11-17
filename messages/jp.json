@@ -64,5 +64,9 @@
   "Menu": {
     "login": "ログイン",
     "logout": "ログアウト"
+  },
+  "NotFound": {
+    "subject": "ページが見つかりません",
+    "description": "メインページへ移動します"
   }
 }

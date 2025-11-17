@@ -35,6 +35,7 @@
     "title": "전체 포스트",
     "category": "카테고리",
     "noCategory": "카테고리 없음",
+    "keyword": "검색어",
     "noBlog": "작성한 블로그 글이 없습니다."
   },
   "Profile": {

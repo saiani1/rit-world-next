@@ -36,6 +36,7 @@
     "title": "全ブログ一覧",
     "category": "カテゴリ",
     "noCategory": "カテゴリなし",
+    "keyword": "キーワード",
     "noBlog": "作成したブログはありません。"
   },
   "Profile": {

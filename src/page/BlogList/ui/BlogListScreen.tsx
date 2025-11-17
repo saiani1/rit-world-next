@@ -19,6 +19,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
+  const keyword = searchParams?.get("keyword")?.trim() || "";
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
   const [isMounted, setIsMounted] = useState(false);
@@ -38,15 +39,25 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         filteredData = filteredData.filter((blog) => blog.is_private !== true);
       }
 
-      if (!categoryId) {
-        return { blogList: filteredData, categoryTitle: t("title") };
+      if (categoryId) {
+        filteredData = filteredData.filter(
+          (blog) =>
+            blog.large_category_id === categoryId ||
+            blog.middle_category_id === categoryId
+        );
       }
 
-      filteredData = filteredData.filter(
-        (blog) =>
-          blog.large_category_id === categoryId ||
-          blog.middle_category_id === categoryId
-      );
+      if (keyword) {
+        const lowerKeyword = keyword.toLowerCase();
+        filteredData = filteredData.filter((blog) => {
+          const subject = blog.subject?.toLowerCase() || "";
+          const content = blog.content?.toLowerCase() || "";
+
+          return (
+            subject.includes(lowerKeyword) || content.includes(lowerKeyword)
+          );
+        });
+      }
 
       const currentCategory = categoryList?.find(
         (cate) => cate.id === categoryId
@@ -58,7 +69,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         categoryNoticeKo: currentCategory?.notice_ko,
         categoryNoticeJp: currentCategory?.notice_jp,
       };
-    }, [categoryId, data, categoryList, isLogin, t, isMounted]);
+    }, [categoryId, data, categoryList, isLogin, t, isMounted, keyword]);
 
   return (
     <div className="mx-[20px] sm:mx-0">
@@ -66,9 +77,21 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
         <div className="flex justify-between items-center w-full">
           <div className="flex items-baseline gap-x-[5px]">
             {categoryId && (
-              <span className="text-black-777 text-[17px]">{`${t("category")} :`}</span>
+              <>
+                <span className="text-black-777 text-[17px]">
+                  {t("category")} :
+                </span>
+                <Title name={categoryTitle} />
+              </>
             )}
-            <Title name={categoryTitle} />
+            {keyword && (
+              <>
+                <span className="text-black-777 text-[17px]">
+                  {t("keyword")} :
+                </span>
+                <Title name={keyword} />
+              </>
+            )}{" "}
           </div>
           <div className="flex gap-x-[13px]">
             {isMounted && isLogin && locale === "ko" && <WriteButton />}

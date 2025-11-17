@@ -15,6 +15,7 @@ import { CommonButton, SelectLangBox, supabase } from "shared/index";
 import { HeaderType } from "../model";
 import { MobileMenu } from "./MobileMenu";
 import { isClickMobileMenuAtom } from "features/Category";
+import { SearchBox } from "./SearchBox";
 
 type HeaderCompType = {
   data: CategoryType[];
@@ -94,6 +95,9 @@ export const Header = ({ data }: HeaderCompType) => {
                     </li>
                   );
                 })}
+              <li>
+                <SearchBox />
+              </li>
               <li className="hidden sm:flex ml-[15px]">
                 <SelectLangBox />
               </li>

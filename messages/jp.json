@@ -67,6 +67,6 @@
   },
   "NotFound": {
     "subject": "ページが見つかりません",
-    "description": "メインページへ移動します"
+    "description": "トップページへ"
   }
 }

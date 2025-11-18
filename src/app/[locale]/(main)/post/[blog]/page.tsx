@@ -1,25 +1,26 @@
+import { cache } from "react";
 import { notFound } from "next/navigation";
 
 import BlogContentScreen from "page/BlogContent/ui/BlogContentScreen";
-import { BlogHashtagType, getBlogByPath, getBlogByPathJp } from "entities/blog";
 import DefaultImage from "public/assets/image/default-image.jpg";
+import { BlogHashtagType, getBlogByPath, getBlogByPathJp } from "entities/blog";
 
-const getPageData = async (locale: string, blog: string) => {
-  const blogData =
-    locale === "ko" ? await getBlogByPath(blog) : await getBlogByPathJp(blog);
-
-  if (!blogData) {
-    notFound();
-  }
-  return blogData;
-};
+const getCachedBlogData = cache(async (locale: string, blog: string) => {
+  return locale === "ko"
+    ? await getBlogByPath(blog)
+    : await getBlogByPathJp(blog);
+});
 
 export const generateMetadata = async ({
   params: { locale, blog },
 }: {
   params: { locale: string; blog: string };
 }) => {
-  const blogData = await getPageData(locale, blog);
+  const blogData = await getCachedBlogData(locale, blog);
+
+  if (!blogData) {
+    return { title: "Not Found", description: "The page was not found." };
+  }
 
   const keywords =
     blogData.blog_hashtag
@@ -57,7 +58,11 @@ const BlogContentPage = async ({
 }: {
   params: { locale: string; blog: string };
 }) => {
-  const blogData = await getPageData(locale, blog);
+  const blogData = await getCachedBlogData(locale, blog);
+
+  if (!blogData) {
+    notFound();
+  }
 
   return (
     <>

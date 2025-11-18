@@ -52,7 +52,7 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
       {!isEditMode && (
         <motion.aside
           key="profile"
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 1, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}

@@ -17,6 +17,11 @@
         "id": 2,
         "title": "BLOG",
         "url": "/"
+      },
+      {
+        "id": 3,
+        "title": "NEWS",
+        "url": "/news"
       }
     ]
   },
@@ -67,5 +72,8 @@
   "NotFound": {
     "subject": "페이지를 찾을 수 없습니다.",
     "description": "메인 페이지로 이동"
+  },
+  "ReleaseNote": {
+    "title": "Release Note"
   }
 }

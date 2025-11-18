@@ -18,10 +18,10 @@ export const RedirectButton = ({ name, path }: RedirectButtonType) => {
 
   return (
     <CommonButton
-      className={`flex items-center gap-x-1 px-[10px] py-[4px] ${path ? "bg-[#7c8798]" : "bg-black-777"} text-white text-[16px] rounded-md`}
+      className={`flex items-center gap-x-1 px-[10px] py-[4px] ${path ? "bg-slate-550" : "bg-black-777"} text-white text-[16px] rounded-md`}
       onClick={handleClickButton}
     >
-      <IoIosArrowBack fill="#fff" />
+      <IoIosArrowBack fill="currentColor" />
       <span className={`inline-block ${path ? "" : "mt-[-2px]"}`}>{name}</span>
     </CommonButton>
   );

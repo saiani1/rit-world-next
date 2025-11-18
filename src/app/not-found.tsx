@@ -1,11 +1,9 @@
-import { redirect } from "next/navigation";
-
 import FaceIcon from "public/assets/svg/logo-face-icon.svg";
 
 const NotFound = () => {
   return (
     <html>
-      <body className="flex flex-col justify-center items-center gap-y-[20px] h-screen">
+      <body className="flex flex-col justify-center items-center gap-y-[20px] h-screen bg-black-F5">
         <h1 className="flex items-center text-[150px] font-bold text-black-999">
           <span>4</span>
           <div className="flex justify-center items-center ml-[20px] mr-[10px] w-[200px] h-[200px] rounded-full bg-black-EEE">

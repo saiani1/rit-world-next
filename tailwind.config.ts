@@ -18,6 +18,7 @@ const config = {
       },
       animation: {
         "slow-pulse": "slowPulse 2s ease-in-out infinite",
+        "spin-slow": "spin 3s linear infinite",
       },
       boxShadow: {
         profileShadow: "2px 2px 4px rgba(0, 0, 0, 0.15)",
@@ -48,6 +49,12 @@ const config = {
           "50": "#ECEFF1",
           "100": "#C2C2C2",
           "200": "#2D3540",
+        },
+        slate: {
+          250: "#d5dce6",
+          450: "#8b95a2",
+          470: "#8d96a3",
+          550: "#7c8798",
         },
         red: {
           "50": "#FAA69B",

@@ -26,14 +26,14 @@
 .toastui-editor-md-code,
 .toastui-editor-md-code-block {
   font-family:
-    var(--pretendard), monospace, "JetBrains Mono", "Cascadia Code", "Monaco",
-    "Source Code Pro";
+    "Consolas", "Yu Gothic", "JetBrains Mono", "Cascadia Code", "Monaco",
+    "Source Code Pro", monospace;
 }
 
 .toastui-editor-contents pre,
 .toastui-editor-contents pre code,
 .toastui-editor-contents code {
   font-family:
-    var(--pretendard), monospace, "JetBrains Mono", "Cascadia Code", "Monaco",
-    "Source Code Pro";
+    "Consolas", "Yu Gothic", "JetBrains Mono", "Cascadia Code", "Monaco",
+    "Source Code Pro", monospace;
 }

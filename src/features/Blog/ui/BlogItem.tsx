@@ -49,7 +49,11 @@ export const BlogItem = ({ data }: BlogItemType) => {
         </span>
         <ul className="flex gap-x-[4px] gap-y-[4px] mt-[15px] w-full flex-wrap">
           {data.blog_hashtag?.map((hash) => (
-            <Hashtag key={hash.hashtag_id.id} name={hash.hashtag_id.name} />
+            <Hashtag
+              key={hash.hashtag_id.id}
+              page="item"
+              name={hash.hashtag_id.name}
+            />
           ))}
         </ul>
       </div>

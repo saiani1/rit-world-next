@@ -1,6 +1,7 @@
 import BlogFormScreen from "page/BlogForm/ui/BlogFormScreen";
 import { getCategories } from "entities/category";
 import { getBlogByPath, getBlogByPathJp } from "entities/blog";
+import { notFound } from "next/navigation";
 
 const EditBlogPage = async ({
   params: { locale, blog },
@@ -11,6 +12,8 @@ const EditBlogPage = async ({
     getCategories(),
     locale === "ko" ? getBlogByPath(blog) : getBlogByPathJp(blog),
   ]);
+
+  if (!blogData) return notFound();
 
   return (
     <>

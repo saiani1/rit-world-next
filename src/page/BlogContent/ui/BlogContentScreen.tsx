@@ -80,7 +80,7 @@ const BlogContentScreen = ({ data }: BlogContentScreenType) => {
                 <ul className="flex gap-x-1">
                   {data.blog_hashtag?.map((hash) => (
                     <Hashtag
-                      page="blog"
+                      page="content"
                       key={hash.hashtag_id.id}
                       name={hash.hashtag_id.name}
                     />

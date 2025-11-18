@@ -11,6 +11,7 @@ export const HashtagList = () => {
 
   const handleClickHashtag = (e: React.MouseEvent<HTMLButtonElement>) => {
     const name = (e.currentTarget as HTMLButtonElement).name;
+    if (!name) return;
     const filterHashtag = hashtags?.filter((hashtag) => hashtag !== name);
     setHashtags(filterHashtag);
   };
@@ -47,7 +48,7 @@ export const HashtagList = () => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
             >
-              <Hashtag name={tag} onClick={handleClickHashtag} />
+              <Hashtag page="edit" name={tag} onClick={handleClickHashtag} />
             </motion.li>
           ))}
         </AnimatePresence>

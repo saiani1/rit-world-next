@@ -87,7 +87,7 @@ export const Header = ({ data }: HeaderCompType) => {
                   return (
                     <li key={header.id} className="hidden sm:flex">
                       <Link
-                        className="bg-purple-100 text-black-FFF px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold"
+                        className={`${header.url === pathname ? "bg-purple-100 text-black-FFF" : "text-black-777"} px-[15px] py-[2px] rounded-[5px] text-[17px] font-semibold`}
                         href={header.url}
                       >
                         {header.title}

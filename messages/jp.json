@@ -18,6 +18,11 @@
         "id": 2,
         "title": "ブログ",
         "url": "/"
+      },
+      {
+        "id": 3,
+        "title": "ニュース",
+        "url": "/news"
       }
     ]
   },
@@ -68,5 +73,8 @@
   "NotFound": {
     "subject": "ページが見つかりません",
     "description": "トップページへ"
+  },
+  "ReleaseNote": {
+    "title": "リリースノート"
   }
 }

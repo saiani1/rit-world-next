@@ -11,7 +11,7 @@ export const NotFoundTitle = ({ inside }: NotFoundTitleType) => {
     >
       <span>4</span>
       <div
-        className={`flex justify-center items-center ml-[20px] mr-[10px] w-[140px] h-[140px] rounded-full ${inside ? "bg-slate-250/70 text-slate-470" : "bg-black-EEE text-[#777]"}`}
+        className={`flex justify-center items-center ml-[20px] mr-[10px] w-[140px] h-[140px] rounded-full ${inside ? "bg-slate-250/70 text-slate-470" : "bg-black-EEE text-black-777"}`}
       >
         <FaceIcon
           width="80"

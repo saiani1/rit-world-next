@@ -50,7 +50,7 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
   return (
     <AnimatePresence>
       {!isEditMode && (
-        <motion.aside
+        <motion.section
           key="profile"
           initial={{ opacity: 1, x: 0 }}
           animate={{ opacity: 1, x: 0 }}
@@ -149,7 +149,7 @@ export const ProfileAside = ({ data }: ProfileAsideType) => {
               )}
             </ul>
           </div>
-        </motion.aside>
+        </motion.section>
       )}
     </AnimatePresence>
   );

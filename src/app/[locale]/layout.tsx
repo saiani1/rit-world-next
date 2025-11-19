@@ -81,7 +81,7 @@ export default async function LocaleLayout({
       <body className="h-full bg-slate-200">
         <NextIntlClientProvider messages={messages}>
           <div className="flex flex-col items-center w-full">
-            <main className="w-full">{children}</main>
+            <div className="w-full">{children}</div>
             <Toaster
               containerStyle={{
                 top: 20,

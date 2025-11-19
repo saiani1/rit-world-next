@@ -1,7 +1,7 @@
 import { Header } from "widgets/Header";
 import { getCategories } from "entities/category";
 
-export default async function BlogLayout({
+export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

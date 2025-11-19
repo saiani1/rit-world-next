@@ -63,11 +63,11 @@ export const Header = ({ data }: HeaderCompType) => {
       {isClickMenu && <MobileMenu data={data} />}
       <header className="flex justify-center items-center w-full min-h-[80px] bg-black-10">
         <div className="flex justify-between items-center lg:w-[80%] md:w-full sm:w-full w-full lg:px-0 md:px-[50px] sm:px-[50px] px-[20px] h-full">
-          <CommonButton onClick={handleLogoClick}>
-            <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
+          <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
+            <CommonButton onClick={handleLogoClick}>
               <Image src={logo} alt="로고" />
-            </h1>
-          </CommonButton>
+            </CommonButton>
+          </h1>
           <nav>
             <ul className="flex items-center gap-x-[3px]">
               {headerArr &&

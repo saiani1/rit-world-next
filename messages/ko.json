@@ -15,13 +15,13 @@
       },
       {
         "id": 2,
-        "title": "BLOG",
-        "url": "/"
+        "title": "NEWS",
+        "url": "/news"
       },
       {
         "id": 3,
-        "title": "NEWS",
-        "url": "/news"
+        "title": "BLOG",
+        "url": "/"
       }
     ]
   },

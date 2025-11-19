@@ -6,6 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import { ReleaseNoteType } from "entities/releaseNote";
 import { Title } from "shared/ui";
+import { ReleaseTypeTag } from "./ReleaseTypeTag";
 
 dayjs.extend(relativeTime);
 dayjs.locale("en");
@@ -43,11 +44,11 @@ const NewsScreen = ({ data }: NewsScreenType) => {
                     {item.version}
                   </h3>
                   <div className="flex items-center gap-x-2 mb-[16px]">
-                    <div
-                      className={`px-2 py-[2px] text-white font-medium text-[12px] ${item.type === "ADDED" ? "bg-green-500" : "bg-purple-100"} rounded-sm`}
-                    >
-                      {item.type}
-                    </div>
+                    <ul className="flex gap-x-1">
+                      {item.type.map((type, i) => (
+                        <ReleaseTypeTag key={`tag-${i}`} type={type} />
+                      ))}
+                    </ul>
                     <span className="text-black-999 text-[12px]">
                       {dayjs(item.update_at).fromNow()}
                     </span>

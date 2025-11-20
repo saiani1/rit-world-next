@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { IoMenu } from "react-icons/io5";
 
+import { AnimatePresence } from "motion/react";
 import logo from "public/assets/logo.png";
 import { Link, useRouter, usePathname } from "i18n/routing";
 import { isLoginAtom } from "entities/user";
@@ -17,11 +18,7 @@ import { MobileMenu } from "./MobileMenu";
 import { isClickMobileMenuAtom } from "features/Category";
 import { SearchBox } from "./SearchBox";
 
-type HeaderCompType = {
-  data: CategoryType[];
-};
-
-export const Header = ({ data }: HeaderCompType) => {
+export const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [headerArr, setHeaderArr] = useState<HeaderType>([]);
@@ -60,7 +57,7 @@ export const Header = ({ data }: HeaderCompType) => {
 
   return (
     <>
-      {isClickMenu && <MobileMenu data={data} />}
+      <AnimatePresence>{isClickMenu && <MobileMenu />}</AnimatePresence>
       <header className="flex justify-center items-center w-full min-h-[80px] bg-black-10">
         <div className="flex justify-between items-center lg:w-[80%] md:w-full sm:w-full w-full lg:px-0 md:px-[50px] sm:px-[50px] px-[20px] h-full">
           <h1 className="relative flex items-baseline gap-x-[8px] font-bold text-purple-700">
@@ -95,7 +92,7 @@ export const Header = ({ data }: HeaderCompType) => {
                     </li>
                   );
                 })}
-              <li>
+              <li className="hidden sm:flex">
                 <SearchBox />
               </li>
               <li className="hidden sm:flex ml-[15px]">

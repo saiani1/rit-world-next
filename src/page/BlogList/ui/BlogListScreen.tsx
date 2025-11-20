@@ -3,19 +3,24 @@ import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useAtomValue } from "jotai";
+import { AnimatePresence, motion } from "motion/react";
 
+import ArrowIcon from "public/assets/svg/top-arrow-icon.svg";
 import { BlogItem, WriteButton } from "features/Blog";
-import { CategoryListAtom } from "features/Category";
+import { Category, CategoryListAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
+import { CategoryType } from "entities/category";
 import { BlogJpType, BlogType } from "entities/blog";
-import { Title } from "shared/ui";
+import { CommonButton, Title } from "shared/ui";
 import { getDisplayLabelAndTitle } from "../lib/getDisplayLabelAndTitle";
+import { SearchBox } from "widgets/Header/ui/SearchBox";
 
 type BlogListScreenProps = {
   data: BlogType[] | BlogJpType[];
+  categoryData: CategoryType[];
 };
 
-const BlogListScreen = ({ data }: BlogListScreenProps) => {
+const BlogListScreen = ({ data, categoryData }: BlogListScreenProps) => {
   const t = useTranslations("BlogList");
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -25,6 +30,7 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
   const isLogin = useAtomValue(isLoginAtom);
   const categoryList = useAtomValue(CategoryListAtom);
   const [isMounted, setIsMounted] = useState(false);
+  const [toggleCategory, setToggleCategory] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -120,6 +126,38 @@ const BlogListScreen = ({ data }: BlogListScreenProps) => {
             </p>
           </div>
         )}
+      </div>
+      <div className="flex flex-col w-full sm:hidden">
+        <div className="flex justify-between items-center gap-x-2 w-full">
+          <CommonButton
+            className="flex justify-between items-center px-[14px] py-[6px] w-full border border-black-CCC rounded-md"
+            onClick={() => setToggleCategory((prev) => !prev)}
+          >
+            <span className="text-black-888">{t("category")}</span>
+            <ArrowIcon
+              className={`w-[10px] fill-black-AAA transition-transform duration-200 ${toggleCategory ? "" : "rotate-180"}`}
+            />
+          </CommonButton>
+          <SearchBox isMobile setToggleCategory={setToggleCategory} />
+        </div>
+        <AnimatePresence>
+          {toggleCategory && (
+            <motion.div
+              className="border-b"
+              key="mobile-category"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              <Category
+                isMobile
+                setMobileToggle={setToggleCategory}
+                data={categoryData}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-x-5 gap-y-10 pt-[10px]">
         {blogList && blogList.length > 0 ? (

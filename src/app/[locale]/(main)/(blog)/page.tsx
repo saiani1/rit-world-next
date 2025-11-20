@@ -1,5 +1,6 @@
 import BlogListScreen from "page/BlogList/ui/BlogListScreen";
 import { getBlogList, getBlogListJp } from "entities/blog";
+import { getCategories } from "entities/category";
 
 const HomePage = async ({
   params: { locale },
@@ -8,8 +9,15 @@ const HomePage = async ({
 }) => {
   const blogData =
     locale === "ko" ? await getBlogList() : await getBlogListJp();
+  const categoryData = await getCategories();
 
-  return <>{blogData && <BlogListScreen data={blogData} />}</>;
+  return (
+    <>
+      {blogData && categoryData && (
+        <BlogListScreen data={blogData} categoryData={categoryData} />
+      )}
+    </>
+  );
 };
 
 export default HomePage;

@@ -1,6 +1,6 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { SetStateAction, useEffect, useMemo } from "react";
 import { useSetAtom } from "jotai";
 import { AnimatePresence, motion } from "motion/react";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -16,9 +16,14 @@ import { filteredCategory } from "../util";
 type CategoryProps = {
   data: CategoryType[];
   isMobile?: boolean;
+  setMobileToggle?: React.Dispatch<SetStateAction<boolean>>;
 };
 
-export const Category = ({ data, isMobile }: CategoryProps) => {
+export const Category = ({
+  data,
+  isMobile,
+  setMobileToggle,
+}: CategoryProps) => {
   const searchParams = useSearchParams();
   const categoryId = searchParams?.get("category");
   const setCategoryList = useSetAtom(CategoryListAtom);
@@ -33,6 +38,11 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
     setCategoryList(data);
   }, [data]);
 
+  const handleClickMobileCategory = () => {
+    setMobileToggle && setMobileToggle(false);
+    setIsClickMenu(false);
+  };
+
   return (
     <AnimatePresence>
       {!isEditMode && (
@@ -42,7 +52,7 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -50 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className={`relative flex flex-col mt-[10px] py-[30px] ${isMobile ? "" : "px-[32px] w-[250px] bg-black-10"} rounded-xl`}
+          className={`relative flex flex-col ${isMobile ? "py-[15px]" : "mt-[10px] px-[32px] py-[30px] w-[250px] bg-black-10"} rounded-xl`}
         >
           <p
             className={`${isMobile ? "hidden" : ""} pb-[4px] mb-[20px] text-black-888 text-[12px] border-b`}
@@ -51,7 +61,7 @@ export const Category = ({ data, isMobile }: CategoryProps) => {
           </p>
           <ul
             className={`flex flex-col ${isMobile ? "gap-y-4" : "gap-y-2"}`}
-            onClick={() => setIsClickMenu(false)}
+            onClick={handleClickMobileCategory}
           >
             <li>
               <Link

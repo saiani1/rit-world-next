@@ -46,7 +46,7 @@ export const SelectLangBox = ({ isMobile }: SelectLangBoxType) => {
       >
         <div className="flex items-center gap-x-1">{t("locale")}</div>
         <ArrowIcon
-          className={`w-[10px] fill-black-AAA transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
+          className={`w-[10px] text-black-AAA transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
         />
       </CommonButton>
       {isClick && (

@@ -135,7 +135,7 @@ const BlogListScreen = ({ data, categoryData }: BlogListScreenProps) => {
           >
             <span className="text-black-888">{t("category")}</span>
             <ArrowIcon
-              className={`w-[10px] fill-black-AAA transition-transform duration-200 ${toggleCategory ? "" : "rotate-180"}`}
+              className={`w-[10px] text-black-AAA transition-transform duration-200 ${toggleCategory ? "" : "rotate-180"}`}
             />
           </CommonButton>
           <SearchBox isMobile setToggleCategory={setToggleCategory} />

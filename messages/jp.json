@@ -27,7 +27,8 @@
     ]
   },
   "Login": {
-    "login": "ログイン"
+    "login": "ログイン",
+    "logout": "ログアウト"
   },
   "Signin": {
     "email": "メール",

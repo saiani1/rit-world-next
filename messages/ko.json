@@ -26,7 +26,8 @@
     ]
   },
   "Login": {
-    "login": "LOG IN"
+    "login": "LOG IN",
+    "logout": "LOG OUT"
   },
   "Signin": {
     "email": "이메일",

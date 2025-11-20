@@ -20,7 +20,7 @@ export default async function BlogLayout({
         <ProfileAside data={profileData} />
         {categoryData && <Category data={categoryData} />}
       </aside>
-      <main className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full bg-black-10 sm:rounded-xl">
+      <main className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full h-auto min-h-screen bg-black-10 sm:rounded-xl">
         {children}
       </main>
     </>

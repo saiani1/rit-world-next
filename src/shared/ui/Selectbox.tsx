@@ -49,7 +49,7 @@ export const Selectbox = ({
       >
         {selectOption ? selectOption.title : placeholder}
         <ArrowIcon
-          className={`transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
+          className={`w-[10px] transition-transform duration-200 ${isClick ? "" : "rotate-180"}`}
         />
       </CommonButton>
       {isClick && (

@@ -28,7 +28,7 @@ export const MobileMenu = () => {
   useEffect(() => {
     const filteredMenu = menuItems.filter((item) => item.id !== 1);
     setMenuArr(filteredMenu);
-  }, [isLogin, tH, menuItems]);
+  }, [isLogin, tH]);
 
   const buttonStyle =
     "ml-[-14px] text-black-888 px-[15px] py-[2px] rounded-[5px] text-[24px] font-medium";

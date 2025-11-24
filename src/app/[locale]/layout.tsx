@@ -8,9 +8,24 @@ import { getMessages } from "next-intl/server";
 
 import { routing } from "i18n/routing";
 
-export const metadata: Metadata = {
-  title: "Rit World",
-  description: "Blar blar",
+export const generateMetadata = async ({
+  params: { locale },
+}: {
+  params: { locale: string };
+}): Promise<Metadata> => {
+  const descriptions: Record<string, string> = {
+    ko: "프론트엔드 개발자 Rit의 기술블로그, 웹 개발과 프로그래밍 관련 경험과 팁을 공유합니다.",
+    jp: "フロントエンド開発者Ritの技術ブログで、ウェブ開発やプログラミングに関する経験を共有します。",
+    en: "Rit's personal tech blog for frontend development, sharing experiences and tips on web development and programming.",
+  };
+
+  return {
+    title: "Rit World",
+    description: descriptions[locale] || descriptions["en"],
+    other: {
+      "naver-site-verification": "2a84108d3bfdd773423ddc310832b698151532e7",
+    },
+  };
 };
 
 const pretendard = localFont({

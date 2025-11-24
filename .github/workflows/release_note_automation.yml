@@ -1,0 +1,40 @@
+# .github/workflows/release_note_automation.yml
+
+name: Create Release Note on PR Merge
+
+# 1. main 브랜치에 PR이 닫히고(closed) 머지(merged)되었을 때 트리거
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  create_release_note:
+    # PR이 머지된 경우에만 job을 실행
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      # Node.js 환경 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 자동화 스크립트에 필요한 라이브러리 설치
+      - name: Install dependencies
+        run: npm install @google/generative-ai @supabase/supabase-js
+
+      # 자동화 스크립트 실행
+      - name: Run script to create release note
+        env:
+          # GitHub 이벤트에서 PR 정보와 시크릿을 환경 변수로 전달
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        # Node.js 스크립트 파일의 경로를 지정
+        run: node ./.github/scripts/generate-release-note.js

@@ -28,7 +28,7 @@ jobs:
 
       # 자동화 스크립트에 필요한 라이브러리 설치
       - name: Install dependencies
-        run: yarn add @google/generative-ai @supabase/supabase-js
+        run: npm install @google/generative-ai @supabase/supabase-js --legacy-peer-deps
 
       # 자동화 스크립트 실행
       - name: Run script to create release note

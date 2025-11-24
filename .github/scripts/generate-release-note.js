@@ -47,7 +47,7 @@ async function main() {
     console.log(`✅ Calculated new version: ${newVersion}`);
 
     // 4. Gemini를 사용하여 PR 내용 분석 및 한국어 노트 생성
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
     const koreanPrompt = `
       다음 GitHub Pull Request 내용을 분석해서 릴리스 노트를 JSON 형식으로 생성해줘.
       - "type" 필드: 변경 사항의 종류를 분석해서 "ADDED", "CHANGED", "FIXED" 중에서 해당하는 것을 모두 포함하는 배열로 만들어줘.

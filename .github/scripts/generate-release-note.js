@@ -15,9 +15,13 @@ const {
 } = process.env;
 
 // 2. 클라이언트 초기화
+const serviceAccount = JSON.parse(GCP_SA_KEY);
 const vertexAI = new VertexAI({
   project: GCP_PROJECT_ID,
-  credentials: JSON.parse(GCP_SA_KEY),
+  credentials: {
+    client_email: serviceAccount.client_email,
+    private_key: serviceAccount.private_key,
+  },
 });
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 

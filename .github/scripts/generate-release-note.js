@@ -20,7 +20,7 @@ const vertexAI = new VertexAI({
 });
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-const model = "gemini-1.5-flash";
+const model = "gemini-2.0-flash-lite-001";
 
 /**
  * 다음 버전 번호를 계산하는 함수 (e.g., "v1.14" -> "v1.15")

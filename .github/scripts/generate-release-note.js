@@ -1,6 +1,6 @@
 // .github/scripts/generate-release-note.js
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { VertexAI } = require("@google-cloud/vertexai");
 const { createClient } = require("@supabase/supabase-js");
 
 // 1. 환경 변수에서 정보 가져오기
@@ -8,16 +8,20 @@ const {
   PR_TITLE,
   PR_BODY,
   PR_MERGED_AT,
-  GEMINI_API_KEY,
+  GCP_PROJECT_ID,
+  GCP_SA_KEY,
   SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY,
 } = process.env;
 
 // 2. 클라이언트 초기화
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY, {
-  apiVersion: "v1",
+const vertexAI = new VertexAI({
+  project: GCP_PROJECT_ID,
+  credentials: JSON.parse(GCP_SA_KEY),
 });
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+const model = "gemini-1.5-pro-001"; // Vertex AI에서 지원하는 모델
 
 /**
  * 다음 버전 번호를 계산하는 함수 (e.g., "v1.14" -> "v1.15")
@@ -49,7 +53,10 @@ async function main() {
     console.log(`✅ Calculated new version: ${newVersion}`);
 
     // 4. Gemini를 사용하여 PR 내용 분석 및 한국어 노트 생성
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const generativeModel = vertexAI.getGenerativeModel({
+      model: model,
+    });
+
     const koreanPrompt = `
       다음 GitHub Pull Request 내용을 분석해서 릴리스 노트를 JSON 형식으로 생성해줘.
       - "type" 필드: 변경 사항의 종류를 분석해서 "ADDED", "CHANGED", "FIXED" 중에서 해당하는 것을 모두 포함하는 배열로 만들어줘.
@@ -66,7 +73,7 @@ async function main() {
       }
     `;
 
-    const koreanResult = await model.generateContent(koreanPrompt);
+    const koreanResult = await generativeModel.generateContent(koreanPrompt);
     const koreanResponseText = (await koreanResult.response).text();
     const koreanNote = JSON.parse(koreanResponseText);
     console.log("✅ Generated Korean note:", koreanNote);
@@ -79,7 +86,8 @@ async function main() {
       [원본 텍스트]
       ${koreanNote.description}
     `;
-    const japaneseResult = await model.generateContent(japanesePrompt);
+    const japaneseResult =
+      await generativeModel.generateContent(japanesePrompt);
     const japaneseDescription = (await japaneseResult.response).text();
     console.log("✅ Generated Japanese translation:", japaneseDescription);
 

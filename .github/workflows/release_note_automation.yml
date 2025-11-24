@@ -28,7 +28,7 @@ jobs:
 
       # 자동화 스크립트에 필요한 라이브러리 설치
       - name: Install dependencies
-        run: npm install @google/generative-ai @supabase/supabase-js --legacy-peer-deps
+        run: npm install @google-cloud/vertexai @supabase/supabase-js --legacy-peer-deps
 
       # 자동화 스크립트 실행
       - name: Run script to create release note
@@ -37,7 +37,8 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         # Node.js 스크립트 파일의 경로를 지정

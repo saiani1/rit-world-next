@@ -36,6 +36,9 @@ function getNextVersion(latestVersion) {
   return `v${major}.${minor + 1}`;
 }
 
+/**
+ * 릴리스 노트 생성 및 번역, 저장을 위한 메인 로직
+ */
 async function main() {
   try {
     console.log("🚀 Starting release note automation process...");

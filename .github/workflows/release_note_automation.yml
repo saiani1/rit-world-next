@@ -44,6 +44,7 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_MERGED_AT: ${{ github.event.pull_request.merged_at }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         # Node.js 스크립트 파일의 경로를 지정

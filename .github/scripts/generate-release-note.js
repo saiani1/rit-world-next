@@ -78,7 +78,11 @@ async function main() {
     const koreanResult = await generativeModel.generateContent(koreanPrompt);
     const koreanResponseText =
       koreanResult.response.candidates[0].content.parts[0].text;
-    const koreanNote = JSON.parse(koreanResponseText);
+    // AI 응답에 포함될 수 있는 마크다운 코드 블록(```json ... ```)을 제거
+    const cleanedJsonString = koreanResponseText
+      .replace(/```json|```/g, "")
+      .trim();
+    const koreanNote = JSON.parse(cleanedJsonString);
     console.log("✅ Generated Korean note:", koreanNote);
 
     // 5. Gemini를 사용하여 일본어로 번역

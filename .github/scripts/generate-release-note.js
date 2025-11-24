@@ -63,6 +63,8 @@ async function main() {
       다음 GitHub Pull Request 내용을 분석해서 릴리스 노트를 JSON 형식으로 생성해줘.
       - "type" 필드: 변경 사항의 종류를 분석해서 "ADDED", "CHANGED", "FIXED" 중에서 해당하는 것을 모두 포함하는 배열로 만들어줘.
       - "description" 필드: PR의 핵심 내용을 요약해서 한국어 문장으로 만들고, 반드시 명사형 어미(예: ~함, ~음, ~개선, ~수정)로 끝나도록 작성해줘.
+      - "type" 필드: 변경 사항의 종류를 분석하여 "ADDED", "CHANGED", "FIXED" 중에서 해당하는 것을 모두 포함하는 배열로 생성.
+      - "description" 필드: PR의 핵심 내용을 **먼저 한국어로 번역한 후**, 그 내용을 요약하여 하나의 한국어 문장으로 만들고, 문장의 끝은 반드시 명사형 어미(예: ~함, ~음, ~개선, ~수정)로 마무리.
 
       [PR 내용]
       제목: ${PR_TITLE}
@@ -87,11 +89,8 @@ async function main() {
 
     // 5. Gemini를 사용하여 일본어로 번역
     const japanesePrompt = `
-      다음 한국어 텍스트를 자연스러운 일본어로 번역해줘.
-      그리고 번역된 문장이 명사형(예: 〜の改善, 〜を追加)으로 끝나도록 다듬어줘.
-
-      [원본 텍스트]
-      ${koreanNote.description}
+      다음 텍스트를 일본어로 번역해줘. 다른 설명 없이 번역된 결과만 반환해줘.
+      "${koreanNote.description}"
     `;
     const japaneseResult =
       await generativeModel.generateContent(japanesePrompt);

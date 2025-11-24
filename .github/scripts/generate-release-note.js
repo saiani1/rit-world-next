@@ -16,7 +16,7 @@ const {
 // 2. 클라이언트 초기화
 const vertexAI = new VertexAI({
   project: GCP_PROJECT_ID,
-  location: "asia-northeast3", // e.g., 'us-central1', 'asia-northeast3' (서울)
+  location: "us-central1",
 });
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 

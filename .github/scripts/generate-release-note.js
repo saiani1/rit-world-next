@@ -8,12 +8,16 @@ const {
   PR_TITLE,
   PR_BODY,
   PR_MERGED_AT,
+  GCP_PROJECT_ID,
   SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY,
 } = process.env;
 
 // 2. 클라이언트 초기화
-const vertexAI = new VertexAI(); // 인증 정보가 자동으로 주입됩니다.
+const vertexAI = new VertexAI({
+  project: GCP_PROJECT_ID,
+  location: "asia-northeast3", // e.g., 'us-central1', 'asia-northeast3' (서울)
+});
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const model = "gemini-1.5-pro-001";

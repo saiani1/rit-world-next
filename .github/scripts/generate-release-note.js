@@ -73,7 +73,8 @@ async function main() {
     `;
 
     const koreanResult = await generativeModel.generateContent(koreanPrompt);
-    const koreanResponseText = (await koreanResult.response).text();
+    const koreanResponseText =
+      koreanResult.response.candidates[0].content.parts[0].text;
     const koreanNote = JSON.parse(koreanResponseText);
     console.log("✅ Generated Korean note:", koreanNote);
 
@@ -87,7 +88,8 @@ async function main() {
     `;
     const japaneseResult =
       await generativeModel.generateContent(japanesePrompt);
-    const japaneseDescription = (await japaneseResult.response).text();
+    const japaneseDescription =
+      japaneseResult.response.candidates[0].content.parts[0].text;
     console.log("✅ Generated Japanese translation:", japaneseDescription);
 
     // 6. Supabase에 데이터 저장

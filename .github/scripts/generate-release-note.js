@@ -89,8 +89,10 @@ async function main() {
 
     // 5. Gemini를 사용하여 일본어로 번역
     const japanesePrompt = `
-      다음 텍스트를 일본어로 번역해줘. 다른 설명 없이 번역된 결과만 반환해줘.
-      "${koreanNote.description}"
+      You are a professional translator for software release notes.
+      Translate the following Korean text into natural-sounding Japanese.
+      The final translated sentence MUST end in a noun form (体言止め), like "〜を修正" or "〜の改善". Do not add any other explanations.
+      Korean Text: "${koreanNote.description}"
     `;
     const japaneseResult =
       await generativeModel.generateContent(japanesePrompt);

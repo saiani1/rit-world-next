@@ -8,24 +8,15 @@ const {
   PR_TITLE,
   PR_BODY,
   PR_MERGED_AT,
-  GCP_PROJECT_ID,
-  GCP_SA_KEY,
   SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY,
 } = process.env;
 
 // 2. 클라이언트 초기화
-const serviceAccount = JSON.parse(GCP_SA_KEY);
-const vertexAI = new VertexAI({
-  project: GCP_PROJECT_ID,
-  credentials: {
-    client_email: serviceAccount.client_email,
-    private_key: serviceAccount.private_key,
-  },
-});
+const vertexAI = new VertexAI(); // 인증 정보가 자동으로 주입됩니다.
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-const model = "gemini-1.5-pro-001"; // Vertex AI에서 지원하는 모델
+const model = "gemini-1.5-pro-001";
 
 /**
  * 다음 버전 번호를 계산하는 함수 (e.g., "v1.14" -> "v1.15")

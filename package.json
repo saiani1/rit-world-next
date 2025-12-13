@@ -18,7 +18,7 @@
     "jotai": "^2.8.3",
     "js-cookie": "^3.0.5",
     "motion": "^12.23.12",
-    "next": "14.2.4",
+    "next": "14.2.35",
     "next-intl": "^4.3.5",
     "next-sitemap": "^4.2.3",
     "prismjs": "^1.30.0",

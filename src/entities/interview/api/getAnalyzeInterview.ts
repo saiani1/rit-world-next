@@ -1,8 +1,8 @@
-import { AnalysisResult } from "../model/type";
+import { AnalysisResultType } from "../model/type";
 
 export const getAnalyzeInterview = async (
   text: string
-): Promise<AnalysisResult> => {
+): Promise<AnalysisResultType> => {
   const response = await fetch("/api/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

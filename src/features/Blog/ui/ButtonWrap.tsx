@@ -44,7 +44,7 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   };
 
   const handleClickDeleteButton = () => {
-    router.replace(`/post/${blog}/confirm`);
+    router.push("/confirm");
     setModalData({
       title: t("deleteBlog"),
       description: t("deleteDescription"),
@@ -53,20 +53,20 @@ export const ButtonWrap = ({ id }: ButtonWrapType) => {
   };
 
   const handleClickEditButton = () => {
-    router.push(`/post/${blog}/confirm`);
+    router.push("/confirm");
     setModalData({
       title: t("editBlog"),
       description: t("editDescription"),
-      confirm: () => router.replace(`/edit/${blog}`),
+      confirm: () => router.push(`/edit/${blog}`),
     });
   };
 
   const handleClickTranslateButton = () => {
-    router.push(`/post/${blog}/confirm`);
+    router.push("/confirm");
     setModalData({
       title: t("translateBlog"),
       description: t("translateDescription"),
-      confirm: () => router.replace(`/translate/${blog}`),
+      confirm: () => router.push(`/translate/${blog}`),
     });
   };
 

@@ -1,4 +1,4 @@
-const Modal = () => {
+const InterviewModal = () => {
   return (
     <div>
       <p>모달입니다. 새로고침 해주세요</p>
@@ -6,4 +6,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default InterviewModal;

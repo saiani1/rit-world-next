@@ -75,15 +75,28 @@ export const POST = async (req: Request) => {
 
       요구사항:
       1. 텍스트 상단의 메타데이터(날짜, 시간, 길이)를 파싱하여 필드에 채우세요.
-      2. 면접 내용을 분석하여 회사명과 면접 유형(1차, 2차 등)을 추론하세요. 알 수 없으면 "미정"으로 하세요.
-      3. 전체 내용을 요약하여 summary에 작성하세요.
-      4. 질문과 답변을 분리하여 qa_data 배열에 담으세요.
-      5. 각 질문/답변에 대해 한국어 번역, 피드백, 더 나은 일본어 답변(경어 사용)을 생성하세요.
+      2. 면접 내용을 분석하여 회사명과 면접 유형(1차, 2차 등)을 추론하세요. 면접 유형은 반드시 한국어로 출력하세요. 알 수 없으면 "미정"으로 하세요.
+      3. 면접 내용을 바탕으로 회사의 사업 형태(SES, SIer, 자사서비스 등)를 추론하여 company_type에 작성하세요.
+      4. 전체 내용을 요약하여 summary에 작성하세요.
+      5. 대화 내용을 분석하여 질문과 답변 쌍으로 분리하고 qa_data 배열에 담으세요.
+      6. 각 항목이 면접관의 질문인지, 지원자의 역질문인지 판단하여 question_type에 "면접관" 또는 "역질문"으로 표기하세요.
+      7. "면접관" 유형일 경우:
+         - question_jp: 면접관의 질문
+         - answer_jp: 지원자의 답변
+         - feedback_ko: 지원자의 답변에 대한 피드백 (한국어)
+         - best_answer_jp: 더 나은 답변 제안 (정중한 일본어)
+      8. "역질문" 유형일 경우:
+         - question_jp: 지원자의 질문
+         - answer_jp: 면접관의 답변
+         - feedback_ko: 지원자의 질문이 적절했는지에 대한 피드백 (한국어)
+         - best_answer_jp: 더 정중하거나 좋은 질문 표현 제안 (정중한 일본어)
+      9. 모든 한국어 번역 필드(_ko)를 채우세요.
 
       출력 JSON 구조:
       {
         "company_name": "회사명",
-        "interview_type": "면접 유형",
+        "company_type": "SES" | "SIer" | "자사서비스" | "기타",
+        "interview_type": "면접 유형 (한국어)",
         "recorded_at": "녹음 일시 (텍스트 상단 정보)",
         "interview_date": "YYYY.MM.DD (녹음 일시 기반)",
         "duration": "00분 00초",
@@ -91,12 +104,13 @@ export const POST = async (req: Request) => {
         "qa_data": [
           {
             "id": "qa_1",
-            "question_jp": "일본어 질문",
+            "question_type": "면접관" 또는 "역질문",
+            "question_jp": "질문 내용",
             "question_ko": "질문 한국어 번역",
-            "answer_jp": "나의 답변",
+            "answer_jp": "답변 내용",
             "answer_ko": "답변 한국어 번역",
-            "feedback_ko": "답변에 대한 피드백",
-            "best_answer_jp": "추천하는 더 좋은 답변 (정중한 일본어)"
+            "feedback_ko": "피드백",
+            "best_answer_jp": "개선된 답변 또는 질문"
           }
         ]
       }

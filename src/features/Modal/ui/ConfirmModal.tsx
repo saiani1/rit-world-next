@@ -63,7 +63,10 @@ export const ConfirmModal = () => {
               <li>
                 <CommonButton
                   className="px-[60px] py-2 bg-purple-100 font-medium text-white text-[16px] rounded-full"
-                  onClick={modalData?.confirm}
+                  onClick={() => {
+                    router.back();
+                    setTimeout(() => modalData?.confirm?.(), 100);
+                  }}
                 >
                   Yes
                 </CommonButton>

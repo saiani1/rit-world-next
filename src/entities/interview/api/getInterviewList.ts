@@ -7,7 +7,7 @@ export const getInterviewList = async () => {
   const { data, error } = await supabase
     .from("interviews")
     .select(
-      "id, company_name, interview_type, recorded_at, interview_date, duration"
+      "id, company_name, company_type, interview_type, recorded_at, interview_date, duration"
     )
     .order("interview_date", { ascending: false });
 

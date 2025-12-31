@@ -1,5 +1,6 @@
 export type QAEntryType = {
   id: string;
+  question_type: "면접관" | "역질문";
   question_jp: string;
   question_ko: string;
   answer_jp: string;
@@ -10,6 +11,7 @@ export type QAEntryType = {
 
 export type AnalysisResultType = {
   company_name: string;
+  company_type: string;
   interview_type: string;
   recorded_at: string;
   interview_date: string;
@@ -28,6 +30,7 @@ export type InterviewListType = Pick<
   InterviewType,
   | "id"
   | "company_name"
+  | "company_type"
   | "interview_type"
   | "recorded_at"
   | "interview_date"

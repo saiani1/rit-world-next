@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { HiPencil, HiCheck } from "react-icons/hi2";
-import { CommonButton } from "shared/ui";
+
 import { InterviewType } from "entities/interview";
+import { CommonButton } from "shared/ui";
 
 type InterviewInfoProps = {
   data: InterviewType;
@@ -26,6 +27,7 @@ export const InterviewInfo = ({
   };
 
   const companyName = watch("company_name");
+  const companyType = watch("company_type");
   const interviewType = watch("interview_type");
 
   return (
@@ -57,6 +59,33 @@ export const InterviewInfo = ({
             )}
             <CommonButton onClick={() => toggleEdit("company_name")}>
               {editingState["company_name"] ? (
+                <HiCheck className="w-5 h-5 text-green-600" />
+              ) : (
+                <HiPencil className="w-4 h-4 text-gray-500" />
+              )}
+            </CommonButton>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="font-semibold text-sm text-gray-700">
+            Company Type
+          </label>
+          <div className="flex items-center gap-2">
+            {editingState["company_type"] ? (
+              <select
+                {...register("company_type")}
+                className="border p-2 rounded"
+              >
+                <option value="SES">SES</option>
+                <option value="SIer">SIer</option>
+                <option value="자사서비스">자사서비스</option>
+                <option value="기타">기타</option>
+              </select>
+            ) : (
+              <p>{companyType}</p>
+            )}
+            <CommonButton onClick={() => toggleEdit("company_type")}>
+              {editingState["company_type"] ? (
                 <HiCheck className="w-5 h-5 text-green-600" />
               ) : (
                 <HiPencil className="w-4 h-4 text-gray-500" />

@@ -5,6 +5,7 @@ import {
   UseFieldArrayRemove,
 } from "react-hook-form";
 import { HiPencil, HiCheck, HiXMark } from "react-icons/hi2";
+
 import { InterviewType } from "entities/interview";
 
 type QACardProps = {
@@ -17,6 +18,7 @@ type QACardProps = {
 export const QACard = ({ index, register, watch, remove }: QACardProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const qaItem = watch(`qa_data.${index}`);
+  const isReverseQuestion = qaItem?.question_type === "역질문";
 
   return (
     <div
@@ -30,6 +32,18 @@ export const QACard = ({ index, register, watch, remove }: QACardProps) => {
       >
         <HiXMark className="w-5 h-5" />
       </button>
+
+      <div className="flex items-center gap-2">
+        <span
+          className={`text-xs font-bold px-2 py-1 rounded ${
+            isReverseQuestion
+              ? "bg-yellow-100 text-yellow-800"
+              : "bg-blue-100 text-white"
+          }`}
+        >
+          {qaItem?.question_type || "면접관"}
+        </span>
+      </div>
 
       <div className="flex flex-col gap-1 pr-10">
         <p className="font-bold text-lg">Q. {qaItem?.question_jp}</p>
@@ -48,7 +62,7 @@ export const QACard = ({ index, register, watch, remove }: QACardProps) => {
 
       <div className="flex flex-col gap-2">
         <label className="font-semibold text-sm text-blue-600">
-          Best Answer (JP)
+          {isReverseQuestion ? "Recommended Question (JP)" : "Best Answer (JP)"}
         </label>
         <div className="flex items-start gap-2">
           {isEditing ? (

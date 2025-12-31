@@ -1,14 +1,11 @@
 "use client";
 import { useForm, useFieldArray } from "react-hook-form";
-import { useSetAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { HiArrowLeft } from "react-icons/hi2";
+import { HiArrowLeft, HiArrowUp } from "react-icons/hi2";
 
-import { ModalAtom } from "features/Modal/model";
+import { useRouter } from "i18n/routing";
 import { InterviewType, updateInterview } from "entities/interview";
 import { CommonButton } from "shared/ui";
-
 import { InterviewInfo } from "./InterviewInfo";
 import { QuestionList } from "./QuestionList";
 import { QACard } from "./QACard";
@@ -19,13 +16,11 @@ type InterviweDetailScreenProps = {
 
 const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
   const router = useRouter();
-  const setModal = useSetAtom(ModalAtom);
   const {
     register,
     control,
     watch,
     getValues,
-    reset,
     formState: { isDirty },
   } = useForm<InterviewType>({
     defaultValues: data,
@@ -44,36 +39,29 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleSave = async () => {
     try {
       const currentData = getValues();
       await updateInterview(data.id, {
         company_name: currentData.company_name,
+        company_type: currentData.company_type,
         interview_type: currentData.interview_type,
         qa_data: currentData.qa_data,
       });
-      toast.success("Saved successfully!");
+      toast.success("변경사항이 반영되었습니다.");
       router.refresh();
     } catch (e) {
       console.error(e);
-      toast.error("Failed to save.");
+      toast.error("변경사항 반영에 실패했습니다.");
     }
   };
 
   const handleBack = () => {
-    if (isDirty) {
-      router.push("/confirm");
-      setModal({
-        title: "알림",
-        description: "변경내용을 저장하시겠습니까?",
-        confirm: async () => {
-          await handleSave();
-          router.back();
-        },
-      });
-    } else {
-      router.back();
-    }
+    router.push("/interview");
   };
 
   return (
@@ -85,9 +73,16 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
         >
           <HiArrowLeft className="w-6 h-6" />
         </CommonButton>
-        <h1 className="text-2xl font-bold text-black-333">
-          {data.company_name} {data.interview_type}
-        </h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-black-333">
+            {data.company_name} {data.interview_type}
+          </h1>
+          {data.company_type && (
+            <span className="inline-block px-2 py-1 text-sm font-bold text-white bg-gray-400 rounded-md">
+              {data.company_type}
+            </span>
+          )}
+        </div>
       </div>
 
       <InterviewInfo
@@ -115,6 +110,14 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
           />
         ))}
       </section>
+
+      <CommonButton
+        onClick={scrollToTop}
+        className="fixed bottom-10 right-10 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
+        aria-label="Scroll to top"
+      >
+        <HiArrowUp className="w-6 h-6" />
+      </CommonButton>
     </div>
   );
 };

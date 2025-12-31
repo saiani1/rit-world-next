@@ -56,9 +56,16 @@ export const InterviewItem = ({ item }: InterviewItemProps) => {
           <h3 className="text-lg font-bold text-black-555">
             {item.company_name}
           </h3>
-          <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-blue-100 rounded">
-            {item.interview_type}
-          </span>
+          <div className="flex items-center gap-1">
+            {item.company_type && (
+              <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-gray-400 rounded">
+                {item.company_type}
+              </span>
+            )}
+            <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-blue-100 rounded">
+              {item.interview_type}
+            </span>
+          </div>
         </div>
       </div>
       <CommonButton

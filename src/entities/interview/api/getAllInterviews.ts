@@ -1,4 +1,5 @@
 import { supabase } from "shared/index";
+import { AnalysisResultType } from "../model";
 
 export const getAllInterviews = async () => {
   const { data, error } = await supabase
@@ -9,5 +10,5 @@ export const getAllInterviews = async () => {
     throw new Error(error.message);
   }
 
-  return data || [];
+  return data as Pick<AnalysisResultType, "interview_type" | "qa_data">[] | [];
 };

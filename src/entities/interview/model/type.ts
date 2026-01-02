@@ -1,18 +1,22 @@
+export type FrequentQuestionsType = {
+  question_jp: string;
+  summary_ko: string;
+  occurrence_count: string;
+};
+
+export type InterviewPatternType = {
+  interview_type: string;
+  keywords: string[];
+  frequent_questions: FrequentQuestionsType[];
+};
+
 export type PatternAnalysisResultType = {
   id: string;
   created_at: string;
   total_interviews: number;
   analysis_result: {
     overall_trend: string;
-    patterns: Array<{
-      interview_type: string;
-      keywords: string[];
-      frequent_questions: Array<{
-        question_jp: string;
-        summary_ko: string;
-        frequency_level: string;
-      }>;
-    }>;
+    patterns: InterviewPatternType[];
   };
 };
 

@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import { PatternAnalysisResultType } from "entities/interview";
+import {
+  FrequentQuestionsType,
+  PatternAnalysisResultType,
+} from "entities/interview";
 import { CommonButton } from "shared/ui";
 
 export const PatternAnalysisSection = () => {
@@ -109,23 +112,25 @@ export const PatternAnalysisSection = () => {
                     빈출 질문 TOP 5
                   </p>
                   <ul className="space-y-3">
-                    {pattern.frequent_questions.map((fq: any, fIdx) => (
-                      <li key={fIdx} className="text-sm group">
-                        <div className="flex justify-between items-start gap-2 mb-1">
-                          <p className="font-medium text-gray-800">
-                            Q. {fq.question_jp}
+                    {pattern.frequent_questions.map(
+                      (fq: FrequentQuestionsType, fIdx) => (
+                        <li key={fIdx} className="text-sm group">
+                          <div className="flex justify-between items-start gap-2 mb-1">
+                            <p className="font-medium text-gray-800">
+                              Q. {fq.question_jp}
+                            </p>
+                            {fq.occurrence_count && (
+                              <span className="shrink-0 px-2 py-0.5 bg-white text-red-600 text-[10px] font-bold rounded-full border border-red-100">
+                                {fq.occurrence_count}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-gray-500 text-xs pl-2 border-l-2 border-gray-200 group-hover:border-indigo-300 transition-colors">
+                            {fq.summary_ko}
                           </p>
-                          {fq.occurrence_count && (
-                            <span className="shrink-0 px-2 py-0.5 bg-white text-red-600 text-[10px] font-bold rounded-full border border-red-100">
-                              {fq.occurrence_count}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-gray-500 text-xs pl-2 border-l-2 border-gray-200 group-hover:border-indigo-300 transition-colors">
-                          {fq.summary_ko}
-                        </p>
-                      </li>
-                    ))}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>

@@ -1,8 +1,9 @@
 import { supabase } from "shared/index";
+import { PatternAnalysisResultType } from "../model";
 
 export const saveInterviewPattern = async (
   totalInterviews: number,
-  analysisResult: any
+  analysisResult: Pick<PatternAnalysisResultType, "analysis_result">
 ) => {
   const { data, error } = await supabase
     .from("interview_patterns")

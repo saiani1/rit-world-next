@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { UseFormWatch } from "react-hook-form";
+import { FieldArrayWithId, UseFormWatch } from "react-hook-form";
 import { HiChevronDown } from "react-icons/hi2";
 
 import { InterviewType } from "entities/interview";
 import { CommonButton } from "shared/ui";
 
 type QuestionListProps = {
-  fields: any[];
+  fields: FieldArrayWithId<InterviewType, "qa_data", "id">[];
   watch: UseFormWatch<InterviewType>;
   onScrollToQuestion: (index: number) => void;
 };

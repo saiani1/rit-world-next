@@ -1,3 +1,21 @@
+export type PatternAnalysisResultType = {
+  id: string;
+  created_at: string;
+  total_interviews: number;
+  analysis_result: {
+    overall_trend: string;
+    patterns: Array<{
+      interview_type: string;
+      keywords: string[];
+      frequent_questions: Array<{
+        question_jp: string;
+        summary_ko: string;
+        frequency_level: string;
+      }>;
+    }>;
+  };
+};
+
 export type QAEntryType = {
   id: string;
   question_type: "면접관" | "역질문";

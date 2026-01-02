@@ -1,7 +1,7 @@
 "use client";
-import { HiXMark } from "react-icons/hi2";
-import toast from "react-hot-toast";
 import { useSetAtom } from "jotai";
+import toast from "react-hot-toast";
+import { HiXMark } from "react-icons/hi2";
 
 import { useRouter } from "i18n/routing";
 import { ModalAtom } from "features/Modal";

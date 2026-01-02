@@ -3,6 +3,7 @@ import { UseFormWatch } from "react-hook-form";
 import { HiChevronDown } from "react-icons/hi2";
 
 import { InterviewType } from "entities/interview";
+import { CommonButton } from "shared/ui";
 
 type QuestionListProps = {
   fields: any[];
@@ -19,7 +20,7 @@ export const QuestionList = ({
 
   return (
     <section className="flex flex-col border rounded-lg shadow-sm bg-white overflow-hidden w-full max-w-full">
-      <button
+      <CommonButton
         onClick={() => setIsOpen(!isOpen)}
         className="flex justify-between items-center p-4 w-full text-left hover:bg-gray-50 transition-colors"
       >
@@ -29,14 +30,14 @@ export const QuestionList = ({
             isOpen ? "rotate-180" : ""
           }`}
         />
-      </button>
+      </CommonButton>
       {isOpen && (
         <div className="p-4 border-t bg-gray-50 flex flex-col gap-2 w-full">
           {fields.map((field, index) => {
             const question = watch(`qa_data.${index}.question_ko`);
             const type = watch(`qa_data.${index}.question_type`);
             return (
-              <button
+              <CommonButton
                 key={field.id}
                 onClick={() => onScrollToQuestion(index)}
                 className="text-left text-sm text-gray-700 hover:text-blue-600 hover:underline w-full min-w-0"
@@ -49,7 +50,7 @@ export const QuestionList = ({
                   [{type || "면접관"}]
                 </span>
                 {index + 1}. {question}
-              </button>
+              </CommonButton>
             );
           })}
         </div>

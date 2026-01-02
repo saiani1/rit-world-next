@@ -8,9 +8,9 @@ import { getAnalyzeInterview, saveInterview } from "entities/interview";
 import { CommonButton, FileInput } from "shared/ui";
 
 export const InterviewUploadSection = () => {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const router = useRouter();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) setFile(e.target.files[0]);
@@ -24,7 +24,6 @@ export const InterviewUploadSection = () => {
       const text = await file.text();
       const result = await getAnalyzeInterview(text);
       await saveInterview(result, text);
-
       toast.success("분석이 완료되었습니다.");
       router.refresh();
     } catch (error) {

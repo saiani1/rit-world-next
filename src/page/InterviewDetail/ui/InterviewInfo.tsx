@@ -3,7 +3,7 @@ import { UseFormRegister, UseFormWatch } from "react-hook-form";
 import { HiPencil, HiCheck } from "react-icons/hi2";
 
 import { InterviewType } from "entities/interview";
-import { CommonButton } from "shared/ui";
+import { CommonButton, CommonInput } from "shared/ui";
 
 type InterviewInfoProps = {
   data: InterviewType;
@@ -50,7 +50,7 @@ export const InterviewInfo = ({
           </label>
           <div className="flex items-center gap-2">
             {editingState["company_name"] ? (
-              <input
+              <CommonInput
                 {...register("company_name")}
                 className="border p-2 rounded"
               />
@@ -99,20 +99,20 @@ export const InterviewInfo = ({
           </label>
           <div className="flex items-center gap-2">
             {editingState["interview_type"] ? (
-              <input
+              <CommonInput
                 {...register("interview_type")}
                 className="border p-2 rounded"
               />
             ) : (
               <p>{interviewType}</p>
             )}
-            <button onClick={() => toggleEdit("interview_type")}>
+            <CommonButton onClick={() => toggleEdit("interview_type")}>
               {editingState["interview_type"] ? (
                 <HiCheck className="w-5 h-5 text-green-600" />
               ) : (
                 <HiPencil className="w-4 h-4 text-gray-500" />
               )}
-            </button>
+            </CommonButton>
           </div>
         </div>
         <div>

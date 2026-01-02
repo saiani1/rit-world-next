@@ -7,6 +7,7 @@ import {
 import { HiPencil, HiCheck, HiXMark } from "react-icons/hi2";
 
 import { InterviewType } from "entities/interview";
+import { CommonButton } from "shared/ui";
 
 type QACardProps = {
   index: number;
@@ -25,13 +26,13 @@ export const QACard = ({ index, register, watch, remove }: QACardProps) => {
       id={`question-${index}`}
       className="relative flex flex-col gap-4 p-6 border rounded-lg shadow-sm bg-white group"
     >
-      <button
+      <CommonButton
         onClick={() => remove(index)}
         className="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors p-1"
         title="Delete this Q&A"
       >
         <HiXMark className="w-5 h-5" />
-      </button>
+      </CommonButton>
 
       <div className="flex items-center gap-2">
         <span
@@ -76,13 +77,16 @@ export const QACard = ({ index, register, watch, remove }: QACardProps) => {
               {qaItem?.best_answer_jp}
             </p>
           )}
-          <button onClick={() => setIsEditing(!isEditing)} className="mt-1">
+          <CommonButton
+            onClick={() => setIsEditing(!isEditing)}
+            className="mt-1"
+          >
             {isEditing ? (
               <HiCheck className="w-5 h-5 text-green-600" />
             ) : (
               <HiPencil className="w-4 h-4 text-gray-500" />
             )}
-          </button>
+          </CommonButton>
         </div>
       </div>
     </div>

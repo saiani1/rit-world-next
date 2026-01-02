@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { InterviewListType } from "entities/interview";
-import { Title } from "shared/ui";
+import { CommonButton, Title } from "shared/ui";
 import { InterviewList } from "./InterviewList";
 import { InterviewUploadSection } from "./InterviewUploadSection";
 import { PatternAnalysisSection } from "./PatternAnalysisSection";
@@ -27,7 +27,7 @@ const InterviewScreen = ({ data }: InterviewScreenType) => {
         <div>
           <Title name="Interview" />
           <div className="flex space-x-4 mt-6 border-b border-gray-200">
-            <button
+            <CommonButton
               onClick={() => setActiveTab("interview")}
               className={`py-2 px-4 font-medium text-sm focus:outline-none ${
                 activeTab === "interview"
@@ -36,8 +36,8 @@ const InterviewScreen = ({ data }: InterviewScreenType) => {
               }`}
             >
               면접
-            </button>
-            <button
+            </CommonButton>
+            <CommonButton
               onClick={() => setActiveTab("analysis")}
               className={`py-2 px-4 font-medium text-sm focus:outline-none ${
                 activeTab === "analysis"
@@ -46,7 +46,7 @@ const InterviewScreen = ({ data }: InterviewScreenType) => {
               }`}
             >
               분석
-            </button>
+            </CommonButton>
           </div>
 
           <div className="mt-6">

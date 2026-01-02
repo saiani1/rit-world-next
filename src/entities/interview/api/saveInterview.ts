@@ -1,5 +1,5 @@
-import { AnalysisResultType } from "../model";
 import { supabase } from "shared/index";
+import { AnalysisResultType } from "../model";
 
 export const saveInterview = async (
   data: AnalysisResultType,

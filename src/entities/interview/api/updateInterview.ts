@@ -1,6 +1,6 @@
 "use server";
-import { createClient } from "shared/api/server";
 import { revalidatePath } from "next/cache";
+import { createClient } from "shared/api/server";
 import { InterviewType } from "../model/type";
 
 export const updateInterview = async (

@@ -1,4 +1,4 @@
-export { saveInterviewPattern } from "entities/interview/api/saveInterviewPattern";
+export { saveInterviewPattern } from "./saveInterviewPattern";
 export { getAllInterviews } from "./getAllInterviews";
 export { getInterviewPattern } from "./getInterviewPattern";
 export { saveInterview } from "./saveInterview";

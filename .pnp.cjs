@@ -27,6 +27,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@google/generative-ai", "npm:0.24.1"],\
           ["@supabase/ssr", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1"],\
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\
@@ -2415,6 +2416,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@formatjs/intl-localematcher", "npm:0.6.1"],\
           ["tslib", "npm:2.8.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@google/generative-ai", [\
+      ["npm:0.24.1", {\
+        "packageLocation": "./.yarn/cache/@google-generative-ai-npm-0.24.1-d9be3495d4-8da77fc648.zip/node_modules/@google/generative-ai/",\
+        "packageDependencies": [\
+          ["@google/generative-ai", "npm:0.24.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8423,6 +8433,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["rit-world-next", "workspace:."],\
+          ["@google/generative-ai", "npm:0.24.1"],\
           ["@supabase/ssr", "virtual:24d80a98fe8b74c938d25e229d31c194ee4d7076f227cc8be2b592253f563d74537fcfbe1d0b1d29fd721db80ec3d1becda9a6160c4a3951b012e37b678fe6df#npm:0.6.1"],\
           ["@supabase/supabase-js", "npm:2.49.4"],\
           ["@svgr/webpack", "npm:8.1.0"],\

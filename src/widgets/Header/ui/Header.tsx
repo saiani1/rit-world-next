@@ -2,20 +2,19 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAtom } from "jotai";
+import { useTranslations } from "next-intl";
+import { AnimatePresence } from "motion/react";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
-import { useTranslations } from "next-intl";
 import { IoMenu } from "react-icons/io5";
 
-import { AnimatePresence } from "motion/react";
 import logo from "public/assets/logo.png";
 import { Link, useRouter, usePathname } from "i18n/routing";
+import { isClickMobileMenuAtom } from "features/Category";
 import { isLoginAtom } from "entities/user";
-import { CategoryType } from "entities/category";
 import { CommonButton, SelectLangBox, supabase } from "shared/index";
 import { HeaderType } from "../model";
 import { MobileMenu } from "./MobileMenu";
-import { isClickMobileMenuAtom } from "features/Category";
 import { SearchBox } from "./SearchBox";
 
 export const Header = () => {
@@ -69,6 +68,7 @@ export const Header = () => {
             <ul className="flex items-center gap-x-[3px]">
               {headerArr &&
                 headerArr.map((header) => {
+                  if (header.id === 4 && !isLogin) return null;
                   if (header.id === 1) {
                     return (
                       <li key={header.id} className="hidden sm:flex">

@@ -1372,6 +1372,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@google/generative-ai@npm:^0.24.1":
+  version: 0.24.1
+  resolution: "@google/generative-ai@npm:0.24.1"
+  checksum: 10c0/8da77fc648b04fc2ecef53e75230e2ee67a8fd29a34b6b8874e77a7332b2a1e4b51d44dd9eb604fb063ed8ea46d293aac5b1e2a955ae2435e2582a265f2cb80d
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
   resolution: "@humanwhocodes/config-array@npm:0.13.0"
@@ -6125,6 +6132,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "rit-world-next@workspace:."
   dependencies:
+    "@google/generative-ai": "npm:^0.24.1"
     "@supabase/ssr": "npm:^0.6.1"
     "@supabase/supabase-js": "npm:^2.49.4"
     "@svgr/webpack": "npm:^8.1.0"

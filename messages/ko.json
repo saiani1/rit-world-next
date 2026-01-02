@@ -22,6 +22,11 @@
         "id": 3,
         "title": "BLOG",
         "url": "/"
+      },
+      {
+        "id": 4,
+        "title": "INTERVIEW",
+        "url": "/interview"
       }
     ]
   },

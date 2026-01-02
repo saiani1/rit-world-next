@@ -1,26 +1,27 @@
 // .github/scripts/generate-release-note.js
-
-const { VertexAI } = require("@google-cloud/vertexai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { createClient } = require("@supabase/supabase-js");
+const {
+  getLatestReleaseVersion,
+  saveReleaseNote,
+  saveReleaseNoteTranslation,
+} = require("../../src/entities/releaseNote/api/release-note");
 
 // 1. 환경 변수에서 정보 가져오기
 const {
   PR_TITLE,
   PR_BODY,
   PR_MERGED_AT,
-  GCP_PROJECT_ID,
+  GEMINI_API_KEY,
   SUPABASE_URL,
   SUPABASE_SERVICE_ROLE_KEY,
 } = process.env;
 
 // 2. 클라이언트 초기화
-const vertexAI = new VertexAI({
-  project: GCP_PROJECT_ID,
-  location: "us-central1",
-});
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-const model = "gemini-2.0-flash-lite-001";
+const model = "gemini-flash-latest";
 
 /**
  * 다음 버전 번호를 계산하는 함수 (e.g., "v1.14" -> "v1.15")
@@ -44,18 +45,12 @@ async function main() {
     console.log("🚀 Starting release note automation process...");
 
     // 3. Supabase에서 최신 버전 가져오기
-    const { data: latestRelease } = await supabase
-      .from("release_note")
-      .select("version")
-      .order("update_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    const newVersion = getNextVersion(latestRelease?.version);
+    const latestVersion = await getLatestReleaseVersion(supabase);
+    const newVersion = getNextVersion(latestVersion);
     console.log(`✅ Calculated new version: ${newVersion}`);
 
     // 4. Gemini를 사용하여 PR 내용 분석 및 한국어 노트 생성
-    const generativeModel = vertexAI.getGenerativeModel({
+    const generativeModel = genAI.getGenerativeModel({
       model: model,
     });
 
@@ -78,8 +73,8 @@ async function main() {
     `;
 
     const koreanResult = await generativeModel.generateContent(koreanPrompt);
-    const koreanResponseText =
-      koreanResult.response.candidates[0].content.parts[0].text;
+    const koreanResponse = await koreanResult.response;
+    const koreanResponseText = koreanResponse.text();
     // AI 응답에 포함될 수 있는 마크다운 코드 블록(```json ... ```)을 제거
     const cleanedJsonString = koreanResponseText
       .replace(/```json|```/g, "")
@@ -96,39 +91,29 @@ async function main() {
     `;
     const japaneseResult =
       await generativeModel.generateContent(japanesePrompt);
-    const japaneseDescription =
-      japaneseResult.response.candidates[0].content.parts[0].text;
+    const japaneseResponse = await japaneseResult.response;
+    const japaneseDescription = japaneseResponse.text();
     console.log("✅ Generated Japanese translation:", japaneseDescription);
 
     // 6. Supabase에 데이터 저장
     const mergedTimestamp = PR_MERGED_AT;
 
     // release_note 테이블에 저장
-    const { error: koreanInsertError } = await supabase
-      .from("release_note")
-      .insert([
-        {
-          update_at: mergedTimestamp,
-          version: newVersion,
-          type: koreanNote.type,
-          description: koreanNote.description,
-        },
-      ]);
-    if (koreanInsertError) throw koreanInsertError;
+    await saveReleaseNote(supabase, {
+      update_at: mergedTimestamp,
+      version: newVersion,
+      type: koreanNote.type,
+      description: koreanNote.description,
+    });
     console.log("💾 Successfully saved to release_note table.");
 
     // release_note_translation 테이블에 저장
-    const { error: japaneseInsertError } = await supabase
-      .from("release_note_translation")
-      .insert([
-        {
-          update_at: mergedTimestamp,
-          version: newVersion,
-          type: koreanNote.type, // 타입은 동일하게 사용
-          description: japaneseDescription,
-        },
-      ]);
-    if (japaneseInsertError) throw japaneseInsertError;
+    await saveReleaseNoteTranslation(supabase, {
+      update_at: mergedTimestamp,
+      version: newVersion,
+      type: koreanNote.type, // 타입은 동일하게 사용
+      description: japaneseDescription,
+    });
     console.log("💾 Successfully saved to release_note_translation table.");
 
     console.log("🎉 Automation process completed successfully!");

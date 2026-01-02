@@ -6,9 +6,11 @@ import { getProfileInfo, getProfileInfoJp } from "entities/user";
 
 export default async function MainLayout({
   children,
+  modal,
   params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
   params: { locale: string };
 }>) {
   const profileData =
@@ -25,6 +27,7 @@ export default async function MainLayout({
         </aside>
         <main className="sm:pt-[105px] pt-[40px] sm:px-[50px] pb-[40px] w-full h-auto min-h-screen bg-black-10 sm:rounded-xl">
           {children}
+          {modal}
         </main>
       </div>
     </div>

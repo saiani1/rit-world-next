@@ -1,46 +1,19 @@
 import { NextResponse } from "next/server";
-import { VertexAI } from "@google-cloud/vertexai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const POST = async (req: Request) => {
-  console.log("--- Analyze API Request Started (Vertex AI) ---");
+  console.log("--- Analyze API Request Started (Gemini API) ---");
 
   try {
-    const projectId = process.env.GOOGLE_CLOUD_PROJECT;
-    const location = process.env.GOOGLE_LOCATION || "us-central1";
-
-    if (!projectId) {
-      console.error("Error: GCP_PROJECT_ID is not set");
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("Error: GEMINI_API_KEY is not set");
       return NextResponse.json(
-        { error: "Server configuration error: Missing Project ID" },
+        { error: "Server configuration error: Missing API Key" },
         { status: 500 }
       );
     }
-
-    // Vertex AI 초기화 옵션
-    const vertexInitOptions: any = { project: projectId, location: location };
-
-    // 환경 변수에 서비스 계정 키 JSON이 있다면 사용 (로컬/배포 환경 인증 해결)
-    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
-    if (serviceAccountJson) {
-      console.log(
-        "GOOGLE_SERVICE_ACCOUNT_JSON found. Length:",
-        serviceAccountJson.length
-      );
-      try {
-        vertexInitOptions.googleAuthOptions = {
-          credentials: JSON.parse(serviceAccountJson),
-        };
-        console.log("Credentials parsed successfully.");
-      } catch (e) {
-        console.error("Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON:", e);
-      }
-    } else {
-      console.warn(
-        "GOOGLE_SERVICE_ACCOUNT_JSON is not set. Using default auth (gcloud)."
-      );
-    }
-
-    const vertex_ai = new VertexAI(vertexInitOptions);
+    const genAI = new GoogleGenerativeAI(apiKey);
 
     let body;
     try {
@@ -58,13 +31,12 @@ export const POST = async (req: Request) => {
 
     console.log(`Text received. Length: ${text.length} characters.`);
 
-    const modelName = "gemini-2.5-pro";
-    console.log(`Using Vertex AI Model: ${modelName}`);
-    const model = vertex_ai.getGenerativeModel({
+    const modelName = "gemini-flash-latest";
+    console.log(`Using Gemini Model: ${modelName}`);
+    const model = genAI.getGenerativeModel({
       model: modelName,
       generationConfig: {
         responseMimeType: "application/json",
-        maxOutputTokens: 16384,
       },
     });
 
@@ -74,7 +46,7 @@ export const POST = async (req: Request) => {
       중요: 출력 길이가 길어질 수 있으므로, 각 답변과 피드백은 핵심만 간결하게 작성하여 JSON 형식이 끊기지 않도록 하세요.
 
       요구사항:
-      1. 텍스트 상단의 메타데이터(날짜, 시간, 길이)를 파싱하여 필드에 채우세요.
+      1. 텍스트 파일의 맨 첫 번째 줄에 있는 날짜 정보를 '녹음 일시'로 사용하여 recorded_at과 interview_date 필드를 채우세요. 두 번째 줄에 있는 날짜 정보는 클로바노트 파싱일이므로 무시하세요.
       2. 면접 내용을 분석하여 회사명과 면접 유형(1차, 2차 등)을 추론하세요. 면접 유형은 반드시 한국어로 출력하세요. 알 수 없으면 "미정"으로 하세요.
       3. 면접 내용을 바탕으로 회사의 사업 형태(SES, SIer, 자사서비스 등)를 추론하여 company_type에 작성하세요.
       4. 전체 내용을 요약하여 summary에 작성하세요.
@@ -119,12 +91,12 @@ export const POST = async (req: Request) => {
       ${text}
     `;
 
-    console.log("Sending request to Vertex AI...");
+    console.log("Sending request to Gemini API...");
     const result = await model.generateContent(prompt);
-    console.log("Vertex AI response received.");
+    console.log("Gemini API response received.");
 
     const response = await result.response;
-    const textResponse = response.candidates?.[0].content.parts?.[0].text || "";
+    const textResponse = response.text();
     console.log("Raw response text length:", textResponse.length);
 
     // JSON 파싱 (마크다운 코드 블록이 포함될 경우 제거)
@@ -177,12 +149,19 @@ export const POST = async (req: Request) => {
       errorMessage.includes("PERMISSION_DENIED")
     ) {
       clientMessage =
-        "Google Cloud Console에서 Vertex AI API를 활성화하거나 인증 권한을 확인해야 합니다.";
+        "Google AI Studio API Key가 유효하지 않거나 권한이 없습니다.";
     } else if (
       errorMessage.includes("404") ||
       errorMessage.includes("NOT_FOUND")
     ) {
       clientMessage = "요청한 AI 모델을 찾을 수 없습니다. (모델명 오류)";
+    } else if (
+      errorMessage.includes("429") ||
+      errorMessage.includes("Too Many Requests") ||
+      errorMessage.includes("Quota exceeded")
+    ) {
+      clientMessage =
+        "API 요청 한도를 초과했습니다. 잠시 후 다시 시도해주세요.";
     }
 
     return NextResponse.json(

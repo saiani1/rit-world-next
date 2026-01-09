@@ -7,7 +7,7 @@ import {
   getAllInterviews,
 } from "entities/interview";
 
-export const maxDuration = 300;
+export const maxDuration = 60;
 
 export const POST = async () => {
   console.log("--- Pattern Analysis API Request Started ---");

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { MAX_DURATION } from "shared/config/constants";
 
 import {
   getInterviewPattern,
@@ -7,7 +8,7 @@ import {
   getAllInterviews,
 } from "entities/interview";
 
-export const maxDuration = 60;
+export const maxDuration = MAX_DURATION;
 
 export const POST = async () => {
   console.log("--- Pattern Analysis API Request Started ---");

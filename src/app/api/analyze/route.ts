@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+export const maxDuration = 300;
+
 export const POST = async (req: Request) => {
   console.log("--- Analyze API Request Started (Gemini API) ---");
 

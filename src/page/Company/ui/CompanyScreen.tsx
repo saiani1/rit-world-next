@@ -9,7 +9,13 @@ import { CompanyItem } from "./CompanyItem";
 type CompanyScreenProps = {
   companies: Pick<
     CompanyTableType,
-    "id" | "name" | "type" | "applied_at" | "status" | "result"
+    | "id"
+    | "name"
+    | "type"
+    | "applied_at"
+    | "status"
+    | "result"
+    | "next_step_date"
   >[];
 };
 

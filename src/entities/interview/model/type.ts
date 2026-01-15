@@ -102,20 +102,29 @@ export type CompanyTableType = {
   id: string;
   name: string;
   type: CompanyType;
+  /** 구인공고 url */
   jd_url?: string;
+  /** 홈페이지 url */
   homepage_url?: string;
+  /** 회사 주소 */
   address?: string;
   /** 지원 방법 */
   application_method: ApplicationMethodType;
+  /** 지원 경로 */
   channel?: string;
+  /** 지원일 */
   applied_at: string;
+  /** 기업 정보 */
   info?: string;
+  /** 지원동기 */
   motivation?: string;
   /** 다음 전형 일정 */
-  next_step_date?: string;
+  next_step_date: string | null;
   /** 화상 면접 링크 */
   meeting_url?: string;
+  /** 상태 */
   status: InterviewStatusType;
+  /** 결과 */
   result: InterviewResultType;
   created_at: string;
   updated_at: string;
@@ -129,6 +138,7 @@ export type InterviewSetType = {
   scheduled_at?: string;
   /** 화상 면접 링크 */
   meeting_url?: string;
+  /** 상태 태그 */
   status_tag: InterviewStatusType;
   created_at: string;
   updated_at: string;

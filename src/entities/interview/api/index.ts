@@ -1,3 +1,6 @@
+export { updateCompany } from "./updateCompany";
+export { getCompanyById } from "./getCompanyById";
+export { saveCompany } from "./saveCompany";
 export { saveInterviewPattern } from "./saveInterviewPattern";
 export { getAllInterviews } from "./getAllInterviews";
 export { getInterviewPattern } from "./getInterviewPattern";
@@ -7,3 +10,4 @@ export { getInterviewById } from "./getInterviewById";
 export { getInterviewList } from "./getInterviewList";
 export { deleteInterview } from "./deleteInterview";
 export { updateInterview } from "./updateInterview";
+export { getCompanyList } from "./getCompanyList";

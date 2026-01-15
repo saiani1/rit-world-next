@@ -1,6 +1,8 @@
-import { supabase } from "shared/index";
+"use server";
+import { createClient } from "shared/api/server";
 
 export const getInterviewPattern = async () => {
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("interview_patterns")
     .select("*")

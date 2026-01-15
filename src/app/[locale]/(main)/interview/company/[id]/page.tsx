@@ -1,5 +1,5 @@
+import { CompanyDetailScreen } from "page/CompanyDetail/ui/CompanyDetailScreen";
 import { getCompanyById, getInterviewList } from "entities/interview";
-import { CompanyDetailScreen } from "page/Company/ui/CompanyDetailScreen";
 
 type Props = {
   params: {

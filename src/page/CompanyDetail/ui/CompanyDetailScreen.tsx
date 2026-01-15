@@ -76,7 +76,7 @@ export const CompanyDetailScreen = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="mx-auto space-y-6">
       <div className="flex items-center gap-2 mb-6">
         <CommonButton
           onClick={() => router.back()}

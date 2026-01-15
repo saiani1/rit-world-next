@@ -17,7 +17,7 @@ export const ExpectedQuestionList = ({
         </h2>
         <CommonButton
           onClick={onCreate}
-          className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors"
+          className="px-3 py-1.5 text-sm bg-blue-50/50 text-blue-600 rounded-md transition-colors"
         >
           + 예상 질문 생성
         </CommonButton>

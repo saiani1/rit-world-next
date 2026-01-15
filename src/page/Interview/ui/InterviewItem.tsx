@@ -39,7 +39,7 @@ export const InterviewItem = ({ item }: InterviewItemProps) => {
   };
 
   const handleCardClick = () => {
-    router.push(`/interview/${item.id}`);
+    router.push(`record/${item.id}`);
   };
 
   return (

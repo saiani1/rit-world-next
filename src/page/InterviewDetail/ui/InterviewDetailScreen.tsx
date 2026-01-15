@@ -4,27 +4,39 @@ import toast from "react-hot-toast";
 import { HiArrowLeft, HiArrowUp } from "react-icons/hi2";
 
 import { useRouter } from "i18n/routing";
-import { InterviewType, updateInterview } from "entities/interview";
+import {
+  CompanyTableType,
+  InterviewType,
+  updateInterview,
+} from "entities/interview";
 import { CommonButton } from "shared/ui";
 import { InterviewInfo } from "./InterviewInfo";
 import { QuestionList } from "./QuestionList";
 import { QACard } from "./QACard";
 
 type InterviweDetailScreenProps = {
-  data: InterviewType;
+  interviewData: InterviewType;
+  companyList: Pick<
+    CompanyTableType,
+    "id" | "name" | "type" | "applied_at" | "status" | "result"
+  >[];
 };
 
-const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
+const InterviewDetailScreen = ({
+  interviewData,
+  companyList,
+}: InterviweDetailScreenProps) => {
   const router = useRouter();
   const {
     register,
     control,
     watch,
     getValues,
+    setValue,
     formState: { isDirty },
   } = useForm<InterviewType>({
-    defaultValues: data,
-    values: data,
+    defaultValues: interviewData,
+    values: interviewData,
   });
 
   const { fields, remove } = useFieldArray({
@@ -46,7 +58,8 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
   const handleSave = async () => {
     try {
       const currentData = getValues();
-      await updateInterview(data.id, {
+      await updateInterview(interviewData.id, {
+        company_id: currentData.company_id,
         company_name: currentData.company_name,
         company_type: currentData.company_type,
         interview_type: currentData.interview_type,
@@ -61,7 +74,7 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
   };
 
   const handleBack = () => {
-    router.push("/interview");
+    router.back();
   };
 
   return (
@@ -75,20 +88,22 @@ const InterviewDetailScreen = ({ data }: InterviweDetailScreenProps) => {
         </CommonButton>
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-black-333">
-            {data.company_name} {data.interview_type}
+            {interviewData.company_name} {interviewData.interview_type}
           </h1>
-          {data.company_type && (
+          {interviewData.company_type && (
             <span className="inline-block px-2 py-1 text-sm font-bold text-white bg-gray-400 rounded-md">
-              {data.company_type}
+              {interviewData.company_type}
             </span>
           )}
         </div>
       </div>
 
       <InterviewInfo
-        data={data}
+        data={interviewData}
+        companyList={companyList}
         register={register}
         watch={watch}
+        setValue={setValue}
         isDirty={isDirty}
         onSave={handleSave}
       />

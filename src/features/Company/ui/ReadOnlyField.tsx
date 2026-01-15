@@ -11,7 +11,7 @@ export const ReadOnlyField = ({
 }: ReadOnlyFieldProps) => (
   <div>
     <dt className="text-xs font-medium text-gray-500 mb-1">{label}</dt>
-    <dd className="text-sm text-gray-900 min-h-[20px]">
+    <dd className="text-md text-gray-900 min-h-[20px]">
       {value ? (
         isLink ? (
           <a

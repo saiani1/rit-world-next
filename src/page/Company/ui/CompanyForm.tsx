@@ -25,42 +25,41 @@ export const CompanyForm = () => {
     formState: { isSubmitting },
   } = useForm<CompanyTableType>();
 
+  const submit = async (data: CompanyTableType) => {
+    try {
+      const payload = {
+        ...data,
+        next_step_date: data.next_step_date === "" ? null : data.next_step_date,
+      };
+      await saveCompany(payload);
+      toast.success("회사가 등록되었습니다.");
+      router.push("/interview/company");
+    } catch (error) {
+      console.error(error);
+      toast.error("회사 등록 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
-    <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-sm">
+    <div>
       <CompanyFormHeader title="새 회사 등록" />
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          console.log("Submitting form data:", data);
-          try {
-            const payload = {
-              ...data,
-              next_step_date:
-                data.next_step_date === "" ? null : data.next_step_date,
-            };
-            await saveCompany(payload);
-            toast.success("회사가 등록되었습니다.");
-            router.push("interview/company");
-          } catch (error) {
-            console.error(error);
-            toast.error("회사 등록 중 오류가 발생했습니다.");
-          }
-        })}
-        className="space-y-6"
-      >
-        <CompanyBasicFormSection register={register} />
-        <CompanyDetailFormSection register={register} />
-        <CompanyStatusFormSection
-          register={register}
-          watch={watch}
-          setValue={setValue}
-          isUndecided={isUndecided}
-          setIsUndecided={setIsUndecided}
-        />
-        <CompanyFormActions
-          isSubmitting={isSubmitting}
-          onCancel={() => router.back()}
-        />
-      </form>
+      <div className="mx-auto bg-white p-8 rounded-xl shadow-sm">
+        <form onSubmit={handleSubmit(submit)} className="space-y-6">
+          <CompanyBasicFormSection register={register} />
+          <CompanyDetailFormSection register={register} />
+          <CompanyStatusFormSection
+            register={register}
+            watch={watch}
+            setValue={setValue}
+            isUndecided={isUndecided}
+            setIsUndecided={setIsUndecided}
+          />
+          <CompanyFormActions
+            isSubmitting={isSubmitting}
+            onCancel={() => router.back()}
+          />
+        </form>
+      </div>
     </div>
   );
 };

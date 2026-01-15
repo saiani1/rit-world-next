@@ -1,3 +1,4 @@
+import { InterviewItem } from "features/Interview";
 import { InterviewListType } from "entities/interview";
 
 type InterviewScriptListProps = {
@@ -14,10 +15,8 @@ export const InterviewScriptList = ({
       </h2>
       {interviewList.length > 0 ? (
         <ul className="space-y-2">
-          {interviewList.map((interview, idx) => (
-            <li key={idx} className="p-3 border rounded-lg hover:bg-gray-50">
-              스크립트 {idx + 1}
-            </li>
+          {interviewList.map((interview) => (
+            <InterviewItem companyPage item={interview} key={interview.id} />
           ))}
         </ul>
       ) : (

@@ -3,16 +3,17 @@ import { useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 import { HiXMark } from "react-icons/hi2";
 
-import { useRouter } from "i18n/routing";
+import { Link, useRouter } from "i18n/routing";
 import { ModalAtom } from "features/Modal";
 import { deleteInterview, InterviewListType } from "entities/interview";
 import { CommonButton } from "shared/ui";
 
 type InterviewItemProps = {
   item: InterviewListType[number];
+  companyPage?: boolean;
 };
 
-export const InterviewItem = ({ item }: InterviewItemProps) => {
+export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
   const router = useRouter();
   const setModal = useSetAtom(ModalAtom);
 
@@ -38,16 +39,14 @@ export const InterviewItem = ({ item }: InterviewItemProps) => {
     });
   };
 
-  const handleCardClick = () => {
-    router.push(`record/${item.id}`);
-  };
-
   return (
     <li
-      onClick={handleCardClick}
-      className="flex justify-between p-4 bg-white shadow-md rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer"
+      className={`flex justify-between bg-white ${companyPage ? "border" : "shadow-md"}  rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer`}
     >
-      <div className="flex justify-between items-start w-full">
+      <Link
+        href={`record/${item.id}`}
+        className="flex justify-between items-start p-4 w-full"
+      >
         <div>
           <p className="text-sm text-gray-500">{item.interview_date}</p>
           <p className="text-xs text-gray-400 mt-0.5">{item.duration}</p>
@@ -67,14 +66,16 @@ export const InterviewItem = ({ item }: InterviewItemProps) => {
             </span>
           </div>
         </div>
-      </div>
-      <CommonButton
-        onClick={handleDelete}
-        className="p-1 text-gray-400 hover:text-red-500 transition-colors z-10"
-        title="삭제"
-      >
-        <HiXMark className="w-5 h-5" />
-      </CommonButton>
+      </Link>
+      {!companyPage && (
+        <CommonButton
+          onClick={handleDelete}
+          className="p-1 text-gray-400 hover:text-red-500 transition-colors z-10"
+          title="삭제"
+        >
+          <HiXMark className="w-5 h-5" />
+        </CommonButton>
+      )}
     </li>
   );
 };

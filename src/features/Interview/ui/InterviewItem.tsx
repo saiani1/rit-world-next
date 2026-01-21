@@ -44,7 +44,7 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
       className={`flex justify-between bg-white ${companyPage ? "border" : "shadow-md"}  rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer`}
     >
       <Link
-        href={`record/${item.id}`}
+        href={`/interview/record/${item.id}`}
         className="flex justify-between items-start p-4 w-full"
       >
         <div>

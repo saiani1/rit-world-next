@@ -1,3 +1,4 @@
+export { deleteCompany } from "./deleteCompany";
 export { updateCompany } from "./updateCompany";
 export { getCompanyById } from "./getCompanyById";
 export { saveCompany } from "./saveCompany";

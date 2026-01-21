@@ -15,6 +15,7 @@ type CompanyScreenProps = {
     | "applied_at"
     | "status"
     | "result"
+    | "history"
     | "next_step_date"
   >[];
 };
@@ -22,19 +23,101 @@ type CompanyScreenProps = {
 export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [showRejectedCompanies, setShowRejectedCompanies] = useState(false);
 
   const handleRegisterClick = () => {
     router.push("company/new");
   };
 
+  const getCompanyStatusInfo = (company: Partial<CompanyTableType>) => {
+    const latestResult =
+      company.history && company.history.length > 0
+        ? company.history[company.history.length - 1].result
+        : company.result;
+    const isRejected = latestResult === "탈락";
+    return { latestResult, isRejected };
+  };
+
+  const companiesWithStatus = companies.map((company) => ({
+    ...company,
+    ...getCompanyStatusInfo(company),
+  }));
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const totalCompanies = companiesWithStatus.length;
+  let inProgressCompanies = 0;
+  let rejectedCompanies = 0;
+
+  companiesWithStatus.forEach((company) => {
+    if (company.latestResult === "대기중") {
+      inProgressCompanies++;
+    }
+    if (company.latestResult === "탈락") {
+      rejectedCompanies++;
+    }
+  });
+
+  const filteredCompanies = companiesWithStatus.filter((company) => {
+    if (showRejectedCompanies) {
+      return true;
+    }
+    return !company.isRejected;
+  });
+
+  const sortedCompanies = [...filteredCompanies].sort((a, b) => {
+    const aIsRejected = a.isRejected;
+    const bIsRejected = b.isRejected;
+
+    if (aIsRejected && !bIsRejected) return 1;
+    if (!aIsRejected && bIsRejected) return -1;
+    return 0;
+  });
 
   return (
     <>
       {isMounted && (
         <div className="space-y-6">
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 className="text-lg font-bold text-gray-900 mb-4">
+              전형 현황 요약
+            </h3>
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-sm text-gray-500">총 회사</p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {totalCompanies}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">전형 진행중</p>
+                <p className="text-2xl font-bold text-blue-600">
+                  {inProgressCompanies}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">전형 탈락</p>
+                <p className="text-2xl font-bold text-red-600">
+                  {rejectedCompanies}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={showRejectedCompanies}
+                onChange={(e) => setShowRejectedCompanies(e.target.checked)}
+                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+              />
+              전형탈락회사 보기
+            </label>
+          </div>
+
           <div className="flex justify-between items-center bg-white p-6 rounded-xl shadow-sm">
             <div>
               <h2 className="text-xl font-bold text-gray-900">
@@ -52,9 +135,9 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </CommonButton>
           </div>
 
-          {companies.length > 0 ? (
+          {sortedCompanies.length > 0 ? (
             <ul className="grid gap-4">
-              {companies.map((company) => (
+              {sortedCompanies.map((company) => (
                 <CompanyItem key={company.id} data={company} />
               ))}
             </ul>

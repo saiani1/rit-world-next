@@ -7,7 +7,9 @@ export const getCompanyList = async () => {
 
   const { data, error } = await supabase
     .from("companies")
-    .select("id, name, type, applied_at, status, result, next_step_date")
+    .select(
+      "id, name, type, applied_at, status, result, next_step_date, history"
+    )
     .order("applied_at", { ascending: false });
 
   if (error) {
@@ -24,6 +26,7 @@ export const getCompanyList = async () => {
         | "status"
         | "result"
         | "next_step_date"
+        | "history"
       >[]
     | [];
 };

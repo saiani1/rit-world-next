@@ -98,6 +98,12 @@ export type InterviewStatusType = (typeof INTERVIEW_STATUS_TYPES)[number];
 export type InterviewResultType = (typeof INTERVIEW_RESULT_TYPES)[number];
 export type ApplicationMethodType = (typeof APPLICATION_METHODS_TYPES)[number];
 
+export type HistoryEntryType = {
+  status: InterviewStatusType;
+  result: InterviewResultType;
+  date: string;
+};
+
 export type CompanyTableType = {
   id: string;
   name: string;
@@ -126,6 +132,8 @@ export type CompanyTableType = {
   status: InterviewStatusType;
   /** 결과 */
   result: InterviewResultType;
+  /** 상태 누적 */
+  history: HistoryEntryType[];
   created_at: string;
   updated_at: string;
 };

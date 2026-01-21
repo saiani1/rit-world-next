@@ -6,8 +6,12 @@ import {
 } from "react-hook-form";
 import { HiPencil, HiCheck } from "react-icons/hi2";
 
-import { InterviewType, CompanyTableType } from "entities/interview";
-import { CommonButton, CommonInput } from "shared/ui";
+import {
+  InterviewType,
+  CompanyTableType,
+  INTERVIEW_STATUS_TYPES,
+} from "entities/interview";
+import { CommonButton } from "shared/ui";
 
 type InterviewInfoProps = {
   data: InterviewType;
@@ -41,6 +45,10 @@ export const InterviewInfo = ({
   const companyType = watch("company_type");
   const interviewType = watch("interview_type");
   const companyId = watch("company_id");
+
+  const filteredInterviewStatusTypes = INTERVIEW_STATUS_TYPES.filter(
+    (type) => type !== "서류단계"
+  );
 
   return (
     <section className="flex flex-col gap-4 p-4 border rounded-lg shadow-sm bg-white">
@@ -135,10 +143,19 @@ export const InterviewInfo = ({
           </label>
           <div className="flex items-center gap-2">
             {editingState["interview_type"] ? (
-              <CommonInput
+              <select
                 {...register("interview_type")}
                 className="border p-2 rounded"
-              />
+              >
+                <option value="" disabled>
+                  면접 유형 선택
+                </option>
+                {filteredInterviewStatusTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             ) : (
               <p>{interviewType}</p>
             )}

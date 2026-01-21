@@ -83,7 +83,10 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
           {data.history && data.history.length > 0 ? (
             <div className="flex items-center flex-wrap justify-end gap-x-2 gap-y-1">
               {data.history.map((entry, index) => (
-                <div key={`history-entry-${index}`}>
+                <div
+                  key={`history-entry-${index}`}
+                  className="flex items-center gap-2"
+                >
                   <div className="flex items-center gap-1 text-sm">
                     <span
                       className={`${isRejected ? "text-gray-400" : "text-gray-500"}`}

@@ -1,4 +1,6 @@
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 import { ReadOnlyField, SectionHeader } from "features/Company";
 import {
@@ -8,6 +10,7 @@ import {
 } from "entities/interview";
 import { CommonInput } from "shared/ui";
 
+dayjs.extend(utc);
 type StatusInfoSectionProps = {
   register: UseFormRegister<CompanyTableType>;
   watch: UseFormWatch<CompanyTableType>;
@@ -18,6 +21,7 @@ type StatusInfoSectionProps = {
   onCancel: () => void;
   isUndecided: boolean;
   onUndecidedChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  companyData: CompanyTableType;
 };
 
 export const StatusInfoSection = ({
@@ -30,6 +34,7 @@ export const StatusInfoSection = ({
   onCancel,
   isUndecided,
   onUndecidedChange,
+  companyData,
 }: StatusInfoSectionProps) => {
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -117,7 +122,18 @@ export const StatusInfoSection = ({
                 isUndecided
                   ? "미정"
                   : watch("next_step_date")
-                    ? new Date(watch("next_step_date")!).toLocaleString()
+                    ? new Date(watch("next_step_date")!).toLocaleString(
+                        "ko-KR",
+                        {
+                          year: "numeric",
+                          month: "numeric",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                          second: "numeric",
+                          hour12: true,
+                        }
+                      )
                     : "-"
               }
             />
@@ -129,6 +145,32 @@ export const StatusInfoSection = ({
               isLink
             />
           </div>
+
+          {companyData?.history && companyData.history.length > 0 && (
+            <div className="md:col-span-2 mt-6 pt-4 border-t border-gray-200">
+              <h4 className="text-md font-semibold text-gray-800 mb-3">
+                전형 이력
+              </h4>
+              <ul className="space-y-2">
+                {companyData.history.map((entry, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center text-sm text-gray-700"
+                  >
+                    <span className="font-medium text-gray-500 w-24">
+                      {dayjs(entry.date).format("YYYY.MM.DD")}
+                    </span>
+                    <span className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md text-xs">
+                      {entry.status}
+                    </span>
+                    <span className="ml-2 px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-xs">
+                      {entry.result}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -130,18 +130,18 @@ export const CompanyDetailScreen = ({
   return (
     <div className="mx-auto space-y-6">
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <CommonButton
             onClick={() => router.back()}
             className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <HiArrowLeft className="w-6 h-6" />
+            <HiArrowLeft className="w-5 h-5" />
           </CommonButton>
-          <h1 className="text-2xl font-bold text-gray-900">회사 상세 정보</h1>
+          <h1 className="text-2xl font-bold text-black-333">회사 상세 정보</h1>
         </div>
         <CommonButton
           onClick={handleDeleteClick}
-          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+          className="px-4 py-1 bg-red-500 text-sm text-white rounded-md hover:bg-red-600 transition-colors"
         >
           삭제
         </CommonButton>

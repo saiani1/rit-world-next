@@ -35,7 +35,7 @@ export const InterviewUploadSection = () => {
 
   return (
     <div className="p-6 mx-auto bg-white rounded-xl shadow-md mb-8">
-      <h1 className="text-2xl font-bold mb-6">새 면접 기록 분석</h1>
+      <h1 className="text-xl font-bold mb-6">새 면접 기록 분석</h1>
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           클로바노트 텍스트 파일 (.txt)

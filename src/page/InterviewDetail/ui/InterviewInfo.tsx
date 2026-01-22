@@ -1,22 +1,37 @@
 import { useState } from "react";
-import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  UseFormRegister,
+  UseFormWatch,
+  UseFormSetValue,
+} from "react-hook-form";
 import { HiPencil, HiCheck } from "react-icons/hi2";
 
-import { InterviewType } from "entities/interview";
-import { CommonButton, CommonInput } from "shared/ui";
+import {
+  InterviewType,
+  CompanyTableType,
+  INTERVIEW_STATUS_TYPES,
+} from "entities/interview";
+import { CommonButton } from "shared/ui";
 
 type InterviewInfoProps = {
   data: InterviewType;
+  companyList: Pick<
+    CompanyTableType,
+    "id" | "name" | "type" | "applied_at" | "status" | "result"
+  >[];
   register: UseFormRegister<InterviewType>;
   watch: UseFormWatch<InterviewType>;
+  setValue: UseFormSetValue<InterviewType>;
   isDirty: boolean;
   onSave: () => void;
 };
 
 export const InterviewInfo = ({
   data,
+  companyList,
   register,
   watch,
+  setValue,
   isDirty,
   onSave,
 }: InterviewInfoProps) => {
@@ -29,6 +44,11 @@ export const InterviewInfo = ({
   const companyName = watch("company_name");
   const companyType = watch("company_type");
   const interviewType = watch("interview_type");
+  const companyId = watch("company_id");
+
+  const filteredInterviewStatusTypes = INTERVIEW_STATUS_TYPES.filter(
+    (type) => type !== "서류단계"
+  );
 
   return (
     <section className="flex flex-col gap-4 p-4 border rounded-lg shadow-sm bg-white">
@@ -50,10 +70,34 @@ export const InterviewInfo = ({
           </label>
           <div className="flex items-center gap-2">
             {editingState["company_name"] ? (
-              <CommonInput
-                {...register("company_name")}
+              <select
                 className="border p-2 rounded"
-              />
+                value={companyId || ""}
+                onChange={(e) => {
+                  const selectedId = e.target.value;
+                  const selectedCompany = companyList.find(
+                    (c) => c.id === selectedId
+                  );
+                  if (selectedCompany) {
+                    setValue("company_id", selectedId, { shouldDirty: true });
+                    setValue("company_name", selectedCompany.name, {
+                      shouldDirty: true,
+                    });
+                    setValue("company_type", selectedCompany.type, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
+              >
+                <option value="" disabled>
+                  Select Company
+                </option>
+                {companyList.map((company) => (
+                  <option key={company.id} value={company.id}>
+                    {company.name}
+                  </option>
+                ))}
+              </select>
             ) : (
               <p>{companyName}</p>
             )}
@@ -99,10 +143,19 @@ export const InterviewInfo = ({
           </label>
           <div className="flex items-center gap-2">
             {editingState["interview_type"] ? (
-              <CommonInput
+              <select
                 {...register("interview_type")}
                 className="border p-2 rounded"
-              />
+              >
+                <option value="" disabled>
+                  면접 유형 선택
+                </option>
+                {filteredInterviewStatusTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
             ) : (
               <p>{interviewType}</p>
             )}

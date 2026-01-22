@@ -1,18 +1,19 @@
 "use server";
 import { createClient } from "shared/api/server";
+import { CompanyTableType } from "../model";
 
-export const getInterviewPattern = async () => {
+export const getCompanyById = async (id: string) => {
   const supabase = createClient();
+
   const { data, error } = await supabase
-    .from("interview_patterns")
+    .from("companies")
     .select("*")
-    .order("created_at", { ascending: false })
-    .limit(1)
+    .eq("id", id)
     .single();
 
-  if (error && error.code !== "PGRST116") {
+  if (error) {
     throw new Error(error.message);
   }
 
-  return data || null;
+  return data as CompanyTableType;
 };

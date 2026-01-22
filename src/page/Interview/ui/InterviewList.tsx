@@ -1,8 +1,8 @@
 "use client";
 import { useState, useMemo } from "react";
 
+import { InterviewItem } from "features/Interview";
 import { InterviewListType } from "entities/interview";
-import { InterviewItem } from "./InterviewItem";
 
 type IntervieListProps = {
   data: InterviewListType;

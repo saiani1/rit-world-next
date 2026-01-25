@@ -70,7 +70,7 @@ export type InterviewListType = Pick<
 export const COMPANY_TYPES = ["SIer", "자사서비스", "SES"] as const;
 
 export const INTERVIEW_STATUS_TYPES = [
-  "서류단계",
+  "서류전형",
   "캐주얼면담",
   "1차면접",
   "2차면접",
@@ -152,9 +152,9 @@ export type InterviewSetType = {
   updated_at: string;
 };
 
-export type QnAItemType = {
+/** 공통 질문 타입 */
+export type BaseQnAType = {
   id: string;
-  set_id: string;
   question: string;
   answer: string;
   category: string;
@@ -162,6 +162,14 @@ export type QnAItemType = {
   display_order: number;
   created_at: string;
   updated_at: string;
+};
+
+// 1. 공통 질문용 (set_id가 없음)
+export type CommonQuestionType = BaseQnAType;
+
+// 2. 회사별 상세 질문용 (set_id가 필수)
+export type QnAItemType = BaseQnAType & {
+  set_id: string;
 };
 
 export type CreateCompanyInput = Omit<

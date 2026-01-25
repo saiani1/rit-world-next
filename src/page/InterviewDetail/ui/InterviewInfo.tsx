@@ -47,7 +47,7 @@ export const InterviewInfo = ({
   const companyId = watch("company_id");
 
   const filteredInterviewStatusTypes = INTERVIEW_STATUS_TYPES.filter(
-    (type) => type !== "서류단계"
+    (type) => type !== "서류전형"
   );
 
   return (

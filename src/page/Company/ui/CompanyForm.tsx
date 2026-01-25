@@ -39,7 +39,7 @@ export const CompanyForm = () => {
         company: basePayload,
         newStatus: basePayload.status,
         newResult: basePayload.result,
-        sourceAppliedAt: basePayload.applied_at, // 서류단계의 날짜 소스로 applied_at 사용
+        sourceAppliedAt: basePayload.applied_at, //서류전형의 날짜 소스로 applied_at 사용
       });
       await saveCompany(finalPayload);
       toast.success("회사가 등록되었습니다.");

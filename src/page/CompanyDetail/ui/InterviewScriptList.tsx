@@ -9,8 +9,8 @@ export const InterviewScriptList = ({
   interviewList,
 }: InterviewScriptListProps) => {
   return (
-    <div className="bg-white p-8 rounded-xl shadow-sm">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">
+    <div className="bg-white p-6 rounded-xl shadow-sm">
+      <h2 className="text-lg font-bold text-gray-900 mb-4">
         회사 면접 스크립트
       </h2>
       {interviewList.length > 0 ? (

@@ -1,8 +1,8 @@
 import { supabase } from "shared/index";
-import { InterviewSetType } from "../model";
+import { InterviewSetType, UpsertInterviewSetInput } from "../model";
 
 type SaveInterviewSetParams = {
-  datas: InterviewSetType;
+  datas: UpsertInterviewSetInput;
 };
 
 export const saveInterviewSet = async ({
@@ -10,7 +10,7 @@ export const saveInterviewSet = async ({
 }: SaveInterviewSetParams): Promise<InterviewSetType> => {
   const { data, error } = await supabase
     .from("interview_sets")
-    .insert({
+    .upsert({
       ...datas,
     })
     .select()

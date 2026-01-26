@@ -187,3 +187,10 @@ export type UpsertCommonQuestionInput = Omit<
 > & {
   id?: string;
 };
+
+export type UpsertInterviewSetInput = Omit<
+  InterviewSetType,
+  "id" | "created_at" | "updated_at"
+> & {
+  id?: string;
+};

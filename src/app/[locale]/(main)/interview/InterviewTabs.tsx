@@ -4,12 +4,11 @@ import { Link } from "i18n/routing";
 
 const InterviewTabs = () => {
   const segment = useSelectedLayoutSegment();
-  const activeTab =
-    segment === "company"
-      ? "company"
-      : segment === "questions"
-        ? "questions"
-        : "interview";
+  const activeTab = (() => {
+    if (segment === "company") return "company";
+    if (segment === "questions") return "questions";
+    return "interview";
+  })();
 
   return (
     <div className="flex space-x-4 mt-6 border-b border-gray-200">

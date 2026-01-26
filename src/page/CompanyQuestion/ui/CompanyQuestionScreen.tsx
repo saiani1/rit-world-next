@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { HiArrowLeft } from "react-icons/hi2";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -235,46 +235,49 @@ export const CompanyQuestionScreen = () => {
             <span className="text-lg">+</span> 질문 추가하기
           </CommonButton>
         </div>
-        {fields
-          .map((field, index) => ({ field, index }))
-          .sort((a, b) => {
-            const catA = a.field.categoryId ?? 999;
-            const catB = b.field.categoryId ?? 999;
-            return catA - catB;
-          })
-          .map(({ field, index }, renderIndex, array) => {
-            const prevField = array[renderIndex - 1];
-            const currentCategory = field.categoryId;
-            const prevCategory = prevField?.field.categoryId;
-            const showSeparator =
-              renderIndex > 0 && currentCategory !== prevCategory;
-            const categoryTitle = QUESTION_CATEGORIES.find(
-              (c) => c.id === currentCategory
-            )?.title;
+        {useMemo(
+          () =>
+            fields
+              .map((field, index) => ({ field, index }))
+              .sort((a, b) => {
+                const catA = a.field.categoryId ?? 999;
+                const catB = b.field.categoryId ?? 999;
+                return catA - catB;
+              }),
+          [fields]
+        ).map(({ field, index }, renderIndex, array) => {
+          const prevField = array[renderIndex - 1];
+          const currentCategory = field.categoryId;
+          const prevCategory = prevField?.field.categoryId;
+          const showSeparator =
+            renderIndex > 0 && currentCategory !== prevCategory;
+          const categoryTitle = QUESTION_CATEGORIES.find(
+            (c) => c.id === currentCategory
+          )?.title;
 
-            return (
-              <div key={field.id} className="flex flex-col gap-4">
-                {showSeparator && (
-                  <div className="flex items-center gap-4 py-2">
-                    <div className="h-px bg-gray-200 flex-1" />
-                    <span className="text-sm font-medium text-gray-500">
-                      {categoryTitle || "기타"}
-                    </span>
-                    <div className="h-px bg-gray-200 flex-1" />
-                  </div>
-                )}
-                <QuestionItem
-                  mode="field-array"
-                  field={field}
-                  index={index}
-                  control={control}
-                  register={register}
-                  remove={remove}
-                  showRemove={true}
-                />
-              </div>
-            );
-          })}
+          return (
+            <div key={field.id} className="flex flex-col gap-4">
+              {showSeparator && (
+                <div className="flex items-center gap-4 py-2">
+                  <div className="h-px bg-gray-200 flex-1" />
+                  <span className="text-sm font-medium text-gray-500">
+                    {categoryTitle || "기타"}
+                  </span>
+                  <div className="h-px bg-gray-200 flex-1" />
+                </div>
+              )}
+              <QuestionItem
+                mode="field-array"
+                field={field}
+                index={index}
+                control={control}
+                register={register}
+                remove={remove}
+                showRemove={true}
+              />
+            </div>
+          );
+        })}
 
         {fields.length > 0 && (
           <div className="sticky bottom-0 py-4 bg-black-10 border-t mt-10 z-10 flex justify-between items-center">

@@ -1,10 +1,8 @@
 import { supabase } from "shared/index";
-import { CommonQuestionType } from "../model";
+import { CommonQuestionType, UpsertCommonQuestionInput } from "../model";
 
 type SaveCommonQuestionParams = {
-  datas: Omit<CommonQuestionType, "id" | "created_at" | "updated_at"> & {
-    id?: string;
-  };
+  datas: UpsertCommonQuestionInput;
 };
 
 export const saveCommonQuestion = async ({

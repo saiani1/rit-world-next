@@ -180,3 +180,10 @@ export type CreateQnAInput = Omit<
   QnAItemType,
   "id" | "created_at" | "updated_at"
 >;
+
+export type UpsertCommonQuestionInput = Omit<
+  CommonQuestionType,
+  "id" | "created_at" | "updated_at"
+> & {
+  id?: string;
+};

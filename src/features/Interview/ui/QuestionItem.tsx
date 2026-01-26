@@ -145,7 +145,6 @@ export const QuestionItem = (props: QuestionItemProps) => {
           category={currentValues.categoryTitle || "카테고리 미선택"}
           question={currentValues.question || "질문 없음"}
           answer={currentValues.answer || ""}
-          onClick={() => {}}
           className="border-gray-200"
         />
         <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 p-1 rounded-full backdrop-blur-sm">

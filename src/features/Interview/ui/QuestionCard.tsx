@@ -3,7 +3,6 @@ type QuestionCardProps = {
   category: string;
   question: string;
   answer: string;
-  onClick?: () => void;
   actionButtons?: React.ReactNode;
   className?: string;
 };
@@ -12,16 +11,12 @@ export const QuestionCard = ({
   category,
   question,
   answer,
-  onClick,
   actionButtons,
   className = "",
 }: QuestionCardProps) => {
   return (
     <div
-      onClick={onClick}
-      className={`p-6 border rounded-lg bg-white shadow-sm flex flex-col gap-2 relative group hover:border-blue-200 transition-colors ${
-        onClick ? "cursor-pointer" : ""
-      } ${className}`}
+      className={`p-6 border rounded-lg bg-white shadow-sm flex flex-col gap-2 relative group hover:border-blue-200 transition-colors ${className}`}
     >
       <div className="flex justify-between items-start">
         <div className="flex items-center gap-2">

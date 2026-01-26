@@ -14,6 +14,8 @@ import {
   updateCompany,
   InterviewListType,
   deleteCompany,
+  getInterviewSets,
+  InterviewSetType,
 } from "entities/interview";
 import { CommonButton } from "shared/ui";
 import { BasicInfoSection } from "./BasicInfoSection";
@@ -34,7 +36,9 @@ export const CompanyDetailScreen = ({
   const router = useRouter();
   const [editingSection, setEditingSection] = useState<string | null>(null);
   const [isUndecided, setIsUndecided] = useState(false);
-  const [expectedQuestions, setExpectedQuestions] = useState<any[]>([]);
+  const [expectedQuestions, setExpectedQuestions] = useState<
+    InterviewSetType[]
+  >([]);
   const setModal = useSetAtom(ModalAtom);
 
   const {
@@ -60,6 +64,18 @@ export const CompanyDetailScreen = ({
       setIsUndecided(true);
     }
   }, [companyData, reset]);
+
+  useEffect(() => {
+    const fetchExpectedQuestions = async () => {
+      try {
+        const data = await getInterviewSets({ companyId: companyData.id });
+        setExpectedQuestions(data);
+      } catch (error) {
+        console.error("Failed to fetch expected questions:", error);
+      }
+    };
+    fetchExpectedQuestions();
+  }, [companyData.id]);
 
   const handleUndecidedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsUndecided(e.target.checked);
@@ -93,6 +109,7 @@ export const CompanyDetailScreen = ({
       toast.success("변경사항이 저장되었습니다.");
       reset(finalPayload);
       setEditingSection(null);
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("저장에 실패했습니다.");
@@ -132,12 +149,17 @@ export const CompanyDetailScreen = ({
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-1">
           <CommonButton
-            onClick={() => router.back()}
+            onClick={() => {
+              router.refresh();
+              router.back();
+            }}
             className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
           >
             <HiArrowLeft className="w-5 h-5" />
           </CommonButton>
-          <h1 className="text-2xl font-bold text-black-333">회사 상세 정보</h1>
+          <h1 className="text-2xl font-bold text-black-333">
+            {companyData.name} 회사 상세 정보
+          </h1>
         </div>
         <CommonButton
           onClick={handleDeleteClick}
@@ -184,7 +206,8 @@ export const CompanyDetailScreen = ({
 
       <ExpectedQuestionList
         questions={expectedQuestions}
-        onCreate={() => toast("예상 질문 생성 기능 준비 중")}
+        companyId={companyData.id}
+        companyName={companyData.name}
       />
     </div>
   );

@@ -5,6 +5,6 @@ export const useIsEditMode = () => {
   return (
     pathname.includes("edit") ||
     pathname.includes("translate") ||
-    pathname.includes("create")
+    (pathname.includes("create") && !pathname.includes("interview"))
   );
 };

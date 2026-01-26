@@ -14,7 +14,7 @@ type UpdateCompanyHistoryParams = {
   newStatus: InterviewStatusType;
   newResult: InterviewResultType;
   // Optional date sources based on the context
-  sourceAppliedAt?: string; // For "서류단계"
+  sourceAppliedAt?: string; // For "서류전형"
   sourceInterviewDate?: string; // For "면접 분석 단계" (e.g., from ClovaNote .txt)
   sourceNotificationDate?: string; // For "결과 통보" (user input or current date)
 };
@@ -38,9 +38,7 @@ export const updateCompanyHistory = ({
 
   let entryDate: string;
 
-  // 1. Determine the date based on the rules
-  if (newStatus === "서류단계" && sourceAppliedAt) {
-    // Use applied_at for "서류단계"
+  if (newStatus === "서류전형" && sourceAppliedAt) {
     entryDate = dayjs(sourceAppliedAt).toISOString();
   } else if (
     (newStatus === "1차면접" ||
@@ -49,8 +47,6 @@ export const updateCompanyHistory = ({
       newStatus === "캐주얼면담") &&
     sourceInterviewDate
   ) {
-    // Use interview_date from analysis for interview stages
-    // Assuming sourceInterviewDate is in YYYY.MM.DD format
     entryDate = dayjs(sourceInterviewDate, "YYYY.MM.DD").toISOString();
   } else if (
     newResult === "합격" ||

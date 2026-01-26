@@ -10,6 +10,7 @@ import {
   deleteCommonQuestion,
   CommonQuestionType,
   QUESTION_CATEGORIES,
+  UpsertCommonQuestionInput,
 } from "entities/interview";
 import { CommonButton, CommonInput } from "shared/ui";
 
@@ -20,7 +21,7 @@ export const QuestionTabScreen = () => {
   );
 
   const { control, register, handleSubmit, reset } =
-    useForm<CommonQuestionType>({
+    useForm<UpsertCommonQuestionInput>({
       defaultValues: {
         category: QUESTION_CATEGORIES[0].title,
         question: "",
@@ -41,7 +42,7 @@ export const QuestionTabScreen = () => {
     fetchQuestions();
   }, []);
 
-  const onAddSubmit = async (data: CommonQuestionType) => {
+  const onAddSubmit = async (data: UpsertCommonQuestionInput) => {
     try {
       await saveCommonQuestion({
         datas: {

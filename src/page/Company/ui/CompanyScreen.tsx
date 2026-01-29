@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useRouter } from "i18n/routing";
 import {
@@ -27,7 +27,7 @@ type CompanyScreenProps = {
 export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [showRejectedCompanies, setShowRejectedCompanies] = useState(false);
+  const [activeTab, setActiveTab] = useState<"ACTIVE" | "FINISHED">("ACTIVE");
 
   const handleRegisterClick = () => {
     router.push("company/new");
@@ -45,11 +45,14 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
         ? company.history[company.history.length - 1].status
         : company.status;
     const isRejected = latestResult === "탈락";
+    const isFinished = latestResult === "탈락";
+
     return {
       latestResult,
       latestStatus,
       isRejected,
-      isInProgress: latestResult === "대기중",
+      isFinished,
+      isInProgress: !isRejected,
     };
   };
 
@@ -85,20 +88,51 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   });
 
   const filteredCompanies = companiesWithStatus.filter((company) => {
-    if (showRejectedCompanies) {
-      return true;
+    if (activeTab === "FINISHED") {
+      return company.isRejected;
     }
     return !company.isRejected;
   });
 
   const sortedCompanies = [...filteredCompanies].sort((a, b) => {
-    const aIsRejected = a.isRejected;
-    const bIsRejected = b.isRejected;
-
-    if (aIsRejected && !bIsRejected) return 1;
-    if (!aIsRejected && bIsRejected) return -1;
-    return 0;
+    return new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime();
   });
+
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setVisibleCount(10);
+  }, [activeTab]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount((prev) => prev + 10);
+            setIsLoadingMore(false);
+          }, 500);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentTarget = observerRef.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [sortedCompanies, activeTab, isLoadingMore]);
+
+  const visibleCompanies = sortedCompanies.slice(0, visibleCount);
 
   return (
     <>
@@ -167,21 +201,44 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
           </div>
 
-          <label className="flex items-center justify-end gap-x-2 text-sm text-gray-700 cursor-pointer select-none">
-            <input
-              type="checkbox"
-              checked={showRejectedCompanies}
-              onChange={(e) => setShowRejectedCompanies(e.target.checked)}
-              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-            />
-            전형탈락회사 보기
-          </label>
+          <div className="flex border-b border-gray-200">
+            <CommonButton
+              onClick={() => setActiveTab("ACTIVE")}
+              className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "ACTIVE"
+                  ? "border-blue-600 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              진행 중인 기업
+            </CommonButton>
+            <CommonButton
+              onClick={() => setActiveTab("FINISHED")}
+              className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "FINISHED"
+                  ? "border-blue-600 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              탈락한 기업
+            </CommonButton>
+          </div>
 
           {sortedCompanies.length > 0 ? (
             <ul className="grid gap-4">
-              {sortedCompanies.map((company) => (
+              {visibleCompanies.map((company) => (
                 <CompanyItem key={company.id} data={company} />
               ))}
+              {visibleCount < sortedCompanies.length && (
+                <div
+                  ref={observerRef}
+                  className="h-20 w-full flex justify-center items-center py-4"
+                >
+                  {isLoadingMore && (
+                    <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                  )}
+                </div>
+              )}
             </ul>
           ) : (
             <div className="text-center py-20 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">

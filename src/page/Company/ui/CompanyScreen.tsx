@@ -98,18 +98,24 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
     return new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime();
   });
 
+  // Infinite Scroll Logic
   const [visibleCount, setVisibleCount] = useState(10);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setVisibleCount(10);
+    setVisibleCount(10); // Reset when tab changes
   }, [activeTab]);
+
+  useEffect(() => {
+    isLoadingMoreRef.current = isLoadingMore;
+  }, [isLoadingMore]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isLoadingMore) {
+        if (entries[0].isIntersecting && !isLoadingMoreRef.current) {
           setIsLoadingMore(true);
           setTimeout(() => {
             setVisibleCount((prev) => prev + 10);
@@ -130,7 +136,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
         observer.unobserve(currentTarget);
       }
     };
-  }, [sortedCompanies, activeTab, isLoadingMore]);
+  }, [sortedCompanies, activeTab]);
 
   const visibleCompanies = sortedCompanies.slice(0, visibleCount);
 

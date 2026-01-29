@@ -21,23 +21,29 @@ export const InterviewList = ({ data }: IntervieListProps) => {
     return data?.filter((item) => item.interview_type === filterType);
   }, [data, filterType]);
 
+  // Infinite Scroll Logic
   const [visibleCount, setVisibleCount] = useState(10);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setVisibleCount(10);
+    setVisibleCount(10); // Reset when filter changes
   }, [filterType]);
+
+  useEffect(() => {
+    isLoadingMoreRef.current = isLoadingMore;
+  }, [isLoadingMore]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isLoadingMore) {
+        if (entries[0].isIntersecting && !isLoadingMoreRef.current) {
           setIsLoadingMore(true);
           setTimeout(() => {
             setVisibleCount((prev) => prev + 10);
             setIsLoadingMore(false);
-          }, 500);
+          }, 500); // Artificial delay for visual feedback
         }
       },
       { threshold: 0.1 }
@@ -53,7 +59,7 @@ export const InterviewList = ({ data }: IntervieListProps) => {
         observer.unobserve(currentTarget);
       }
     };
-  }, [filteredData, filterType, isLoadingMore]);
+  }, [filteredData, filterType]);
 
   const visibleData = filteredData?.slice(0, visibleCount);
 

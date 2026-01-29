@@ -45,13 +45,11 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
         ? company.history[company.history.length - 1].status
         : company.status;
     const isRejected = latestResult === "탈락";
-    const isFinished = latestResult === "탈락";
 
     return {
       latestResult,
       latestStatus,
       isRejected,
-      isFinished,
       isInProgress: !isRejected,
     };
   };

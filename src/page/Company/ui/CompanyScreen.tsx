@@ -210,7 +210,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
           </div>
 
-          <div className="flex border-b border-gray-200 justify-between items-center">
+          <div className="flex border-b border-gray-200 justify-between items-end">
             {searchTerm ? (
               <div className="flex items-center gap-4 py-3">
                 <p className="text-gray-900 font-medium">
@@ -227,7 +227,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
                 </CommonButton>
               </div>
             ) : (
-              <div className="flex">
+              <div className="flex -mb-px">
                 <CommonButton
                   onClick={() => setActiveTab("ACTIVE")}
                   className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { HiArrowLeft } from "react-icons/hi2";
+import { HiArrowLeft, HiTrash, HiCheck } from "react-icons/hi2";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useAtom, useSetAtom } from "jotai";
 import toast from "react-hot-toast";
@@ -153,7 +153,6 @@ export const CompanyQuestionScreen = () => {
           setId ? "수정되었습니다." : "질문 리스트가 저장되었습니다."
         );
         router.refresh();
-        router.push(`/interview/company/${companyId}`);
       }
     } catch (error) {
       console.error("Failed to save interview set:", error);
@@ -202,10 +201,31 @@ export const CompanyQuestionScreen = () => {
           >
             <HiArrowLeft className="w-6 h-6" />
           </CommonButton>
-          <h2 className="text-2xl font-bold">
-            {companyName ? `${companyName} ` : ""}예상 질문 리스트{" "}
-            {setId ? "수정" : "생성"}
-          </h2>
+          <div className="flex flex-1 justify-between items-center">
+            <h2 className="text-2xl font-bold">
+              {companyName ? `${companyName} ` : ""}예상 질문 리스트{" "}
+              {setId ? "수정" : "생성"}
+            </h2>
+            <div className="flex items-center gap-1">
+              <CommonButton
+                type="submit"
+                form="question-form"
+                className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                title="저장하기"
+              >
+                <HiCheck className="w-6 h-6" />
+              </CommonButton>
+              {setId && (
+                <CommonButton
+                  onClick={handleDeleteSet}
+                  className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                  title="삭제하기"
+                >
+                  <HiTrash className="w-6 h-6" />
+                </CommonButton>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="flex flex-col gap-4">
@@ -235,7 +255,11 @@ export const CompanyQuestionScreen = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        id="question-form"
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-8"
+      >
         <div className="flex justify-center">
           <CommonButton
             onClick={() => prepend({ categoryId: 0, question: "", answer: "" })}
@@ -287,28 +311,6 @@ export const CompanyQuestionScreen = () => {
             </div>
           );
         })}
-
-        {fields.length > 0 && (
-          <div className="sticky bottom-0 py-4 bg-black-10 border-t mt-10 z-10 flex justify-between items-center">
-            {setId ? (
-              <CommonButton
-                type="button"
-                onClick={handleDeleteSet}
-                className="text-red-500 bg-red-50 px-6 py-3 rounded-md font-bold text-lg hover:bg-red-100 transition-colors"
-              >
-                삭제하기
-              </CommonButton>
-            ) : (
-              <div />
-            )}
-            <CommonButton
-              type="submit"
-              className="text-white px-8 py-3 rounded-md font-bold text-lg bg-gray-800"
-            >
-              저장하기
-            </CommonButton>
-          </div>
-        )}
       </form>
     </div>
   );

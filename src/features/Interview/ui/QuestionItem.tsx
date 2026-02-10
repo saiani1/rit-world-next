@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSetAtom } from "jotai";
 import {
   useWatch,
@@ -35,6 +35,7 @@ type FieldArrayProps = {
   register: UseFormRegister<any>;
   remove: UseFieldArrayRemove;
   showRemove: boolean;
+  globalFoldState?: "ALL_CLOSED" | "ALL_OPEN" | null;
 };
 
 type StandaloneProps = {
@@ -42,6 +43,7 @@ type StandaloneProps = {
   item: CommonQuestionType;
   onUpdate: (updatedItem: CommonQuestionType) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
+  globalFoldState?: "ALL_CLOSED" | "ALL_OPEN" | null;
 };
 
 type QuestionItemProps = FieldArrayProps | StandaloneProps;
@@ -72,9 +74,12 @@ export const QuestionItem = (props: QuestionItemProps) => {
       : {},
   });
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   const [isEditing, setIsEditing] = useState(
     isFieldArray ? !fieldArrayProps!.field.question : false
   );
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   const watchedFieldArray = useWatch({
     control: (isFieldArray ? fieldArrayProps?.control : localControl) as any,
@@ -138,6 +143,16 @@ export const QuestionItem = (props: QuestionItemProps) => {
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (props.globalFoldState === "ALL_CLOSED") {
+      setIsCollapsed(true);
+    } else if (props.globalFoldState === "ALL_OPEN") {
+      setIsCollapsed(false);
+    }
+  }, [props.globalFoldState]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
   if (!isEditing) {
     return (
       <div className="group relative">
@@ -146,8 +161,10 @@ export const QuestionItem = (props: QuestionItemProps) => {
           question={currentValues.question || "질문 없음"}
           answer={currentValues.answer || ""}
           className="border-gray-200"
+          isCollapsed={isCollapsed}
+          onToggleCollapse={() => setIsCollapsed((prev) => !prev)}
         />
-        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 p-1 rounded-full backdrop-blur-sm">
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 p-1 rounded-full backdrop-blur-sm z-10">
           <CommonButton
             onClick={() => setIsEditing(true)}
             className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"

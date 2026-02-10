@@ -1,7 +1,13 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { HiArrowLeft, HiTrash, HiCheck } from "react-icons/hi2";
+import {
+  HiArrowLeft,
+  HiTrash,
+  HiCheck,
+  HiChevronDown,
+  HiChevronUp,
+} from "react-icons/hi2";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useAtom, useSetAtom } from "jotai";
 import toast from "react-hot-toast";
@@ -188,8 +194,29 @@ export const CompanyQuestionScreen = () => {
         }
       },
     });
-    router.push("/confirm");
   };
+
+  const [globalFoldState, setGlobalFoldState] = useState<
+    "ALL_CLOSED" | "ALL_OPEN" | null
+  >(null);
+
+  const handleToggleAllFold = () => {
+    setGlobalFoldState((prev) =>
+      prev === "ALL_CLOSED" ? "ALL_OPEN" : "ALL_CLOSED"
+    );
+  };
+
+  const sortedFields = useMemo(
+    () =>
+      fields
+        .map((field, index) => ({ field, index }))
+        .sort((a, b) => {
+          const catA = a.field.categoryId ?? 999;
+          const catB = b.field.categoryId ?? 999;
+          return catA - catB;
+        }),
+    [fields]
+  );
 
   return (
     <div className="w-full mx-auto">
@@ -207,6 +234,19 @@ export const CompanyQuestionScreen = () => {
               {setId ? "수정" : "생성"}
             </h2>
             <div className="flex items-center gap-1">
+              <CommonButton
+                onClick={handleToggleAllFold}
+                className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"
+                title={
+                  globalFoldState === "ALL_CLOSED" ? "모두 펼치기" : "모두 접기"
+                }
+              >
+                {globalFoldState === "ALL_CLOSED" ? (
+                  <HiChevronDown className="w-6 h-6" />
+                ) : (
+                  <HiChevronUp className="w-6 h-6" />
+                )}
+              </CommonButton>
               <CommonButton
                 type="submit"
                 form="question-form"
@@ -268,17 +308,7 @@ export const CompanyQuestionScreen = () => {
             <span className="text-lg">+</span> 질문 추가하기
           </CommonButton>
         </div>
-        {useMemo(
-          () =>
-            fields
-              .map((field, index) => ({ field, index }))
-              .sort((a, b) => {
-                const catA = a.field.categoryId ?? 999;
-                const catB = b.field.categoryId ?? 999;
-                return catA - catB;
-              }),
-          [fields]
-        ).map(({ field, index }, renderIndex, array) => {
+        {sortedFields.map(({ field, index }, renderIndex, array) => {
           const prevField = array[renderIndex - 1];
           const currentCategory = field.categoryId;
           const prevCategory = prevField?.field.categoryId;
@@ -307,6 +337,7 @@ export const CompanyQuestionScreen = () => {
                 register={register}
                 remove={remove}
                 showRemove={true}
+                globalFoldState={globalFoldState}
               />
             </div>
           );

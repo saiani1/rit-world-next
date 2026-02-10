@@ -15,8 +15,16 @@ import {
 } from "entities/interview";
 import { CommonButton, CommonInput } from "shared/ui";
 
-export const QuestionTabScreen = () => {
-  const [questions, setQuestions] = useState<CommonQuestionType[]>([]);
+type Props = {
+  initialQuestions: CommonQuestionType[];
+};
+
+export const QuestionTabScreen = ({ initialQuestions }: Props) => {
+  const [questions, setQuestions] =
+    useState<CommonQuestionType[]>(initialQuestions);
+  const [globalFoldState, setGlobalFoldState] = useState<
+    "ALL_CLOSED" | "ALL_OPEN" | null
+  >("ALL_CLOSED");
   const [selectedCategory, setSelectedCategory] = useState<string>(
     QUESTION_CATEGORIES[0].title
   );
@@ -39,15 +47,7 @@ export const QuestionTabScreen = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
-
-  const [globalFoldState, setGlobalFoldState] = useState<
-    "ALL_CLOSED" | "ALL_OPEN" | null
-  >(null);
-
-  const handleToggleAllFold = () => {
+  const handleToggleAllFold = (): void => {
     setGlobalFoldState((prev) =>
       prev === "ALL_CLOSED" ? "ALL_OPEN" : "ALL_CLOSED"
     );

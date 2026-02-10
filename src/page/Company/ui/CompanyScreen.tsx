@@ -28,6 +28,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"ACTIVE" | "FINISHED">("ACTIVE");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleRegisterClick = () => {
     router.push("company/new");
@@ -86,6 +87,10 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   });
 
   const filteredCompanies = companiesWithStatus.filter((company) => {
+    if (searchTerm) {
+      return company.name.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+
     if (activeTab === "FINISHED") {
       return company.isRejected;
     }
@@ -205,27 +210,55 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
           </div>
 
-          <div className="flex border-b border-gray-200">
-            <CommonButton
-              onClick={() => setActiveTab("ACTIVE")}
-              className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
-                activeTab === "ACTIVE"
-                  ? "border-blue-600 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              진행 중인 기업
-            </CommonButton>
-            <CommonButton
-              onClick={() => setActiveTab("FINISHED")}
-              className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
-                activeTab === "FINISHED"
-                  ? "border-blue-600 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              탈락한 기업
-            </CommonButton>
+          <div className="flex border-b border-gray-200 justify-between items-center">
+            {searchTerm ? (
+              <div className="flex items-center gap-4 py-3">
+                <p className="text-gray-900 font-medium">
+                  &quot;{searchTerm}&quot; 검색 결과
+                  <span className="ml-2 text-sm text-gray-500 font-normal">
+                    ({sortedCompanies.length}건)
+                  </span>
+                </p>
+                <CommonButton
+                  onClick={() => setSearchTerm("")}
+                  className="text-sm text-gray-500 hover:text-gray-700 underline underline-offset-2"
+                >
+                  목록으로 돌아가기
+                </CommonButton>
+              </div>
+            ) : (
+              <div className="flex">
+                <CommonButton
+                  onClick={() => setActiveTab("ACTIVE")}
+                  className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                    activeTab === "ACTIVE"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  진행 중인 기업
+                </CommonButton>
+                <CommonButton
+                  onClick={() => setActiveTab("FINISHED")}
+                  className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                    activeTab === "FINISHED"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  탈락한 기업
+                </CommonButton>
+              </div>
+            )}
+            <div className="py-2">
+              <input
+                type="text"
+                placeholder="회사 검색..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+              />
+            </div>
           </div>
 
           {sortedCompanies.length > 0 ? (

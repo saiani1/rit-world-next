@@ -47,6 +47,7 @@ export const CompanyQuestionScreen = () => {
   const companyName = searchParams.get("companyName");
   const setId = searchParams.get("id");
   const companyId = searchParams.get("companyId") as string;
+  const [isLoading, setIsLoading] = useState(!!setId);
 
   const [selectedQuestions, setSelectedQuestions] = useAtom(
     selectedQuestionsAtom
@@ -98,6 +99,8 @@ export const CompanyQuestionScreen = () => {
       } catch (error) {
         toast.error("데이터를 불러오는데 실패했습니다.");
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchSetData();
@@ -312,40 +315,46 @@ export const CompanyQuestionScreen = () => {
             <span className="text-lg">+</span> 질문 추가하기
           </CommonButton>
         </div>
-        {sortedFields.map(({ field, index }, renderIndex, array) => {
-          const prevField = array[renderIndex - 1];
-          const currentCategory = field.categoryId;
-          const prevCategory = prevField?.field.categoryId;
-          const showSeparator =
-            renderIndex > 0 && currentCategory !== prevCategory;
-          const categoryTitle = QUESTION_CATEGORIES.find(
-            (c) => c.id === currentCategory
-          )?.title;
+        {isLoading ? (
+          <div className="flex justify-center items-center py-20">
+            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+          </div>
+        ) : (
+          sortedFields.map(({ field, index }, renderIndex, array) => {
+            const prevField = array[renderIndex - 1];
+            const currentCategory = field.categoryId;
+            const prevCategory = prevField?.field.categoryId;
+            const showSeparator =
+              renderIndex > 0 && currentCategory !== prevCategory;
+            const categoryTitle = QUESTION_CATEGORIES.find(
+              (c) => c.id === currentCategory
+            )?.title;
 
-          return (
-            <div key={field.id} className="flex flex-col gap-4">
-              {showSeparator && (
-                <div className="flex items-center gap-4 py-2">
-                  <div className="h-px bg-gray-200 flex-1" />
-                  <span className="text-sm font-medium text-gray-500">
-                    {categoryTitle || "기타"}
-                  </span>
-                  <div className="h-px bg-gray-200 flex-1" />
-                </div>
-              )}
-              <QuestionItem
-                mode="field-array"
-                field={field}
-                index={index}
-                control={control}
-                register={register}
-                remove={remove}
-                showRemove={true}
-                globalFoldState={globalFoldState}
-              />
-            </div>
-          );
-        })}
+            return (
+              <div key={field.id} className="flex flex-col gap-4">
+                {showSeparator && (
+                  <div className="flex items-center gap-4 py-2">
+                    <div className="h-px bg-gray-200 flex-1" />
+                    <span className="text-sm font-medium text-gray-500">
+                      {categoryTitle || "기타"}
+                    </span>
+                    <div className="h-px bg-gray-200 flex-1" />
+                  </div>
+                )}
+                <QuestionItem
+                  mode="field-array"
+                  field={field}
+                  index={index}
+                  control={control}
+                  register={register}
+                  remove={remove}
+                  showRemove={true}
+                  globalFoldState={globalFoldState}
+                />
+              </div>
+            );
+          })
+        )}
       </form>
     </div>
   );

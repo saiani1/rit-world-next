@@ -5,12 +5,14 @@ type ExpectedQuestionListProps = {
   questions: InterviewSetType[];
   companyId: string;
   companyName: string;
+  isLoading?: boolean;
 };
 
 export const ExpectedQuestionList = ({
   questions,
   companyId,
   companyName,
+  isLoading,
 }: ExpectedQuestionListProps) => {
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -28,7 +30,11 @@ export const ExpectedQuestionList = ({
           + 예상 질문 생성
         </Link>
       </div>
-      {questions.length > 0 ? (
+      {isLoading ? (
+        <div className="flex justify-center items-center py-10">
+          <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+        </div>
+      ) : questions.length > 0 ? (
         <ul className="space-y-2">
           {questions.map((question) => (
             <li key={question.id}>

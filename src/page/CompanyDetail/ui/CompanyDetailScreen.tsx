@@ -10,12 +10,13 @@ import { useRouter } from "i18n/routing";
 import { ModalAtom } from "features/Modal";
 import { updateCompanyHistory } from "features/Company";
 import {
-  CompanyTableType,
   updateCompany,
   InterviewListType,
   deleteCompany,
   getInterviewSets,
   InterviewSetType,
+  getInterviewList,
+  CompanyTableType,
 } from "entities/interview";
 import { CommonButton } from "shared/ui";
 import { BasicInfoSection } from "./BasicInfoSection";
@@ -26,12 +27,10 @@ import { ExpectedQuestionList } from "./ExpectedQuestionList";
 
 type CompanyDetailScreenProps = {
   companyData: CompanyTableType;
-  interviewList: InterviewListType;
 };
 
 export const CompanyDetailScreen = ({
   companyData,
-  interviewList,
 }: CompanyDetailScreenProps) => {
   const router = useRouter();
   const [editingSection, setEditingSection] = useState<string | null>(null);
@@ -39,6 +38,10 @@ export const CompanyDetailScreen = ({
   const [expectedQuestions, setExpectedQuestions] = useState<
     InterviewSetType[]
   >([]);
+  const [interviewList, setInterviewList] = useState<InterviewListType>([]);
+  const [isExpectedQuestionsLoading, setIsExpectedQuestionsLoading] =
+    useState(true);
+  const [isInterviewListLoading, setIsInterviewListLoading] = useState(true);
   const setModal = useSetAtom(ModalAtom);
 
   const {
@@ -68,13 +71,31 @@ export const CompanyDetailScreen = ({
   useEffect(() => {
     const fetchExpectedQuestions = async () => {
       try {
+        setIsExpectedQuestionsLoading(true);
         const data = await getInterviewSets({ companyId: companyData.id });
         setExpectedQuestions(data);
       } catch (error) {
         console.error("Failed to fetch expected questions:", error);
+      } finally {
+        setIsExpectedQuestionsLoading(false);
       }
     };
     fetchExpectedQuestions();
+  }, [companyData.id]);
+
+  useEffect(() => {
+    const fetchInterviewList = async () => {
+      try {
+        setIsInterviewListLoading(true);
+        const data = await getInterviewList(companyData.id);
+        setInterviewList(data);
+      } catch (error) {
+        console.error("Failed to fetch interview list:", error);
+      } finally {
+        setIsInterviewListLoading(false);
+      }
+    };
+    fetchInterviewList();
   }, [companyData.id]);
 
   const handleUndecidedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,12 +223,16 @@ export const CompanyDetailScreen = ({
         companyData={companyData}
       />
 
-      <InterviewScriptList interviewList={interviewList} />
+      <InterviewScriptList
+        interviewList={interviewList}
+        isLoading={isInterviewListLoading}
+      />
 
       <ExpectedQuestionList
         questions={expectedQuestions}
         companyId={companyData.id}
         companyName={companyData.name}
+        isLoading={isExpectedQuestionsLoading}
       />
     </div>
   );

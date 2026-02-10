@@ -21,14 +21,13 @@ export const InterviewList = ({ data }: IntervieListProps) => {
     return data?.filter((item) => item.interview_type === filterType);
   }, [data, filterType]);
 
-  // Infinite Scroll Logic
   const [visibleCount, setVisibleCount] = useState(10);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const isLoadingMoreRef = useRef(false);
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setVisibleCount(10); // Reset when filter changes
+    setVisibleCount(10);
   }, [filterType]);
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export const InterviewList = ({ data }: IntervieListProps) => {
           setTimeout(() => {
             setVisibleCount((prev) => prev + 10);
             setIsLoadingMore(false);
-          }, 500); // Artificial delay for visual feedback
+          }, 500);
         }
       },
       { threshold: 0.1 }

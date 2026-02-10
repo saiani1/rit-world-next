@@ -1,5 +1,5 @@
 import { CompanyDetailScreen } from "page/CompanyDetail/ui/CompanyDetailScreen";
-import { getCompanyById, getInterviewList } from "entities/interview";
+import { getCompanyById } from "entities/interview";
 
 type Props = {
   params: {
@@ -8,20 +8,10 @@ type Props = {
 };
 
 const CompanyDetailPage = async ({ params }: Props) => {
-  const [companyData, interviewList] = await Promise.all([
-    getCompanyById(params.id),
-    getInterviewList(params.id),
-  ]);
+  const companyData = await getCompanyById(params.id);
 
   return (
-    <>
-      {companyData && interviewList && (
-        <CompanyDetailScreen
-          companyData={companyData}
-          interviewList={interviewList}
-        />
-      )}
-    </>
+    <>{companyData && <CompanyDetailScreen companyData={companyData} />}</>
   );
 };
 

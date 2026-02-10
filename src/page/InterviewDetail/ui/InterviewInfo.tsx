@@ -92,11 +92,16 @@ export const InterviewInfo = ({
                 <option value="" disabled>
                   Select Company
                 </option>
-                {companyList.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.name}
-                  </option>
-                ))}
+                {companyList
+                  .filter(
+                    (company) =>
+                      company.result !== "탈락" || company.id === companyId
+                  )
+                  .map((company) => (
+                    <option key={company.id} value={company.id}>
+                      {company.name}
+                    </option>
+                  ))}
               </select>
             ) : (
               <p>{companyName}</p>

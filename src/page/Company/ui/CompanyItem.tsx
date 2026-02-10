@@ -48,7 +48,7 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
   return (
     <li
       key={data.id}
-      className={`rounded-xl shadow-sm border border-gray-100 ${
+      className={` rounded-xl shadow-sm border border-gray-100 ${
         isRejected
           ? "bg-gray-100 cursor-not-allowed"
           : "bg-white hover:shadow-md transition-shadow"
@@ -56,17 +56,17 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
     >
       <Link
         href={`company/${data.id}`}
-        className="flex justify-between items-center p-6 w-full h-full"
+        className="flex justify-between items-center p-6 w-full h-full gap-4"
       >
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-2 flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span
-              className={`px-2 py-1 text-xs font-medium rounded ${isRejected ? "bg-gray-50 text-gray-400" : "bg-gray-100 text-gray-600"}`}
+              className={`flex-shrink-0 px-2 py-1 text-xs font-medium rounded ${isRejected ? "bg-gray-50 text-gray-400" : "bg-gray-100 text-gray-600"}`}
             >
               {data.type}
             </span>
             <h3
-              className={`text-lg font-bold ${isRejected ? "text-gray-500" : "text-gray-900"}`}
+              className={`text-lg font-bold truncate ${isRejected ? "text-gray-500" : "text-gray-900"}`}
             >
               {data.name}
             </h3>
@@ -79,7 +79,7 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
             </p>
           )}
         </div>
-        <div className="flex flex-col items-end gap-1">
+        <div className="flex flex-col items-end gap-1 flex-shrink-0 max-w-[60%] sm:block hidden">
           {data.history && data.history.length > 0 ? (
             <div className="flex items-center flex-wrap justify-end gap-x-2 gap-y-1">
               {data.history.map((entry, index) => (

@@ -10,7 +10,7 @@ export const saveQnAItem = async ({
 }: SaveQnAItemParams): Promise<QnAItemType> => {
   const { data, error } = await supabase
     .from("qna_items")
-    .insert({
+    .upsert({
       ...datas,
     })
     .select()

@@ -2,7 +2,7 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useSetAtom } from "jotai";
-import { HiArrowLeft, HiArrowUp, HiTrash } from "react-icons/hi2";
+import { HiArrowLeft, HiArrowUp } from "react-icons/hi2";
 
 import { useRouter } from "i18n/routing";
 import { ModalAtom } from "features/Modal";
@@ -27,7 +27,6 @@ type InterviweDetailScreenProps = {
 
 const InterviewDetailScreen = ({
   interviewData,
-
   companyList,
 }: InterviweDetailScreenProps) => {
   const router = useRouter();
@@ -103,6 +102,7 @@ const InterviewDetailScreen = ({
   const handleBack = () => {
     router.back();
   };
+
   return (
     <div className="flex flex-col gap-8 w-full">
       <div className="flex justify-between items-center">
@@ -126,7 +126,7 @@ const InterviewDetailScreen = ({
         </div>
         <CommonButton
           onClick={handleDeleteClick}
-          className="px-4 py-1 bg-red-500 text-sm text-white rounded-md hover:bg-red-600 transition-colors"
+          className="flex-shrink-0 ml-1 px-4 py-1 bg-red-500 text-sm text-white rounded-md hover:bg-red-600 transition-colors"
         >
           삭제
         </CommonButton>

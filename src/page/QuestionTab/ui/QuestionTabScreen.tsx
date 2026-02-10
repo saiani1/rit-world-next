@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import toast from "react-hot-toast";
+import { HiChevronDown, HiChevronUp } from "react-icons/hi2";
 
 import { QuestionItem } from "features/Interview";
 import {
@@ -14,8 +15,16 @@ import {
 } from "entities/interview";
 import { CommonButton, CommonInput } from "shared/ui";
 
-export const QuestionTabScreen = () => {
-  const [questions, setQuestions] = useState<CommonQuestionType[]>([]);
+type Props = {
+  initialQuestions: CommonQuestionType[];
+};
+
+export const QuestionTabScreen = ({ initialQuestions }: Props) => {
+  const [questions, setQuestions] =
+    useState<CommonQuestionType[]>(initialQuestions);
+  const [globalFoldState, setGlobalFoldState] = useState<
+    "ALL_CLOSED" | "ALL_OPEN" | null
+  >("ALL_CLOSED");
   const [selectedCategory, setSelectedCategory] = useState<string>(
     QUESTION_CATEGORIES[0].title
   );
@@ -38,9 +47,11 @@ export const QuestionTabScreen = () => {
     }
   };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
+  const handleToggleAllFold = (): void => {
+    setGlobalFoldState((prev) =>
+      prev === "ALL_CLOSED" ? "ALL_OPEN" : "ALL_CLOSED"
+    );
+  };
 
   const onAddSubmit = async (data: UpsertCommonQuestionInput) => {
     try {
@@ -91,8 +102,21 @@ export const QuestionTabScreen = () => {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-gray-900">공통질문 리스트</h2>
+    <div className="w-full mx-auto flex flex-col gap-4 min-w-0">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold text-gray-900">공통질문 리스트</h2>
+        <CommonButton
+          onClick={handleToggleAllFold}
+          className="bg-white border border-gray-200 p-2 text-gray-500 hover:bg-gray-50 rounded-full transition-colors shadow-sm"
+          title={globalFoldState === "ALL_CLOSED" ? "모두 펼치기" : "모두 접기"}
+        >
+          {globalFoldState === "ALL_CLOSED" ? (
+            <HiChevronDown className="w-5 h-5" />
+          ) : (
+            <HiChevronUp className="w-5 h-5" />
+          )}
+        </CommonButton>
+      </div>
       <section className="bg-gray-50 p-6 bg-white rounded-xl border border-gray-100">
         <h2 className="text-lg font-semibold mb-4 text-gray-800">
           공통 질문 추가
@@ -156,7 +180,7 @@ export const QuestionTabScreen = () => {
         </form>
       </section>
 
-      <section>
+      <section className="grid grid-cols-1">
         <div className="flex border-b border-gray-200 mb-6 overflow-x-auto flex-nowrap">
           {QUESTION_CATEGORIES.map((cat) => (
             <CommonButton
@@ -188,6 +212,7 @@ export const QuestionTabScreen = () => {
                 item={item}
                 onUpdate={handleUpdate}
                 onDelete={handleDelete}
+                globalFoldState={globalFoldState}
               />
             ))
           )}

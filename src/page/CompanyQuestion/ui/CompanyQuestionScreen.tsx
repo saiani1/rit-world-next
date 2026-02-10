@@ -182,7 +182,7 @@ export const CompanyQuestionScreen = () => {
         QUESTION_CATEGORIES.find((c) => c.id === Number(q.categoryId))?.title ||
         "기타",
     }));
-    setExistingQuestions(currentQuestions as any);
+    setExistingQuestions(currentQuestions);
     router.push(`${pathname}/select-questions`);
   };
 

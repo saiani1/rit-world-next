@@ -37,10 +37,10 @@
 .wmde-markdown h1,
 .wmde-markdown h2 {
   border-bottom: none !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 15px !important;
   padding-bottom: 0 !important;
 }
 
 .wmde-markdown h2 {
-  margin-top: 10px !important;
+  margin-top: 15px !important;
 }

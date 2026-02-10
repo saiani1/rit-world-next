@@ -13,6 +13,7 @@ import {
   saveInterviewSet,
   saveQnAItem,
   selectedQuestionsAtom,
+  existingQuestionsAtom,
   QUESTION_CATEGORIES,
   INTERVIEW_STATUS_TYPES,
   getInterviewSets,
@@ -45,6 +46,7 @@ export const CompanyQuestionScreen = () => {
     selectedQuestionsAtom
   );
   const setModal = useSetAtom(ModalAtom);
+  const setExistingQuestions = useSetAtom(existingQuestionsAtom);
 
   const { control, register, handleSubmit, getValues, reset } =
     useForm<FormValues>({
@@ -160,6 +162,13 @@ export const CompanyQuestionScreen = () => {
   };
 
   const handleOpenModal = () => {
+    const currentQuestions = getValues("questions").map((q) => ({
+      ...q,
+      category:
+        QUESTION_CATEGORIES.find((c) => c.id === Number(q.categoryId))?.title ||
+        "기타",
+    }));
+    setExistingQuestions(currentQuestions as any);
     router.push(`${pathname}/select-questions`);
   };
 

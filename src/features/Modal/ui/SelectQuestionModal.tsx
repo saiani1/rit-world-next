@@ -8,6 +8,7 @@ import {
   getCommonQuestions,
   CommonQuestionType,
   selectedQuestionsAtom,
+  existingQuestionsAtom,
   QUESTION_CATEGORIES,
 } from "entities/interview";
 import { CommonButton } from "shared/ui";
@@ -23,6 +24,7 @@ export const SelectQuestionModal = () => {
   const [tempSelectedQuestions, setTempSelectedQuestions] = useState<
     CommonQuestionType[]
   >([]);
+  const [existingQuestions] = useAtom(existingQuestionsAtom);
 
   useLayoutEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
@@ -62,6 +64,7 @@ export const SelectQuestionModal = () => {
   }, [selectedCategory, questions]);
 
   const handleSelect = (item: CommonQuestionType) => {
+    if (existingQuestions.some((q) => q.question === item.question)) return;
     if (tempSelectedQuestions.some((q) => q.id === item.id)) {
       setTempSelectedQuestions((prev) => prev.filter((q) => q.id !== item.id));
     } else {
@@ -129,14 +132,19 @@ export const SelectQuestionModal = () => {
               const isSelected = tempSelectedQuestions.some(
                 (q) => q.id === item.id
               );
+              const isAlreadyAdded = existingQuestions.some(
+                (q) => q.question === item.question
+              );
               return (
                 <div
                   key={item.id}
                   onClick={() => handleSelect(item)}
                   className={`cursor-pointer p-4 rounded-lg border-2 transition-all relative group hover:shadow-md ${
-                    isSelected
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-100 hover:border-blue-200 bg-white"
+                    isAlreadyAdded
+                      ? "border-gray-100 bg-gray-50 opacity-60 cursor-not-allowed"
+                      : isSelected
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-100 hover:border-blue-200 bg-white"
                   }`}
                 >
                   <div className="flex justify-between items-start mb-2">
@@ -145,6 +153,11 @@ export const SelectQuestionModal = () => {
                     </span>
                     {isSelected && (
                       <IoCheckmarkCircle className="text-blue-500 text-xl" />
+                    )}
+                    {isAlreadyAdded && (
+                      <span className="text-xs font-bold text-gray-400">
+                        추가됨
+                      </span>
                     )}
                   </div>
                   <p className="text-gray-800 font-medium line-clamp-2 mb-2">

@@ -6,7 +6,6 @@ import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import type { ViewerProps } from "@toast-ui/react-editor";
 
 import { useRouter } from "i18n/routing";
 import {
@@ -29,31 +28,11 @@ import {
   updateBlog,
   updateBlogJp,
 } from "entities/blog";
-import { CommonButton, CommonInput, Title } from "shared/ui";
-import { loadCodeSyntaxHighlight } from "shared/lib";
+import { CommonButton, CommonInput, Title, CustomViewer } from "shared/ui";
 
 const CustomEditor = dynamic(() => import("shared/ui/CustomEditor"), {
   ssr: false,
 });
-
-const Viewer = dynamic(
-  async () => {
-    const { Viewer } = await import("@toast-ui/react-editor");
-    const { codeSyntaxHighlight, Prism } = await loadCodeSyntaxHighlight();
-
-    const ViewerWithPlugins = (props: ViewerProps) => (
-      <Viewer
-        {...props}
-        plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-      />
-    );
-    ViewerWithPlugins.displayName = "Viewer";
-    return ViewerWithPlugins;
-  },
-  {
-    ssr: false,
-  }
-);
 
 type BlogFormScreenType = {
   categories: CategoryType[];
@@ -212,7 +191,10 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       onKeyDown={(e) => {
-        if (e.key === "Enter") {
+        if (
+          e.key === "Enter" &&
+          (e.target as HTMLElement).tagName !== "TEXTAREA"
+        ) {
           e.preventDefault();
         }
       }}
@@ -267,7 +249,7 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
       </div>
       <div className={`${page === "translate" ? "flex gap-x-5" : ""}`}>
         <div className={`${page === "translate" ? "w-1/2" : "hidden"}`}>
-          {blogData && <Viewer initialValue={blogData?.content} />}
+          {blogData && <CustomViewer initialValue={blogData?.content} />}
         </div>
         <div className={`${page === "translate" ? "w-1/2" : ""}`}>
           <CustomEditor
@@ -275,7 +257,6 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
             name="content"
             path={watch("path") ?? ""}
             initialValue={watch("content")}
-            isTranslatePage={page === "translate"}
             page={page}
           />
         </div>

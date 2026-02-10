@@ -107,7 +107,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
 
   useEffect(() => {
     setVisibleCount(10);
-  }, [activeTab]);
+  }, [activeTab, searchTerm]);
 
   useEffect(() => {
     isLoadingMoreRef.current = isLoadingMore;

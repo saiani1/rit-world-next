@@ -1,1 +1,0 @@
-export { loadCodeSyntaxHighlight } from "./CodeSyntaxHighlight";

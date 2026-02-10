@@ -51,12 +51,16 @@ type QuestionItemProps = FieldArrayProps | StandaloneProps;
 export const QuestionItem = (props: QuestionItemProps) => {
   const isFieldArray = props.mode === "field-array";
   const setModal = useSetAtom(ModalAtom);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
 
   const fieldArrayProps = isFieldArray ? (props as FieldArrayProps) : undefined;
   const standaloneProps = !isFieldArray
     ? (props as StandaloneProps)
     : undefined;
+  const [isEditing, setIsEditing] = useState(
+    isFieldArray ? !fieldArrayProps!.field.question : false
+  );
 
   const {
     control: localControl,
@@ -73,13 +77,6 @@ export const QuestionItem = (props: QuestionItemProps) => {
         }
       : {},
   });
-
-  /* eslint-disable react-hooks/exhaustive-deps */
-  const [isEditing, setIsEditing] = useState(
-    isFieldArray ? !fieldArrayProps!.field.question : false
-  );
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   const watchedFieldArray = useWatch({
     control: (isFieldArray ? fieldArrayProps?.control : localControl) as any,
@@ -143,7 +140,6 @@ export const QuestionItem = (props: QuestionItemProps) => {
     }
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (props.globalFoldState === "ALL_CLOSED") {
       setIsCollapsed(true);
@@ -151,7 +147,6 @@ export const QuestionItem = (props: QuestionItemProps) => {
       setIsCollapsed(false);
     }
   }, [props.globalFoldState]);
-  /* eslint-enable react-hooks/exhaustive-deps */
 
   if (!isEditing) {
     return (

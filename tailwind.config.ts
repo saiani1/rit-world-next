@@ -97,6 +97,7 @@ const config = {
       black: "900",
     },
   },
+  plugins: [require("@tailwindcss/typography")],
 };
 
 export default config;

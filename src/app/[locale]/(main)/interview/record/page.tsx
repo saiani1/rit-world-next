@@ -9,7 +9,9 @@ const RecordPage = async () => {
     <>
       {data && (
         <>
-          <InterviewUploadSection />
+          <div className="hidden sm:block">
+            <InterviewUploadSection />
+          </div>
           <InterviewList data={data} />
         </>
       )}

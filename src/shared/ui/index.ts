@@ -6,5 +6,7 @@ export { Title } from "./Title";
 export { Selectbox } from "./Selectbox";
 export { Tooltip } from "./Tooltip";
 export { FileInput } from "./FileInput";
+export { default as CustomViewer } from "./CustomViewer";
+export { default as CustomEditor } from "./CustomEditor";
 export { CommonButton } from "./CommonButton";
 export { RadioButton } from "./RadioButton";

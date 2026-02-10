@@ -1,0 +1,46 @@
+/* Custom Editor Styles */
+.w-md-editor-text-pre,
+.w-md-editor-text-input,
+.w-md-editor-text,
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
+
+/* Custom Viewer Styles */
+.wmde-markdown pre,
+.wmde-markdown code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+}
+
+.wmde-markdown ul {
+  list-style-type: disc !important;
+  padding-left: 1.5em !important;
+}
+
+.wmde-markdown ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5em !important;
+}
+
+.wmde-markdown ul ul,
+.wmde-markdown ol ul {
+  list-style-type: circle !important;
+}
+
+.wmde-markdown ul ol {
+  list-style-type: lower-roman !important;
+}
+
+.wmde-markdown h1,
+.wmde-markdown h2 {
+  border-bottom: none !important;
+  margin-bottom: 4px !important;
+  padding-bottom: 0 !important;
+}
+
+.wmde-markdown h2 {
+  margin-top: 10px !important;
+}

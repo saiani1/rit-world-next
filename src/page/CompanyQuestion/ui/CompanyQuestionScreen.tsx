@@ -104,6 +104,10 @@ export const CompanyQuestionScreen = () => {
   }, [setId, reset]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (selectedQuestions.length > 0) {
       const currentQuestions = getValues("questions");
 

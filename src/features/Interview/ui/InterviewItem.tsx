@@ -22,17 +22,17 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
     >
       <Link
         href={`/interview/record/${item.id}`}
-        className="flex justify-between items-start p-4 w-full"
+        className="flex justify-between items-start gap-4 p-4 w-full"
       >
-        <div>
+        <div className="flex-shrink-0">
           <p className="text-sm text-gray-500">{item.interview_date}</p>
           <p className="text-xs text-gray-400 mt-0.5">{item.duration}</p>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <h3 className="text-lg font-bold text-black-555">
+        <div className="flex flex-col items-end gap-1 flex-1 min-w-0">
+          <h3 className="text-lg font-bold text-black-555 truncate w-full text-right">
             {item.company_name}
           </h3>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-shrink-0">
             {item.company_type && (
               <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-gray-400 rounded">
                 {item.company_type}

@@ -8,7 +8,7 @@ type InterviewLayoutProps = {
 const InterviewLayout = ({ children }: InterviewLayoutProps) => {
   return (
     <>
-      <div>
+      <div className="mx-[20px] sm:mx-0">
         <Title name="Interview" />
         <InterviewTabs />
         <div className="mt-6">{children}</div>

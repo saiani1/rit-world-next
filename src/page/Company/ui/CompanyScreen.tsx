@@ -7,7 +7,7 @@ import {
   INTERVIEW_STATUS_TYPES,
   InterviewStatusType,
 } from "entities/interview";
-import { CommonButton } from "shared/ui";
+import { CommonButton, CommonInput } from "shared/ui";
 import { CompanyItem } from "./CompanyItem";
 
 type CompanyScreenProps = {
@@ -29,6 +29,10 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"ACTIVE" | "FINISHED">("ACTIVE");
   const [searchTerm, setSearchTerm] = useState("");
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
+  const observerRef = useRef<HTMLDivElement>(null);
 
   const handleRegisterClick = () => {
     router.push("company/new");
@@ -101,14 +105,8 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
     return new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime();
   });
 
-  // Infinite Scroll Logic
-  const [visibleCount, setVisibleCount] = useState(10);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const isLoadingMoreRef = useRef(false);
-  const observerRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
-    setVisibleCount(10); // Reset when tab changes
+    setVisibleCount(10);
   }, [activeTab]);
 
   useEffect(() => {
@@ -158,9 +156,9 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
             <CommonButton
               onClick={handleRegisterClick}
-              className="py-2 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="py-2 px-6 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors break-keep"
             >
-              새 회사 등록하기
+              회사 등록
             </CommonButton>
           </div>
 
@@ -210,7 +208,7 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
           </div>
 
-          <div className="flex border-b border-gray-200 justify-between items-end">
+          <div className="flex flex-col sm:flex-row border-b border-gray-200 justify-between items-start sm:items-end gap-y-2">
             {searchTerm ? (
               <div className="flex items-center gap-4 py-3">
                 <p className="text-gray-900 font-medium">
@@ -250,19 +248,18 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
                 </CommonButton>
               </div>
             )}
-            <div className="py-2">
-              <input
-                type="text"
+            <div className="py-2 w-full sm:w-auto">
+              <CommonInput
                 placeholder="회사 검색..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+                className="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-64"
               />
             </div>
           </div>
 
           {sortedCompanies.length > 0 ? (
-            <ul className="grid gap-4">
+            <ul className="flex flex-col gap-4">
               {visibleCompanies.map((company) => (
                 <CompanyItem key={company.id} data={company} />
               ))}

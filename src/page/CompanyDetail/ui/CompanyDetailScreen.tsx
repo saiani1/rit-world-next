@@ -184,7 +184,7 @@ export const CompanyDetailScreen = ({
         </div>
         <CommonButton
           onClick={handleDeleteClick}
-          className="px-4 py-1 bg-red-500 text-sm text-white rounded-md hover:bg-red-600 transition-colors"
+          className="px-4 py-1 bg-red-500 text-sm text-white rounded-md hover:bg-red-600 transition-colors flex-shrink-0"
         >
           삭제
         </CommonButton>

@@ -48,7 +48,9 @@ export const CompanyQuestionScreen = () => {
   const setId = searchParams.get("id");
   const companyId = searchParams.get("companyId") as string;
   const [isLoading, setIsLoading] = useState(!!setId);
-
+  const [globalFoldState, setGlobalFoldState] = useState<
+    "ALL_CLOSED" | "ALL_OPEN" | null
+  >(null);
   const [selectedQuestions, setSelectedQuestions] = useAtom(
     selectedQuestionsAtom
   );
@@ -203,10 +205,6 @@ export const CompanyQuestionScreen = () => {
     });
   };
 
-  const [globalFoldState, setGlobalFoldState] = useState<
-    "ALL_CLOSED" | "ALL_OPEN" | null
-  >(null);
-
   const handleToggleAllFold = () => {
     setGlobalFoldState((prev) =>
       prev === "ALL_CLOSED" ? "ALL_OPEN" : "ALL_CLOSED"
@@ -228,14 +226,14 @@ export const CompanyQuestionScreen = () => {
   return (
     <div className="w-full mx-auto">
       <div className="mb-8">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex sm:items-center items-start gap-2 mb-4">
           <CommonButton
             onClick={() => router.back()}
             className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
           >
             <HiArrowLeft className="w-6 h-6" />
           </CommonButton>
-          <div className="flex flex-1 justify-between items-center">
+          <div className="flex sm:flex-row flex-col flex-1 justify-between items-center">
             <h2 className="text-2xl font-bold">
               {companyName ? `${companyName} ` : ""}예상 질문 리스트{" "}
               {setId ? "수정" : "생성"}
@@ -276,9 +274,9 @@ export const CompanyQuestionScreen = () => {
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg border border-gray-100">
+          <div className="flex justify-between items-center bg-gray-50 rounded-lg">
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium text-gray-700 whitespace-nowrap">
+              <label className="sm:block hidden text-sm font-medium text-gray-700 whitespace-nowrap">
                 면접 유형
               </label>
               <select
@@ -294,9 +292,9 @@ export const CompanyQuestionScreen = () => {
             </div>
             <CommonButton
               onClick={handleOpenModal}
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors text-sm whitespace-nowrap"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors text-sm"
             >
-              질문리스트 가져오기
+              질문 가져오기
             </CommonButton>
           </div>
         </div>

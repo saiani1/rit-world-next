@@ -102,7 +102,7 @@ export const QuestionTabScreen = ({ initialQuestions }: Props) => {
   );
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col gap-4">
+    <div className="w-full mx-auto flex flex-col gap-4 min-w-0">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold text-gray-900">공통질문 리스트</h2>
         <CommonButton
@@ -180,7 +180,7 @@ export const QuestionTabScreen = ({ initialQuestions }: Props) => {
         </form>
       </section>
 
-      <section>
+      <section className="grid grid-cols-1">
         <div className="flex border-b border-gray-200 mb-6 overflow-x-auto flex-nowrap">
           {QUESTION_CATEGORIES.map((cat) => (
             <CommonButton

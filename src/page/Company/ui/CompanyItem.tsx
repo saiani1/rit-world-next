@@ -48,7 +48,7 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
   return (
     <li
       key={data.id}
-      className={`rounded-xl shadow-sm border border-gray-100 ${
+      className={` rounded-xl shadow-sm border border-gray-100 ${
         isRejected
           ? "bg-gray-100 cursor-not-allowed"
           : "bg-white hover:shadow-md transition-shadow"
@@ -79,7 +79,7 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
             </p>
           )}
         </div>
-        <div className="flex flex-col items-end gap-1 flex-shrink-0 max-w-[60%]">
+        <div className="flex flex-col items-end gap-1 flex-shrink-0 max-w-[60%] sm:block hidden">
           {data.history && data.history.length > 0 ? (
             <div className="flex items-center flex-wrap justify-end gap-x-2 gap-y-1">
               {data.history.map((entry, index) => (

@@ -36,7 +36,7 @@ export const QuestionCard = ({
               }`}
             />
           </CommonButton>
-          <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded font-medium whitespace-nowrap">
+          <span className="sm:block hidden px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded font-medium whitespace-nowrap">
             {category}
           </span>
           <h3 className="font-medium text-gray-800 line-clamp-1">{question}</h3>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { MAX_DURATION } from "shared/config/constants";
 
+export const runtime = "edge";
 export const maxDuration = MAX_DURATION;
 
 export const POST = async (req: Request) => {

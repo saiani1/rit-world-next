@@ -9,7 +9,6 @@ export { saveInterviewPattern } from "./saveInterviewPattern";
 export { getAllInterviews } from "./getAllInterviews";
 export { getInterviewPattern } from "./getInterviewPattern";
 export { saveInterview } from "./saveInterview";
-export { getAnalyzeInterview } from "./getAnalyzeInterview";
 export { getInterviewById } from "./getInterviewById";
 export { getInterviewList } from "./getInterviewList";
 export { deleteInterview } from "./deleteInterview";

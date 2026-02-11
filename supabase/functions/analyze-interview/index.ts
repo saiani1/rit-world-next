@@ -21,9 +21,11 @@ serve(async (req: Request) => {
 
   const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
 
+  let interviewId = "";
+
   try {
     const { record } = await req.json();
-    const interviewId = record.id;
+    interviewId = record.id;
     const text = record.raw_text;
 
     console.log(`Starting analysis for interview: ${interviewId}`);
@@ -126,9 +128,19 @@ serve(async (req: Request) => {
       status: 200,
     });
   } catch (error) {
-    console.error("Error during analysis:", error);
+    console.error(`Error during analysis for interview ${interviewId}:`, error);
 
     // 에러 발생 시 상태를 failed로 변경
+    if (interviewId) {
+      await supabase
+        .from("interviews")
+        .update({
+          status: "failed",
+          error_message: error.message,
+        })
+        .eq("id", interviewId);
+    }
+
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,

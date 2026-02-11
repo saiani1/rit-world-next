@@ -15,11 +15,11 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
       <Link
         href={`/interview/record/${item.id}`}
         className={`flex justify-between items-start gap-4 p-4 w-full min-h-[80px] transition-all ${
-          !item.company_name ||
-          item.status === "pending" ||
-          item.status === "processing"
+          item.status === "pending" || item.status === "processing"
             ? "opacity-80 bg-gray-100/50 animate-pulse cursor-wait"
-            : ""
+            : item.status === "failed"
+              ? "opacity-80 bg-red-50"
+              : ""
         }`}
       >
         <div className="flex-shrink-0">
@@ -33,21 +33,25 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
         <div className="flex flex-col items-end gap-1 flex-1 min-w-0">
           <h3
             className={`text-lg font-bold text-black-555 truncate w-full text-right ${
-              !item.company_name ||
-              item.status === "pending" ||
-              item.status === "processing"
+              item.status === "pending" || item.status === "processing"
                 ? "text-gray-400 font-medium"
-                : ""
+                : item.status === "failed"
+                  ? "text-red-400"
+                  : ""
             }`}
           >
-            {item.company_name || "회사를 분석하고 있습니다..."}
+            {item.status === "failed"
+              ? "분석 실패"
+              : item.company_name || "회사를 분석하고 있습니다..."}
           </h3>
           <div className="flex items-center gap-1 flex-shrink-0">
-            {!item.company_name ||
-            item.status === "pending" ||
-            item.status === "processing" ? (
+            {item.status === "pending" || item.status === "processing" ? (
               <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-rose-400 rounded shadow-sm">
                 AI 분석 중
+              </span>
+            ) : item.status === "failed" ? (
+              <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-red-500 rounded shadow-sm">
+                분석 실패
               </span>
             ) : (
               <>

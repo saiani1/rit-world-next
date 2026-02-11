@@ -30,10 +30,7 @@ export const InterviewList = ({ data }: IntervieListProps) => {
   const hasPendingItems = useMemo(
     () =>
       data?.some(
-        (item) =>
-          item.status === "pending" ||
-          item.status === "processing" ||
-          !item.company_name
+        (item) => item.status === "pending" || item.status === "processing"
       ),
     [data]
   );

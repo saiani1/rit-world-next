@@ -176,7 +176,9 @@ export const InterviewInfo = ({
         <div>
           <span className="font-semibold text-gray-700">Date: </span>
           <span suppressHydrationWarning>
-            {new Date(data.interview_date).toLocaleDateString("ko-KR")}
+            {data.interview_date
+              ? new Date(data.interview_date).toLocaleDateString("ko-KR")
+              : "분석 중..."}
           </span>
         </div>
         <div>

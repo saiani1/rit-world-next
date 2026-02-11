@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-import { getAnalyzeInterview, saveInterview } from "entities/interview";
+import { saveInterview } from "entities/interview";
 import { CommonButton, FileInput } from "shared/ui";
 
 export const InterviewUploadSection = () => {
@@ -21,13 +21,13 @@ export const InterviewUploadSection = () => {
     try {
       setIsAnalyzing(true);
       const text = await file.text();
-      const result = await getAnalyzeInterview(text);
-      await saveInterview(result, text);
-      toast.success("분석이 완료되었습니다.");
+      await saveInterview(text);
+      toast.success("업로드 완료, 분석을 시작합니다.");
+      setFile(null);
       router.refresh();
     } catch (error) {
       console.error("Error:", error);
-      toast.error("분석 중 오류가 발생했습니다.");
+      toast.error("업로드 중 오류가 발생했습니다.");
     } finally {
       setIsAnalyzing(false);
     }
@@ -51,7 +51,7 @@ export const InterviewUploadSection = () => {
         disabled={!file || isAnalyzing}
         className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        {isAnalyzing ? "AI 분석 중..." : "분석 시작"}
+        {isAnalyzing ? "분석 중..." : "분석 시작"}
       </CommonButton>
     </div>
   );

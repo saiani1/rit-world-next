@@ -38,20 +38,28 @@ export type QAEntryType = {
 /** 면접 스크립트 분석 결과 */
 export type AnalysisResultType = {
   company_id?: string;
-  company_name: string;
-  company_type: string;
-  interview_type: string;
-  recorded_at: string;
-  interview_date: string;
-  duration: string;
-  summary: string;
-  qa_data: QAEntryType[];
+  company_name?: string;
+  company_type?: string;
+  interview_type?: string;
+  recorded_at?: string;
+  interview_date?: string;
+  duration?: string;
+  summary?: string;
+  qa_data?: QAEntryType[];
 };
+
+export type AnalysisStatusType =
+  | "pending"
+  | "processing"
+  | "completed"
+  | "failed";
 
 /** 면접 데이터 */
 export type InterviewType = AnalysisResultType & {
   id: string;
   raw_text: string;
+  status: AnalysisStatusType;
+  error_message?: string;
   created_at?: string;
 };
 
@@ -65,6 +73,7 @@ export type InterviewListType = Pick<
   | "interview_date"
   | "duration"
   | "company_id"
+  | "status"
 >[];
 
 export const COMPANY_TYPES = ["SIer", "자사서비스", "SES"] as const;

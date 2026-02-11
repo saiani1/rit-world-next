@@ -1,6 +1,7 @@
 "use client";
 import { useState, useMemo, useRef, useEffect } from "react";
 
+import { useRouter } from "i18n/routing";
 import { InterviewItem } from "features/Interview";
 import { InterviewListType } from "entities/interview";
 
@@ -9,7 +10,12 @@ type IntervieListProps = {
 };
 
 export const InterviewList = ({ data }: IntervieListProps) => {
+  const router = useRouter();
   const [filterType, setFilterType] = useState("All");
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
+  const observerRef = useRef<HTMLDivElement>(null);
 
   const uniqueTypes = useMemo(() => {
     const types = new Set(data?.map((item) => item.interview_type) || []);
@@ -21,10 +27,23 @@ export const InterviewList = ({ data }: IntervieListProps) => {
     return data?.filter((item) => item.interview_type === filterType);
   }, [data, filterType]);
 
-  const [visibleCount, setVisibleCount] = useState(10);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const isLoadingMoreRef = useRef(false);
-  const observerRef = useRef<HTMLDivElement>(null);
+  const hasPendingItems = useMemo(
+    () =>
+      data?.some(
+        (item) => item.status === "pending" || item.status === "processing"
+      ),
+    [data]
+  );
+
+  useEffect(() => {
+    if (!hasPendingItems) return;
+
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [hasPendingItems, router]);
 
   useEffect(() => {
     setVisibleCount(10);

@@ -11,21 +11,27 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
   const isPending = item.status === "pending" || item.status === "processing";
   const isFailed = item.status === "failed";
 
+  const linkClassName = (() => {
+    const base =
+      "flex justify-between items-start gap-4 p-4 w-full min-h-[80px] transition-all";
+    if (isPending)
+      return `${base} opacity-80 bg-gray-100/50 animate-pulse cursor-wait`;
+    if (isFailed) return `${base} opacity-80 bg-red-50`;
+    return base;
+  })();
+
+  const titleClassName = (() => {
+    const base = "text-lg font-bold text-black-555 truncate w-full text-right";
+    if (isPending) return `${base} text-gray-400 font-medium`;
+    if (isFailed) return `${base} text-red-400`;
+    return base;
+  })();
+
   return (
     <li
       className={`flex justify-between bg-white ${companyPage ? "border" : "shadow-md"} rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer`}
     >
-      <Link
-        href={`/interview/record/${item.id}`}
-        className={(() => {
-          const base =
-            "flex justify-between items-start gap-4 p-4 w-full min-h-[80px] transition-all";
-          if (isPending)
-            return `${base} opacity-80 bg-gray-100/50 animate-pulse cursor-wait`;
-          if (isFailed) return `${base} opacity-80 bg-red-50`;
-          return base;
-        })()}
-      >
+      <Link href={`/interview/record/${item.id}`} className={linkClassName}>
         <div className="flex-shrink-0">
           <p className="text-sm text-gray-500">
             {item.interview_date || "날짜 분석 중..."}
@@ -35,15 +41,7 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
           </p>
         </div>
         <div className="flex flex-col items-end gap-1 flex-1 min-w-0">
-          <h3
-            className={(() => {
-              const base =
-                "text-lg font-bold text-black-555 truncate w-full text-right";
-              if (isPending) return `${base} text-gray-400 font-medium`;
-              if (isFailed) return `${base} text-red-400`;
-              return base;
-            })()}
-          >
+          <h3 className={titleClassName}>
             {(() => {
               if (isFailed) return "분석 실패";
               if (item.company_name) return item.company_name;

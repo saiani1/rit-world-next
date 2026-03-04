@@ -1,6 +1,6 @@
 "use client";
 import { Link } from "i18n/routing";
-import { InterviewListType } from "entities/interview";
+import { InterviewListType, isStatusPending } from "entities/interview";
 
 type InterviewItemProps = {
   item: InterviewListType[number];
@@ -8,7 +8,7 @@ type InterviewItemProps = {
 };
 
 export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
-  const isPending = item.status === "pending" || item.status === "processing";
+  const isPending = isStatusPending(item.status);
   const isFailed = item.status === "failed";
 
   const linkClassName = (() => {

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 import { useRouter } from "i18n/routing";
 import { InterviewItem } from "features/Interview";
-import { InterviewListType } from "entities/interview";
+import { InterviewListType, isStatusPending } from "entities/interview";
 
 type IntervieListProps = {
   data: InterviewListType;
@@ -29,10 +29,7 @@ export const InterviewList = ({ data }: IntervieListProps) => {
   }, [data, filterType]);
 
   const hasPendingItems = useMemo(
-    () =>
-      data?.some(
-        (item) => item.status === "pending" || item.status === "processing"
-      ),
+    () => data?.some((item) => isStatusPending(item.status)),
     [data]
   );
 
@@ -43,20 +40,14 @@ export const InterviewList = ({ data }: IntervieListProps) => {
 
     // 현재 렌더링된 데이터에서 pending 상태인 항목들 추출
     const currentPendingData = data
-      .filter(
-        (item) => item.status === "pending" || item.status === "processing"
-      )
+      .filter((item) => isStatusPending(item.status))
       .map((item) => ({ id: item.id, companyName: item.company_name || "" }));
 
     // 이전 렌더링에서 pending이었던 항목 중 현재 pending이 아닌 항목 찾기
     prevPendingDataRef.current.forEach((prevItem) => {
       const currentItem = data.find((item) => item.id === prevItem.id);
 
-      if (
-        currentItem &&
-        currentItem.status !== "pending" &&
-        currentItem.status !== "processing"
-      ) {
+      if (currentItem && !isStatusPending(currentItem.status)) {
         const companyName = currentItem.company_name || "진행된 면접";
         if (currentItem.status === "failed") {
           toast.error(`${companyName} 분석에 실패했습니다.`);

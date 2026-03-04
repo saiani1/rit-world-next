@@ -8,19 +8,23 @@ type InterviewItemProps = {
 };
 
 export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
+  const isPending = item.status === "pending" || item.status === "processing";
+  const isFailed = item.status === "failed";
+
   return (
     <li
-      className={`flex justify-between bg-white ${companyPage ? "border" : "shadow-md"}  rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer`}
+      className={`flex justify-between bg-white ${companyPage ? "border" : "shadow-md"} rounded-lg transition-colors group hover:bg-gray-50 cursor-pointer`}
     >
       <Link
         href={`/interview/record/${item.id}`}
-        className={`flex justify-between items-start gap-4 p-4 w-full min-h-[80px] transition-all ${
-          item.status === "pending" || item.status === "processing"
-            ? "opacity-80 bg-gray-100/50 animate-pulse cursor-wait"
-            : item.status === "failed"
-              ? "opacity-80 bg-red-50"
-              : ""
-        }`}
+        className={(() => {
+          const base =
+            "flex justify-between items-start gap-4 p-4 w-full min-h-[80px] transition-all";
+          if (isPending)
+            return `${base} opacity-80 bg-gray-100/50 animate-pulse cursor-wait`;
+          if (isFailed) return `${base} opacity-80 bg-red-50`;
+          return base;
+        })()}
       >
         <div className="flex-shrink-0">
           <p className="text-sm text-gray-500">
@@ -32,39 +36,53 @@ export const InterviewItem = ({ item, companyPage }: InterviewItemProps) => {
         </div>
         <div className="flex flex-col items-end gap-1 flex-1 min-w-0">
           <h3
-            className={`text-lg font-bold text-black-555 truncate w-full text-right ${
-              item.status === "pending" || item.status === "processing"
-                ? "text-gray-400 font-medium"
-                : item.status === "failed"
-                  ? "text-red-400"
-                  : ""
-            }`}
+            className={(() => {
+              const base =
+                "text-lg font-bold text-black-555 truncate w-full text-right";
+              if (isPending) return `${base} text-gray-400 font-medium`;
+              if (isFailed) return `${base} text-red-400`;
+              return base;
+            })()}
           >
-            {item.status === "failed"
-              ? "분석 실패"
-              : item.company_name || "회사를 분석하고 있습니다..."}
+            {(() => {
+              if (isFailed) return "분석 실패";
+              if (item.company_name) return item.company_name;
+              return (
+                <span className="animate-pulse">
+                  회사를 분석하고 있습니다...
+                </span>
+              );
+            })()}
           </h3>
           <div className="flex items-center gap-1 flex-shrink-0">
-            {item.status === "pending" || item.status === "processing" ? (
-              <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-rose-400 rounded shadow-sm">
-                AI 분석 중
-              </span>
-            ) : item.status === "failed" ? (
-              <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-red-500 rounded shadow-sm">
-                분석 실패
-              </span>
-            ) : (
-              <>
-                {item.company_type && (
-                  <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-gray-400 rounded">
-                    {item.company_type}
+            {(() => {
+              if (isPending) {
+                return (
+                  <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-rose-400 rounded shadow-sm">
+                    AI 분석 중
                   </span>
-                )}
-                <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-blue-100 rounded">
-                  {item.interview_type || "유형 미정"}
-                </span>
-              </>
-            )}
+                );
+              }
+              if (isFailed) {
+                return (
+                  <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-red-500 rounded shadow-sm">
+                    분석 실패
+                  </span>
+                );
+              }
+              return (
+                <>
+                  {item.company_type && (
+                    <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-gray-400 rounded">
+                      {item.company_type}
+                    </span>
+                  )}
+                  <span className="inline-block px-2 py-0.5 text-xs font-medium text-white bg-blue-100 rounded">
+                    {item.interview_type || "유형 미정"}
+                  </span>
+                </>
+              );
+            })()}
           </div>
         </div>
       </Link>

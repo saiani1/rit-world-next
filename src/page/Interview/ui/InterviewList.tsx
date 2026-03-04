@@ -1,5 +1,6 @@
 "use client";
 import { useState, useMemo, useRef, useEffect } from "react";
+import toast from "react-hot-toast";
 
 import { useRouter } from "i18n/routing";
 import { InterviewItem } from "features/Interview";
@@ -35,11 +36,45 @@ export const InterviewList = ({ data }: IntervieListProps) => {
     [data]
   );
 
+  const prevPendingDataRef = useRef<{ id: string; companyName: string }[]>([]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    // 현재 렌더링된 데이터에서 pending 상태인 항목들 추출
+    const currentPendingData = data
+      .filter(
+        (item) => item.status === "pending" || item.status === "processing"
+      )
+      .map((item) => ({ id: item.id, companyName: item.company_name || "" }));
+
+    // 이전 렌더링에서 pending이었던 항목 중 현재 pending이 아닌 항목 찾기
+    prevPendingDataRef.current.forEach((prevItem) => {
+      const currentItem = data.find((item) => item.id === prevItem.id);
+
+      if (
+        currentItem &&
+        currentItem.status !== "pending" &&
+        currentItem.status !== "processing"
+      ) {
+        const companyName = currentItem.company_name || "진행된 면접";
+        if (currentItem.status === "failed") {
+          toast.error(`${companyName} 분석에 실패했습니다.`);
+        } else {
+          toast.success(`${companyName} 분석이 완료되었습니다.`);
+        }
+      }
+    });
+
+    // 참조 업데이트
+    prevPendingDataRef.current = currentPendingData;
+  }, [data]);
+
   useEffect(() => {
     if (!hasPendingItems) return;
 
     const interval = setInterval(() => {
-      router.refresh();
+      router.refresh(); // 이 호출로 page 컴포넌트가 서버에서 데이터를 다시 가져와 data prop이 변경됩니다.
     }, 5000);
 
     return () => clearInterval(interval);

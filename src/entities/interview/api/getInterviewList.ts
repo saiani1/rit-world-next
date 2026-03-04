@@ -8,7 +8,7 @@ export const getInterviewList = async (id?: string) => {
   let query = supabase
     .from("interviews")
     .select(
-      "id, company_name, company_type, interview_type, recorded_at, interview_date, duration, company_id"
+      "id, company_name, company_type, interview_type, recorded_at, interview_date, duration, company_id, status"
     );
 
   if (id) {

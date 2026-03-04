@@ -5,42 +5,107 @@
 .w-md-editor-text-pre > code,
 .w-md-editor-text-input {
   font-size: 16px !important;
-  line-height: 24px !important;
+  line-height: 1.7 !important;
 }
 
 /* Custom Viewer Styles */
+.wmde-markdown {
+  font-size: 16px !important;
+  line-height: 1.8 !important;
+  color: #333333 !important;
+}
+
 .wmde-markdown pre,
 .wmde-markdown code {
   white-space: pre-wrap !important;
   word-break: break-word !important;
 }
 
+/* Inline code subtle background */
+.wmde-markdown code:not([class*="language-"]) {
+  background-color: #f1f5f9 !important;
+  color: #ef4444 !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 6px !important;
+  font-size: 0.9em !important;
+}
+
+/* Block code premium look */
+.wmde-markdown pre {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  padding: 1.25rem !important;
+  border-radius: 8px !important;
+  margin: 1.5rem 0 !important;
+}
+
 .wmde-markdown ul {
   list-style-type: disc !important;
-  padding-left: 1.5em !important;
+  padding-left: 1.75em !important;
+  margin: 1rem 0 !important;
 }
 
 .wmde-markdown ol {
   list-style-type: decimal !important;
-  padding-left: 1.5em !important;
+  padding-left: 1.75em !important;
+  margin: 1rem 0 !important;
+}
+
+.wmde-markdown li {
+  margin-bottom: 0.5rem !important;
 }
 
 .wmde-markdown ul ul,
 .wmde-markdown ol ul {
   list-style-type: circle !important;
+  margin-top: 0.5rem !important;
 }
 
 .wmde-markdown ul ol {
   list-style-type: lower-roman !important;
 }
 
+/* Header Typography Setup */
 .wmde-markdown h1,
-.wmde-markdown h2 {
-  border-bottom: none !important;
-  margin-bottom: 15px !important;
-  padding-bottom: 0 !important;
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4 {
+  color: #333333 !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+
+.wmde-markdown h1 {
+  font-size: 2.25rem !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.5rem !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding-bottom: 0.75rem !important;
 }
 
 .wmde-markdown h2 {
-  margin-top: 15px !important;
+  font-size: 1.75rem !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1rem !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.wmde-markdown h3 {
+  font-size: 1.25rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.wmde-markdown p {
+  margin-bottom: 1.25rem !important;
+}
+
+.wmde-markdown blockquote {
+  border-left: 4px solid #3b82f6 !important;
+  background-color: #f8fafc !important;
+  padding: 1rem 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  color: #475569 !important;
+  border-radius: 0 8px 8px 0 !important;
 }

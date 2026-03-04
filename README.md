@@ -1,29 +1,39 @@
 # RIT WORLD
 
-A multi-lingual blog platform built with Next.js, TypeScript, and Jotai. This project provides full CRUD (Create, Read, Update, Delete) functionality for blog posts, complete with Japanese translation features.
+A multi-lingual blog platform and comprehensive Interview Management System built with Next.js, TypeScript, and Jotai. Originally starting as a public blog platform with Japanese translation features, it has now expanded to include an AI-powered Interview Pattern Analysis system (Private Only).
 
-![스크린샷 2024-07-25 171202](https://github.com/user-attachments/assets/5ba03753-bcf1-4977-ac7f-03483791d06f)
+![Blog Platform](https://github.com/user-attachments/assets/92a10a6d-3d81-4a92-a48e-d3aaf9aa15e6)
 
 ## ✨ Features
 
-- **Post Management**: Create and edit blog posts using a Markdown editor.
-- **Multi-lingual Support (i18n)**: Add and manage Japanese translations based on original Korean posts.
-- **Categories & Hashtags**: Organize content by classifying posts into main/sub-categories and adding hashtags.
-- **Image Upload**: Upload and manage post thumbnails using **Supabase Storage**.
-- **User Authentication**: Secure user login and session management via **Supabase Auth**.
-- **State Management**: Efficiently manage global state (e.g., category and hashtag lists) using Jotai.
-- **Form Management**: Handle complex form states and validation with React Hook Form.
+### 📝 Blog Platform (Public)
+
+- **Post Management**: Create and edit blog posts using a modern, beautiful Markdown editor.
+- **Multi-lingual Support (i18n)**: Manage Japanese translations directly alongside original Korean posts.
+- **Organization**: Classify content with categories and manage keywords via hashtags.
+- **Media**: Upload and manage post thumbnails with **Supabase Storage**.
+
+### 💼 Interview Management System (Private Only)
+
+![Private Only](https://img.shields.io/badge/Status-Private_Only-red?style=flat)
+
+- **Record Interviews**: Log interview experiences, dates, durations, and application details.
+- **AI Pattern Analysis**: Automatically extract and analyze interview questions/answers from raw scripts using Google Gemini AI.
+- **Insight Generation**: Gathers statistics on interview patterns and frequently asked questions for structured retrospectives.
+- **Real-time Status Tracking**: Background AI analyses with UI polling, ensuring users know exactly when interview insights are ready.
+
+![Interview Management System](https://github.com/user-attachments/assets/96d851c9-55c2-4e1b-9338-8a6fdef9414c)
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js](https://nextjs.org/), [React](https://reactjs.org/)
+- **Framework**: [Next.js](https://nextjs.org/) (App Router), [React](https://reactjs.org/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **State Management**: [Jotai](https://jotai.org/)
 - **Forms**: [React Hook Form](https://react-hook-form.com/)
-- **UI / Styling**: [Tailwind CSS](https://tailwindcss.com/), [TOAST UI Editor](https://ui.toast.com/tui-editor)
+- **UI / Styling**: [Tailwind CSS](https://tailwindcss.com/), `@uiw/react-md-editor` (Markdown)
 - **Notifications**: [React Hot Toast](https://react-hot-toast.com/)
-- **Backend as a Service**: [Supabase](https://supabase.io/) (Auth, Storage, Database)
-- **Routing**: Next.js App Router with i18n routing
+- **Backend & DB**: [Supabase](https://supabase.io/) (PostgreSQL, Auth, Storage, Edge Functions)
+- **AI Integration**: [@google/generative-ai](https://ai.google.dev/) (Gemini Flash)
 
 ## 📂 Project Structure
 

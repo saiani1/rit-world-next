@@ -25,7 +25,7 @@ import {
   getInterviewSets,
   getQnAItems,
   deleteInterviewSet,
-  deleteQnAItem,
+  deleteQnAItems,
 } from "entities/interview";
 import { CommonButton } from "shared/ui";
 
@@ -165,8 +165,7 @@ export const CompanyQuestionScreen = () => {
       if (interviewSet?.id) {
         // 1. 삭제 요청된 질문들 DB에서 제거
         if (deletedQuestionIds.length > 0) {
-          console.log("deletedQuestionIds", deletedQuestionIds);
-          await Promise.all(deletedQuestionIds.map((id) => deleteQnAItem(id)));
+          await deleteQnAItems(deletedQuestionIds);
           setDeletedQuestionIds([]); // 초기화
         }
 

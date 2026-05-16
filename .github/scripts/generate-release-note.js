@@ -19,7 +19,14 @@ const {
 
 // 2. 클라이언트 초기화
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  auth: {
+    persistSession: false, // CLI 환경에서는 세션 유지가 필요 없음
+  },
+  realtime: {
+    enabled: false, // WebSocket 에러 방지를 위해 실시간 기능 끔
+  },
+});
 
 const model = "gemini-flash-latest";
 

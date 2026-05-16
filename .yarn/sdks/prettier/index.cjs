@@ -16,24 +16,29 @@ const isPnpLoaderEnabled = existsSync(absPnpLoaderPath);
 
 if (existsSync(absPnpApiPath)) {
   if (!process.versions.pnp) {
-    // Setup the environment to be able to require prettier
-    let retries = 5;
-    while (retries > 0) {
-      try {
-        require(absPnpApiPath).setup();
-        break;
-      } catch (e) {
-        if (e.code === 'EINTR' && retries > 1) {
-          delete require.cache[absPnpApiPath];
-          retries--;
-          continue;
+    const setupPnp = () => {
+      let retries = 10;
+      while (retries > 0) {
+        try {
+          require(absPnpApiPath).setup();
+          if (isPnpLoaderEnabled && register) {
+            register(pathToFileURL(absPnpLoaderPath));
+          }
+          return;
+        } catch (e) {
+          if (e.code === 'EINTR' && retries > 1) {
+            console.error(`[Prettier SDK] EINTR detected during setup, retrying... (${retries} left)`);
+            retries--;
+            const start = Date.now();
+            while (Date.now() - start < 10);
+            continue;
+          }
+          console.error(`[Prettier SDK] Failed to setup PnP:`, e);
+          throw e;
         }
-        throw e;
       }
-    }
-    if (isPnpLoaderEnabled && register) {
-      register(pathToFileURL(absPnpLoaderPath));
-    }
+    };
+    setupPnp();
   }
 }
 
@@ -41,5 +46,23 @@ const wrapWithUserWrapper = existsSync(absUserWrapperPath)
   ? (exports) => absRequire(absUserWrapperPath)(exports)
   : (exports) => exports;
 
-// Defer to the real prettier your application uses
-module.exports = wrapWithUserWrapper(absRequire(`prettier`));
+const loadPrettier = () => {
+  let retries = 10;
+  while (retries > 0) {
+    try {
+      return wrapWithUserWrapper(absRequire(`prettier`));
+    } catch (e) {
+      if (e.code === 'EINTR' && retries > 1) {
+        console.error(`[Prettier SDK] EINTR detected during require, retrying... (${retries} left)`);
+        retries--;
+        const start = Date.now();
+        while (Date.now() - start < 10);
+        continue;
+      }
+      console.error(`[Prettier SDK] Failed to load prettier:`, e);
+      throw e;
+    }
+  }
+};
+
+module.exports = loadPrettier();

@@ -170,12 +170,12 @@ export const QuestionItem = (props: QuestionItemProps) => {
           <CommonButton
             onClick={(e) => {
               e.stopPropagation();
+              router.push("/confirm");
               setModal({
                 title: "안내",
                 description: "정말 삭제하시겠습니까?",
                 confirm: handleRemove,
               });
-              router.push("/confirm");
             }}
             className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
           >

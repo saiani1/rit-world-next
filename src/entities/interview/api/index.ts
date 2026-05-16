@@ -19,3 +19,4 @@ export { saveInterviewSet } from "./saveInterviewSet";
 export { saveQnAItem } from "./saveQnAItem";
 export { getQnAItems } from "./getQnAItems";
 export { deleteInterviewSet } from "./deleteInterviewSet";
+export { deleteQnAItem } from "./deleteQnAItem";

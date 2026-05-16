@@ -25,6 +25,7 @@ import {
   getInterviewSets,
   getQnAItems,
   deleteInterviewSet,
+  deleteQnAItem,
 } from "entities/interview";
 import { CommonButton } from "shared/ui";
 
@@ -56,6 +57,8 @@ export const CompanyQuestionScreen = () => {
   );
   const setModal = useSetAtom(ModalAtom);
   const setExistingQuestions = useSetAtom(existingQuestionsAtom);
+  const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [deletedQuestionIds, setDeletedQuestionIds] = useState<string[]>([]);
 
   const { control, register, handleSubmit, getValues, reset } =
     useForm<FormValues>({
@@ -70,9 +73,21 @@ export const CompanyQuestionScreen = () => {
     name: "questions",
   });
 
+  const handleRemoveQuestion = (index?: number | number[]) => {
+    // 단일 인덱스인 경우에만 ID 추적 로직 실행
+    if (typeof index === "number") {
+      const questionId = getValues(`questions.${index}.id`);
+      if (questionId) {
+        setDeletedQuestionIds((prev) => [...prev, questionId]);
+      }
+    }
+    remove(index);
+  };
+
   useEffect(() => {
+    if (!setId || setId === loadedId) return;
+
     const fetchSetData = async () => {
-      if (!setId) return;
       try {
         const [sets, questions] = await Promise.all([
           getInterviewSets({ id: setId }),
@@ -97,6 +112,7 @@ export const CompanyQuestionScreen = () => {
             interviewType: set.status_tag,
             questions: formattedQuestions,
           });
+          setLoadedId(setId);
         }
       } catch (error) {
         toast.error("데이터를 불러오는데 실패했습니다.");
@@ -106,7 +122,7 @@ export const CompanyQuestionScreen = () => {
       }
     };
     fetchSetData();
-  }, [setId, reset]);
+  }, [setId, reset, loadedId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -147,6 +163,14 @@ export const CompanyQuestionScreen = () => {
       });
 
       if (interviewSet?.id) {
+        // 1. 삭제 요청된 질문들 DB에서 제거
+        if (deletedQuestionIds.length > 0) {
+          console.log("deletedQuestionIds", deletedQuestionIds);
+          await Promise.all(deletedQuestionIds.map((id) => deleteQnAItem(id)));
+          setDeletedQuestionIds([]); // 초기화
+        }
+
+        // 2. 현재 리스트의 질문들 저장 (추가/수정)
         await Promise.all(
           data.questions.map((q, index) => {
             const categoryObj = QUESTION_CATEGORIES.find(
@@ -187,6 +211,7 @@ export const CompanyQuestionScreen = () => {
   };
 
   const handleDeleteSet = () => {
+    router.push("/confirm");
     setModal({
       title: "삭제 확인",
       description: "정말 이 질문 리스트를 삭제하시겠습니까?",
@@ -345,7 +370,7 @@ export const CompanyQuestionScreen = () => {
                   index={index}
                   control={control}
                   register={register}
-                  remove={remove}
+                  remove={handleRemoveQuestion}
                   showRemove={true}
                   globalFoldState={globalFoldState}
                 />

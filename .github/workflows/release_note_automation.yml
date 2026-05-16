@@ -24,11 +24,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       # 자동화 스크립트에 필요한 라이브러리 설치
       - name: Install dependencies
-        run: npm install @google/generative-ai @supabase/supabase-js --legacy-peer-deps
+        run: npm install @google/generative-ai @supabase/supabase-js
 
       # 자동화 스크립트 실행
       - name: Run script to create release note

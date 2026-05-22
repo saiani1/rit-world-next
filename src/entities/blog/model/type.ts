@@ -5,6 +5,7 @@ export type BlogType = PostBlogType & {
   blog_hashtag: BlogHashtagType[];
   category_large: CategoryType;
   category_middle: CategoryType;
+  blog_vocabularies?: BlogVocabularyType[];
 };
 
 export type PostBlogType = {
@@ -46,4 +47,21 @@ export type BlogHashtagType = {
     id: string;
     name: string;
   };
+};
+
+export type VocabularyType = {
+  id: string;
+  word: string;
+  reading: string;
+  meaning: string;
+  category_id?: string | null;
+  created_at: string;
+};
+
+export type BlogVocabularyType = {
+  id: string;
+  blog_id: string;
+  vocabulary_id: string;
+  created_at: string;
+  vocabularies?: VocabularyType;
 };

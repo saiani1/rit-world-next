@@ -55,25 +55,8 @@ export async function POST(req: Request) {
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    let jsonString = response.text().trim();
-
-    // 혹시라도 markdown code block (```json ... ```)이 포함되어 있다면 제거
-    jsonString = jsonString
-      .replace(/```json/g, "")
-      .replace(/```/g, "")
-      .trim();
-
-    const firstBrace = jsonString.indexOf("[");
-    if (firstBrace !== -1) {
-      jsonString = jsonString.substring(firstBrace);
-    }
-
-    const lastBrace = jsonString.lastIndexOf("]");
-    if (lastBrace !== -1) {
-      jsonString = jsonString.substring(0, lastBrace + 1);
-    }
-
-    const vocabularyList = JSON.parse(jsonString);
+    const jsonText = response.text().trim();
+    const vocabularyList = JSON.parse(jsonText);
 
     return NextResponse.json({ success: true, data: vocabularyList });
   } catch (error: any) {

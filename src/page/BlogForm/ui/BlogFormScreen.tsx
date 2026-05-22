@@ -200,7 +200,7 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
     if (previewUrl === null) setValue("thumbnail", null);
 
     const isBloging = async () => {
-      let isTrue: Boolean;
+      let isTrue: boolean;
       switch (page) {
         case "edit": {
           isTrue = await updateBlog({

@@ -216,6 +216,8 @@ const BlogFormScreen = ({ categories, page, data }: BlogFormScreenType) => {
           isTrue = await postBlogJp({
             data: getValues() as BlogJpType,
             hashtags,
+            vocabList: selectedVocabList,
+            categoryId: selectedLCate?.id || null,
           });
           break;
         }

@@ -9,6 +9,7 @@ type postBlogJpType = {
 };
 
 export const postBlogJp = async ({ data, hashtags }: postBlogJpType) => {
+  let createdBlogTranslationId: string | null = null;
   try {
     const insertData = {
       blog_id: data.blog_id,
@@ -27,10 +28,11 @@ export const postBlogJp = async ({ data, hashtags }: postBlogJpType) => {
       .single();
 
     if (blogError || !blog) return false;
+    createdBlogTranslationId = blog.id;
 
     // 해시태그 upsert
     const hashtagArr = await upsertHashtagJp({ hashtags });
-    if (!hashtagArr) return false;
+    if (!hashtagArr) throw new Error("upsertHashtagJp failed");
 
     // blog_hashtag저장
     const blogHashtagData = hashtagArr?.map((hashtag) => ({
@@ -38,11 +40,26 @@ export const postBlogJp = async ({ data, hashtags }: postBlogJpType) => {
       hashtag_id: hashtag.id,
     }));
     const isPostBlogHashtag = await postBlogHashtagJp(blogHashtagData);
-    if (!isPostBlogHashtag) return false;
+    if (!isPostBlogHashtag) throw new Error("postBlogHashtagJp failed");
 
     return true;
   } catch (e) {
     console.error("postBlog failed:", e);
+    // 롤백 로직: 후속 저장 실패 시 생성된 일본어 번역본 레코드 삭제
+    if (createdBlogTranslationId) {
+      try {
+        await supabase
+          .from("blog_translation")
+          .delete()
+          .eq("id", createdBlogTranslationId);
+      } catch (rollbackError) {
+        console.error(
+          "Rollback failed for blog_translation id:",
+          createdBlogTranslationId,
+          rollbackError
+        );
+      }
+    }
     return false;
   }
 };

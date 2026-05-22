@@ -1,14 +1,20 @@
 import { supabase } from "shared/index";
 import { upsertHashtag } from "./upsertHashtag";
 import { postBlogHashtag } from "./postBlogHashtag";
-import { PostBlogType } from "../model";
+import { PostBlogType, VocabularyType } from "../model";
+import { saveBlogVocabulary } from "./saveBlogVocabulary";
 
 type updateBlogType = {
   data: PostBlogType;
   hashtags: string[];
+  vocabList?: Omit<VocabularyType, "id" | "created_at">[];
 };
 
-export const updateBlog = async ({ data, hashtags }: updateBlogType) => {
+export const updateBlog = async ({
+  data,
+  hashtags,
+  vocabList,
+}: updateBlogType) => {
   try {
     // blog테이블에 post요청
     const { error: blogError } = await supabase
@@ -40,6 +46,16 @@ export const updateBlog = async ({ data, hashtags }: updateBlogType) => {
     }));
     const isPostBlogHashtag = await postBlogHashtag(blogHashtagData);
     if (!isPostBlogHashtag) return false;
+
+    // 일본어 어휘 저장
+    if (vocabList) {
+      const isSavedVocab = await saveBlogVocabulary({
+        blog_id: data.id!,
+        category_id: data.large_category_id || null,
+        vocabList,
+      });
+      if (!isSavedVocab) return false;
+    }
 
     return true;
   } catch (e) {

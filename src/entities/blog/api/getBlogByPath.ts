@@ -16,7 +16,17 @@ export const getBlogByPath = async (path: string) => {
           )
         ),
         category_large:category!fk_large_category(title),
-        category_middle:category!fk_middle_category(title)
+        category_middle:category!fk_middle_category(title),
+        blog_vocabularies (
+          vocabularies:vocabulary_id (
+            id,
+            word,
+            reading,
+            meaning,
+            category_id,
+            created_at
+          )
+        )
         `
       )
       .eq("path", path)

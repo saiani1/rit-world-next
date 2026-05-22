@@ -13,3 +13,5 @@ export { getBlogList } from "./getBlogList";
 export { getBlogListJp } from "./getBlogListJp";
 export { deleteBlog } from "./deleteBlog";
 export { deleteBlogJp } from "./deleteBlogJp";
+export { saveBlogVocabulary } from "./saveBlogVocabulary";
+export { getBlogVocabulary } from "./getBlogVocabulary";

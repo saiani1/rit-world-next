@@ -26,6 +26,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .env*.local
 
 # vercel
@@ -44,3 +49,6 @@ next-env.d.ts
 
 # progress logs
 AI_PROGRESS_LOG.md
+
+# error logs
+/errorlog/

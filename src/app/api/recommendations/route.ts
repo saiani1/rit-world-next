@@ -227,7 +227,7 @@ const analyzeJobWithRetry = async (
  * 등록일/수정일 텍스트를 날짜 포맷(YYYY-MM-DD)으로 변환합니다.
  */
 const parsePostedAtDate = (postedAtText: string): string => {
-  if (!postedAtText) return new Date().toISOString().split("T")[0];
+  if (!postedAtText) return new Date().toLocaleDateString("sv-SE");
   const cleanText = postedAtText
     .replace(/^(등록일|수정일|등록|수정)\s*/, "")
     .trim();
@@ -238,19 +238,19 @@ const parsePostedAtDate = (postedAtText: string): string => {
     cleanText.includes("분 전") ||
     cleanText.includes("오늘")
   ) {
-    return new Date().toISOString().split("T")[0];
+    return new Date().toLocaleDateString("sv-SE");
   }
 
   if (cleanText.includes("어제") || cleanText.includes("1일 전")) {
     const d = new Date();
     d.setDate(d.getDate() - 1);
-    return d.toISOString().split("T")[0];
+    return d.toLocaleDateString("sv-SE");
   }
 
   if (cleanText.includes("2일 전")) {
     const d = new Date();
     d.setDate(d.getDate() - 2);
-    return d.toISOString().split("T")[0];
+    return d.toLocaleDateString("sv-SE");
   }
 
   const dateRegex = /(\d{2})\/(\d{2})\/(\d{2})/;
@@ -259,7 +259,7 @@ const parsePostedAtDate = (postedAtText: string): string => {
     return `20${match[1]}-${match[2]}-${match[3]}`;
   }
 
-  return new Date().toISOString().split("T")[0];
+  return new Date().toLocaleDateString("sv-SE");
 };
 
 /**

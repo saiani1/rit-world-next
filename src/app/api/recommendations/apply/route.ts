@@ -32,7 +32,7 @@ export const POST = async (request: Request) => {
       );
     }
 
-    const todayStr = new Date().toISOString().split("T")[0];
+    const todayStr = new Date().toLocaleDateString("sv-SE");
 
     // 2. Insert new company row using saveCompany api helper
     const data = await saveCompany(

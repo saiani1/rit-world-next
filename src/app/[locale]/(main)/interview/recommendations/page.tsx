@@ -150,13 +150,11 @@ const RecommendationsPage = () => {
 
       {/* 리스트 출력 영역 */}
       {loading ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map((n) => (
-            <div
-              key={n}
-              className="animate-pulse bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 h-40"
-            />
-          ))}
+        <div className="flex flex-col items-center justify-center py-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm gap-4">
+          <FiRefreshCw className="w-8 h-8 text-blue-600 dark:text-blue-400 animate-spin" />
+          <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 animate-pulse">
+            AI 추천 공고 분석 리스트를 불러오는 중입니다...
+          </p>
         </div>
       ) : recommendations.length === 0 ? (
         <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "scraper:run": "ts-node -O '{\"module\": \"commonjs\"}' scraper/src/index.ts"
+    "scraper:run": "ts-node scraper/src/index.ts"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.0",

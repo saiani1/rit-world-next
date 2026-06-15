@@ -206,9 +206,19 @@ export class SaraminProvider implements JobProvider {
           $detail(imgEl).attr("src") || $detail(imgEl).attr("data-src") || "";
         src = src.trim();
         if (src) {
-          const absoluteSrc = src.startsWith("/")
-            ? `https://www.saramin.co.kr${src}`
-            : src;
+          let absoluteSrc = src;
+          try {
+            if (src.startsWith("//")) {
+              absoluteSrc = `https:${src}`;
+            } else {
+              absoluteSrc = new URL(
+                src,
+                "https://www.saramin.co.kr"
+              ).toString();
+            }
+          } catch (e) {
+            // URL 파싱 실패 시 원본 유지
+          }
 
           // 트래킹 비콘이나 base64 data url, 빈 주소는 스킵
           if (

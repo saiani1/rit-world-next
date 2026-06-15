@@ -160,7 +160,8 @@ const analyzeJob = async (
 
   const result = await model.generateContent(contentParts);
   const text = result.response.text();
-  return JSON.parse(text);
+  const cleanedText = text.replace(/^```json\s*|```$/gi, "").trim();
+  return JSON.parse(cleanedText);
 };
 
 /**

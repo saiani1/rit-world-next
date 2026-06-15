@@ -296,6 +296,7 @@ export const GET = async () => {
         reason: job.reason ?? "",
         matchedKeywords: job.matched_keywords ?? [],
         matchedStrengths: job.matched_strengths ?? [],
+        warnings: job.warnings ?? [],
         isCompanyRegistered: job.is_company_registered ?? false,
         isAlreadyApplied: job.is_already_applied ?? false,
       };

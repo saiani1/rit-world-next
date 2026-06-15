@@ -76,7 +76,7 @@ export type InterviewListType = Pick<
   | "status"
 >[];
 
-export const COMPANY_TYPES = ["SIer", "자사서비스", "SES"] as const;
+export const COMPANY_TYPES = ["SIer", "자사서비스", "SES", "한국"] as const;
 
 export const INTERVIEW_STATUS_TYPES = [
   "서류전형",
@@ -145,6 +145,8 @@ export type CompanyTableType = {
   history: HistoryEntryType[];
   created_at: string;
   updated_at: string;
+  country: "KR" | "JP";
+  apply_count: number;
 };
 
 export type InterviewSetType = {
@@ -202,4 +204,23 @@ export type UpsertInterviewSetInput = Omit<
   "id" | "created_at" | "updated_at"
 > & {
   id?: string;
+};
+
+export type JobRecommendation = {
+  id: string;
+  platform: string;
+  companyName: string;
+  title: string;
+  url: string;
+  postedAt: string;
+  description: string;
+  ruleScore: number;
+  aiScore: number;
+  recommend: boolean;
+  reason: string;
+  matchedKeywords: string[];
+  matchedStrengths: string[];
+  warnings: string[];
+  isCompanyRegistered: boolean;
+  isAlreadyApplied: boolean;
 };

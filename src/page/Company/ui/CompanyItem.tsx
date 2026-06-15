@@ -17,6 +17,8 @@ type CompanyItemProps = {
     | "result"
     | "history"
     | "next_step_date"
+    | "country"
+    | "apply_count"
   >;
 };
 
@@ -59,12 +61,19 @@ export const CompanyItem = ({ data }: CompanyItemProps) => {
         className="flex justify-between items-center p-6 w-full h-full gap-4"
       >
         <div className="flex flex-col gap-y-2 flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span
               className={`flex-shrink-0 px-2 py-1 text-xs font-medium rounded ${isRejected ? "bg-gray-50 text-gray-400" : "bg-gray-100 text-gray-600"}`}
             >
               {data.type}
             </span>
+            {data.apply_count > 1 && (
+              <span
+                className={`flex-shrink-0 px-2 py-0.5 text-xs font-semibold rounded-full ${isRejected ? "bg-gray-200 text-gray-400" : "bg-blue-50 text-blue-600 border border-blue-100"}`}
+              >
+                {data.apply_count}회차 지원
+              </span>
+            )}
             <h3
               className={`text-lg font-bold truncate ${isRejected ? "text-gray-500" : "text-gray-900"}`}
             >

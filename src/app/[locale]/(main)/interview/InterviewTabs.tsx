@@ -7,6 +7,7 @@ const InterviewTabs = () => {
   const activeTab = (() => {
     if (segment === "company") return "company";
     if (segment === "questions") return "questions";
+    if (segment === "recommendations") return "recommendations";
     return "interview";
   })();
 
@@ -41,6 +42,16 @@ const InterviewTabs = () => {
         }`}
       >
         질문
+      </Link>
+      <Link
+        href="/interview/recommendations"
+        className={`py-2 px-4 font-medium text-sm focus:outline-none ${
+          activeTab === "recommendations"
+            ? "border-b-2 border-blue-600 text-blue-600"
+            : "text-gray-500 hover:text-gray-700"
+        }`}
+      >
+        AI추천공고
       </Link>
     </div>
   );

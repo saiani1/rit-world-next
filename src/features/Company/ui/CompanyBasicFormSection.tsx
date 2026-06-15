@@ -72,12 +72,25 @@ export const CompanyBasicFormSection = ({
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
+          국가 <span className="text-red-500">*</span>
+        </label>
+        <select
+          {...register("country", { required: true })}
+          className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="KR">한국 (KR)</option>
+          <option value="JP">일본 (JP)</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
           지원경로
         </label>
         <CommonInput
           {...register("channel")}
           className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-          placeholder="예: 원티드, 링크드인"
+          placeholder="예: 원티드, 사람인, 깃탭"
         />
       </div>
 

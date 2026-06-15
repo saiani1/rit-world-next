@@ -52,3 +52,6 @@ AI_PROGRESS_LOG.md
 
 # error logs
 /errorlog/
+
+# scraper CSV & specifications
+docs/crawler-spec.md

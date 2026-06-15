@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 import { useRouter } from "i18n/routing";
 import {
@@ -21,6 +21,8 @@ type CompanyScreenProps = {
     | "result"
     | "history"
     | "next_step_date"
+    | "country"
+    | "apply_count"
   >[];
 };
 
@@ -28,6 +30,9 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"ACTIVE" | "FINISHED">("ACTIVE");
+  const [countryFilter, setCountryFilter] = useState<"ALL" | "KR" | "JP">(
+    "ALL"
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [visibleCount, setVisibleCount] = useState(10);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -71,43 +76,89 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
   const progressStatusesToDisplay = INTERVIEW_STATUS_TYPES;
 
   const totalCompanies = companiesWithStatus.length;
-  let totalInProgressSummary = 0;
-  let rejectedCompanies = 0;
-  const statusCounts: Record<InterviewStatusType, number> = Object.fromEntries(
-    progressStatusesToDisplay.map((status) => [status, 0])
-  ) as Record<InterviewStatusType, number>;
 
-  companiesWithStatus.forEach((company) => {
-    if (company.isRejected) {
-      rejectedCompanies++;
-    }
+  // 회사 통계 및 현황 집계 연산
+  const {
+    totalInProgressSummary,
+    rejectedCompanies,
+    krCount,
+    jpCount,
+    displayTotalCount,
+    statusCounts,
+  } = useMemo(() => {
+    let inProgress = 0;
+    let rejected = 0;
+    let kr = 0;
+    let jp = 0;
+    let displayTotal = 0;
 
-    if (company.isInProgress) {
-      totalInProgressSummary++;
-      if (progressStatusesToDisplay.includes(company.latestStatus)) {
-        statusCounts[company.latestStatus]++;
+    const counts = Object.fromEntries(
+      progressStatusesToDisplay.map((status) => [status, 0])
+    ) as Record<InterviewStatusType, number>;
+
+    companiesWithStatus.forEach((company) => {
+      if (company.isRejected) {
+        rejected++;
       }
-    }
-  });
 
-  const filteredCompanies = companiesWithStatus.filter((company) => {
-    if (searchTerm) {
-      return company.name.toLowerCase().includes(searchTerm.toLowerCase());
-    }
+      if (company.isInProgress) {
+        inProgress++;
+        if (progressStatusesToDisplay.includes(company.latestStatus)) {
+          counts[company.latestStatus]++;
+        }
+      }
 
-    if (activeTab === "FINISHED") {
-      return company.isRejected;
-    }
-    return !company.isRejected;
-  });
+      const isTabMatch =
+        activeTab === "FINISHED" ? company.isRejected : !company.isRejected;
+      if (isTabMatch) {
+        displayTotal++;
+        if (company.country === "KR") kr++;
+        if (company.country === "JP") jp++;
+      }
+    });
 
-  const sortedCompanies = [...filteredCompanies].sort((a, b) => {
-    return new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime();
-  });
+    return {
+      totalInProgressSummary: inProgress,
+      rejectedCompanies: rejected,
+      krCount: kr,
+      jpCount: jp,
+      displayTotalCount: displayTotal,
+      statusCounts: counts,
+    };
+  }, [companiesWithStatus, activeTab, progressStatusesToDisplay]);
+
+  // 필터링 및 날짜순 정렬 연산 최적화
+  const sortedCompanies = useMemo(() => {
+    const filtered = companiesWithStatus.filter((company) => {
+      if (searchTerm) {
+        if (!company.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          return false;
+      }
+
+      if (activeTab === "FINISHED" && !company.isRejected) {
+        return false;
+      }
+      if (activeTab === "ACTIVE" && company.isRejected) {
+        return false;
+      }
+
+      if (countryFilter !== "ALL" && company.country !== countryFilter) {
+        return false;
+      }
+
+      return true;
+    });
+
+    return [...filtered].sort((a, b) => {
+      return (
+        new Date(b.applied_at).getTime() - new Date(a.applied_at).getTime()
+      );
+    });
+  }, [companiesWithStatus, searchTerm, activeTab, countryFilter]);
 
   useEffect(() => {
     setVisibleCount(10);
-  }, [activeTab, searchTerm]);
+  }, [activeTab, searchTerm, countryFilter]);
 
   useEffect(() => {
     isLoadingMoreRef.current = isLoadingMore;
@@ -208,47 +259,80 @@ export const CompanyScreen = ({ companies }: CompanyScreenProps) => {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row border-b border-gray-200 justify-between items-start sm:items-end gap-y-2">
-            {searchTerm ? (
-              <div className="flex items-center gap-4 py-3">
-                <p className="text-gray-900 font-medium">
-                  &quot;{searchTerm}&quot; 검색 결과
-                  <span className="ml-2 text-sm text-gray-500 font-normal">
-                    ({sortedCompanies.length}건)
-                  </span>
-                </p>
+          <div className="flex flex-col sm:flex-row border-b border-gray-200 justify-between items-start sm:items-end gap-y-4 pb-2">
+            <div className="flex flex-col gap-y-2 w-full sm:w-auto">
+              {!searchTerm && (
+                <div className="flex">
+                  <CommonButton
+                    onClick={() => setActiveTab("ACTIVE")}
+                    className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                      activeTab === "ACTIVE"
+                        ? "border-blue-600 text-blue-600 font-semibold"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
+                    }`}
+                  >
+                    진행 중인 기업
+                  </CommonButton>
+                  <CommonButton
+                    onClick={() => setActiveTab("FINISHED")}
+                    className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
+                      activeTab === "FINISHED"
+                        ? "border-blue-600 text-blue-600 font-semibold"
+                        : "border-transparent text-gray-500 hover:text-gray-700"
+                    }`}
+                  >
+                    탈락한 기업
+                  </CommonButton>
+                </div>
+              )}
+              <div className="flex items-center gap-x-2 text-xs text-gray-500 px-2 mt-1 flex-wrap gap-y-1">
+                <span>국가:</span>
                 <CommonButton
-                  onClick={() => setSearchTerm("")}
-                  className="text-sm text-gray-500 hover:text-gray-700 underline underline-offset-2"
-                >
-                  목록으로 돌아가기
-                </CommonButton>
-              </div>
-            ) : (
-              <div className="flex -mb-px">
-                <CommonButton
-                  onClick={() => setActiveTab("ACTIVE")}
-                  className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
-                    activeTab === "ACTIVE"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  onClick={() => setCountryFilter("ALL")}
+                  className={`px-3 py-1 rounded-md transition-colors ${
+                    countryFilter === "ALL"
+                      ? "bg-gray-800 text-white font-medium"
+                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                   }`}
                 >
-                  진행 중인 기업
+                  전체 ({displayTotalCount})
                 </CommonButton>
                 <CommonButton
-                  onClick={() => setActiveTab("FINISHED")}
-                  className={`py-3 px-6 text-sm font-medium border-b-2 transition-colors ${
-                    activeTab === "FINISHED"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  onClick={() => setCountryFilter("KR")}
+                  className={`px-3 py-1 rounded-md transition-colors ${
+                    countryFilter === "KR"
+                      ? "bg-blue-600 text-white font-medium"
+                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
                   }`}
                 >
-                  탈락한 기업
+                  한국 ({krCount})
+                </CommonButton>
+                <CommonButton
+                  onClick={() => setCountryFilter("JP")}
+                  className={`px-3 py-1 rounded-md transition-colors ${
+                    countryFilter === "JP"
+                      ? "bg-indigo-600 text-white font-medium"
+                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                  }`}
+                >
+                  일본 ({jpCount})
                 </CommonButton>
               </div>
-            )}
-            <div className="py-2 w-full sm:w-auto">
+            </div>
+            <div className="py-2 w-full sm:w-auto flex items-center justify-between sm:justify-end gap-x-4">
+              {searchTerm && (
+                <div className="flex items-center gap-2">
+                  <p className="text-gray-900 font-medium text-sm">
+                    &quot;{searchTerm}&quot; ({sortedCompanies.length}건)
+                  </p>
+                  <CommonButton
+                    onClick={() => setSearchTerm("")}
+                    className="text-xs text-gray-500 hover:text-gray-700 underline"
+                  >
+                    초기화
+                  </CommonButton>
+                </div>
+              )}
               <CommonInput
                 placeholder="회사 검색..."
                 value={searchTerm}

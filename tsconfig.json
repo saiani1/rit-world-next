@@ -25,7 +25,8 @@
       "page/*": ["src/page/*"],
       "shared/*": ["src/shared/*"],
       "widgets/*": ["src/widgets/*"],
-      "i18n/*": ["src/i18n/*"]
+      "i18n/*": ["src/i18n/*"],
+      "scraper/*": ["scraper/*"]
     }
   },
   "include": [
@@ -36,5 +37,10 @@
     "svg.d.ts",
     "src/custom.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

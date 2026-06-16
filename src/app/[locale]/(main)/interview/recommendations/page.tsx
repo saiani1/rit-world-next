@@ -196,9 +196,9 @@ const RecommendationsPage = () => {
                     </span>
                   )}
                   <div
-                    className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${getScoreColor(job.aiScore)}`}
+                    className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${getScoreColor(job.finalScore)}`}
                   >
-                    AI 적합도 {job.aiScore}점
+                    AI 적합도 {job.finalScore}점 {!job.aiScore && "(1차)"}
                   </div>
                   {job.recommend && (
                     <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold px-2.5 py-1.5 rounded-xl border border-emerald-500/20 flex items-center gap-1">
@@ -241,7 +241,10 @@ const RecommendationsPage = () => {
               {/* AI 추천 이유 */}
               <div className="bg-blue-50/50 dark:bg-blue-950/20 p-4 rounded-xl border border-blue-500/10 mb-4">
                 <div className="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1">
-                  💡 AI 추천 분석 리포트
+                  💡{" "}
+                  {job.aiScore
+                    ? "AI 상세 분석 리포트"
+                    : "AI 1차 스크리닝 리포트"}
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {job.reason || "상세 분석 이유가 제공되지 않았습니다."}

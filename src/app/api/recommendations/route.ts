@@ -87,7 +87,8 @@ ${JSON.stringify(jobListForAi, null, 2)}
         ) {
           sortedResults[res.index] = {
             score: typeof res.score === "number" ? res.score : 0,
-            reason: typeof res.reason === "string" ? res.reason : "스크리닝 실패",
+            reason:
+              typeof res.reason === "string" ? res.reason : "스크리닝 실패",
           };
         }
       });

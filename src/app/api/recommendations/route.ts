@@ -68,19 +68,30 @@ ${JSON.stringify(jobListForAi, null, 2)}
     const result = await model.generateContent([prompt]);
     const responseText = result.response.text();
     const cleanedText = responseText.replace(/^```json\s*|```$/gi, "").trim();
-    const aiResults: Array<{ index: number; score: number; reason: string }> =
-      JSON.parse(cleanedText);
+    const aiResults = JSON.parse(cleanedText);
 
-    // 인덱스 범위 방어 처리하여 정렬 맵핑
-    const sortedResults = new Array(jobs.length).fill({
+    // 인덱스 범위 방어 처리하여 정렬 맵핑 (독립된 객체 생성)
+    const sortedResults = Array.from({ length: jobs.length }, () => ({
       score: 0,
       reason: "스크리닝 실패",
-    });
-    aiResults.forEach((res) => {
-      if (res.index >= 0 && res.index < jobs.length) {
-        sortedResults[res.index] = { score: res.score, reason: res.reason };
-      }
-    });
+    }));
+
+    if (Array.isArray(aiResults)) {
+      aiResults.forEach((res) => {
+        if (
+          res &&
+          typeof res === "object" &&
+          typeof res.index === "number" &&
+          res.index >= 0 &&
+          res.index < jobs.length
+        ) {
+          sortedResults[res.index] = {
+            score: typeof res.score === "number" ? res.score : 0,
+            reason: typeof res.reason === "string" ? res.reason : "스크리닝 실패",
+          };
+        }
+      });
+    }
     return sortedResults;
   } catch (error: any) {
     console.error("[batchScreenJobs] 일괄 AI 스크리닝 중 실패:", error.message);

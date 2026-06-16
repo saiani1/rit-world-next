@@ -216,6 +216,7 @@ export type JobRecommendation = {
   description: string;
   ruleScore: number;
   aiScore: number;
+  finalScore: number;
   recommend: boolean;
   reason: string;
   matchedKeywords: string[];

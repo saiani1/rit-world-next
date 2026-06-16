@@ -760,90 +760,109 @@ export const POST = async () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
-    // 3. 상세 분석을 건너뛴 나머지 스크리닝 통과 공고들(skipJobs) DB에 고속 적재
-    for (let idx = 0; idx < skipJobs.length; idx++) {
-      const rawJob = skipJobs[idx];
-      const progressPrefix = `[Skip][${idx + 1}/${skipJobs.length}] [${rawJob.companyName}]`;
-
-      // 3-1. URL 중복 체크
-      const { data: existingJob, error: checkError } = await supabase
+    // 3. 상세 분석을 건너뛴 나머지 스크리닝 통과 공고들(skipJobs) DB에 고속 일괄 적재
+    if (skipJobs.length > 0) {
+      const skipUrls = skipJobs.map((j) => j.url);
+      const { data: existingJobs, error: checkError } = await supabase
         .from("jobs")
-        .select("id")
-        .eq("url", rawJob.url)
-        .maybeSingle();
+        .select("id, url")
+        .in("url", skipUrls);
 
       if (checkError) {
-        console.error(
-          `${progressPrefix} DB 확인 에러 (${rawJob.url}):`,
-          checkError.message
-        );
-        continue;
-      }
-
-      if (existingJob) {
-        continue;
-      }
-
-      // 3-2. DB에 공고 정보 저장 (상세 description은 긁지 않으므로 빈 텍스트로 보존)
-      const { data: newJob, error: insertJobError } = await supabase
-        .from("jobs")
-        .insert({
-          platform: rawJob.platform,
-          company_name: rawJob.companyName,
-          title: rawJob.title,
-          url: rawJob.url,
-          posted_at: parsePostedAtDate(rawJob.postedAt),
-          description: "", // 상세 분석 스킵으로 본문 없음
-          content_hash: crypto
-            .createHash("sha256")
-            .update(rawJob.url)
-            .digest("hex"), // URL 해시로 대체
-          rule_score: rawJob.ruleScore,
-        })
-        .select("id")
-        .single();
-
-      if (insertJobError) {
-        console.error(
-          `${progressPrefix} 공고 저장 실패:`,
-          insertJobError.message
-        );
-        continue;
-      }
-
-      // 3-3. 1차 AI 스크리닝 결과를 job_analysis에 즉시 저장 (AI 호출 없이)
-      const { error: insertAnalysisError } = await supabase
-        .from("job_analysis")
-        .insert({
-          job_id: newJob.id,
-          rule_score: rawJob.ruleScore,
-          ai_score: null, // 상세 분석 미수행
-          recommend: rawJob.ruleScore >= 60, // 1차 스크리닝 점수가 60점 이상이면 일단 추천
-          reason: rawJob.screeningReason, // 1차 스크리닝 시 생성된 판단 사유 활용
-          matched_keywords: [],
-          matched_strengths: [],
-        });
-
-      if (insertAnalysisError) {
-        console.error(
-          `${progressPrefix} 분석 결과 저장 실패:`,
-          insertAnalysisError.message
-        );
+        console.error("[Skip Jobs] DB 중복 확인 에러:", checkError.message);
       } else {
-        analyzedList.push({
-          id: newJob.id,
-          companyName: rawJob.companyName,
-          title: rawJob.title,
-          url: rawJob.url,
-          postedAt: rawJob.postedAt,
-          analysis: {
-            score: null,
-            recommend: rawJob.ruleScore >= 60,
-            reason: rawJob.screeningReason,
-            matched_keywords: [],
-            matched_strengths: [],
-          },
-        });
+        const existingUrls = new Set(existingJobs?.map((j) => j.url) || []);
+        const insertedJobsMap = new Map<string, string>();
+
+        const jobsToInsert = skipJobs
+          .filter((j) => !existingUrls.has(j.url))
+          .map((rawJob) => ({
+            platform: rawJob.platform,
+            company_name: rawJob.companyName,
+            title: rawJob.title,
+            url: rawJob.url,
+            posted_at: parsePostedAtDate(rawJob.postedAt),
+            description: "",
+            content_hash: crypto
+              .createHash("sha256")
+              .update(rawJob.url)
+              .digest("hex"),
+            rule_score: rawJob.ruleScore,
+          }));
+
+        let insertJobsSuccess = true;
+        if (jobsToInsert.length > 0) {
+          const { data: insertedJobs, error: insertJobError } = await supabase
+            .from("jobs")
+            .insert(jobsToInsert)
+            .select("id, url");
+
+          if (insertJobError) {
+            console.error(
+              "[Skip Jobs] 공고 일괄 저장 실패:",
+              insertJobError.message
+            );
+            insertJobsSuccess = false;
+          } else if (insertedJobs) {
+            insertedJobs.forEach((j) => {
+              insertedJobsMap.set(j.url, j.id);
+            });
+          }
+        }
+
+        if (insertJobsSuccess) {
+          // 신규 등록된 공고에 대해서만 분석 결과를 일괄 저장
+          const analysisToInsert = skipJobs
+            .filter((j) => insertedJobsMap.has(j.url))
+            .map((rawJob) => ({
+              job_id: insertedJobsMap.get(rawJob.url)!,
+              rule_score: rawJob.ruleScore,
+              ai_score: null,
+              recommend: rawJob.ruleScore >= 60,
+              reason: rawJob.screeningReason,
+              matched_keywords: [],
+              matched_strengths: [],
+            }));
+
+          let insertAnalysisSuccess = true;
+          if (analysisToInsert.length > 0) {
+            const { error: insertAnalysisError } = await supabase
+              .from("job_analysis")
+              .insert(analysisToInsert);
+
+            if (insertAnalysisError) {
+              console.error(
+                "[Skip Jobs] 분석 결과 일괄 저장 실패:",
+                insertAnalysisError.message
+              );
+              insertAnalysisSuccess = false;
+            }
+          }
+
+          if (insertAnalysisSuccess) {
+            skipJobs.forEach((rawJob) => {
+              const jobId =
+                insertedJobsMap.get(rawJob.url) ||
+                existingJobs?.find((j) => j.url === rawJob.url)?.id;
+              if (jobId) {
+                analyzedList.push({
+                  id: jobId,
+                  companyName: rawJob.companyName,
+                  title: rawJob.title,
+                  url: rawJob.url,
+                  postedAt: rawJob.postedAt,
+                  analysis: {
+                    score: null,
+                    recommend: rawJob.ruleScore >= 60,
+                    reason: rawJob.screeningReason,
+                    matched_keywords: [],
+                    matched_strengths: [],
+                  },
+                });
+              }
+            });
+          }
+        }
       }
     }
 

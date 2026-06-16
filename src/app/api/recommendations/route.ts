@@ -6,62 +6,86 @@ import axios from "axios";
 
 import { SaraminProvider } from "scraper/src/providers/SaraminProvider";
 
+export const dynamic = "force-dynamic";
+
 // Gemini API 초기화
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-
 /**
- * 공고 제목을 바탕으로 1차 Rule 기반 점수를 매깁니다.
+ * 1차 일괄 AI 스크리닝: 수집된 전체 공고 목록을 1번의 API 호출로 스크리닝하여 점수와 사유를 반환합니다.
  */
-const calculateRuleScore = (title: string): number => {
-  let score = 0;
-  const lowerTitle = title.toLowerCase();
+const batchScreenJobs = async (
+  jobs: Array<{ companyName: string; title: string }>
+): Promise<Array<{ score: number; reason: string }>> => {
+  if (jobs.length === 0) return [];
 
-  // 기술 스택 가중치
-  if (lowerTitle.includes("react")) score += 3;
-  if (lowerTitle.includes("next.js") || lowerTitle.includes("nextjs"))
-    score += 3;
-  if (lowerTitle.includes("typescript") || lowerTitle.includes("ts"))
-    score += 2;
-  if (lowerTitle.includes("javascript") || lowerTitle.includes("js"))
-    score += 2;
+  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+  const model = genAI.getGenerativeModel({
+    model: modelName,
+    generationConfig: { responseMimeType: "application/json" },
+  });
 
-  // 일본어 관련 가중치 (중복 가산을 막기 위해 5점 일괄 부여)
-  if (
-    lowerTitle.includes("일본어") ||
-    lowerTitle.includes("일본계") ||
-    lowerTitle.includes("jlpt") ||
-    lowerTitle.includes("jpt") ||
-    lowerTitle.includes("일본")
-  ) {
-    score += 5;
+  const jobListForAi = jobs.map((job, idx) => ({
+    index: idx,
+    company: job.companyName,
+    title: job.title,
+  }));
+
+  const profile = `
+공고 분석을 위한 사용자 프로필:
+- 직무: Frontend Engineer (프론트엔드 개발자)
+- 기술 스택: React, Next.js, TypeScript, JavaScript, HTML, CSS
+- 우대/강점: 비즈니스 일본어 가능, 일본계 기업, 일본 연관 업무 경험, UI/UX 관심, 스포츠 및 야구 관심.
+`;
+
+  const prompt = `
+당신은 똑똑한 채용 추천 AI 조수입니다.
+제공된 사용자 프로필과 채용 공고(회사명 및 제목) 목록을 비교하여, 사용자가 지원할 만한 직무인지를 1차적으로 스크리닝하여 0점부터 100점 사이의 점수(score)를 부여해 주세요.
+
+[판단 기준 가이드라인]
+1. 프론트엔드(React, Next.js, TypeScript, Javascript) 및 웹/앱 개발자 포지션은 높은 점수(80~100점)를 부여합니다.
+2. 회사명이 일본계이거나 제목에 일본어/일본계가 포함된 경우(예: 일본어 번역, 일본 연관 일반 사무, 마케팅, 관리, 기획, 영업지원 직무)에는 높은 가점(60~90점)을 부여합니다. 사용자는 일본어를 사용하는 번역 및 일반 사무/관리/영업지원 업무에도 큰 관심이 있습니다. (중요: 단순 '영업(Sales)' 전용 직무는 배제해야 하며, '영업지원(Sales Support)' 직무는 정상적으로 허용하고 가점을 줍니다.)
+3. 제목에 백엔드 기술(Java, Spring, Python 등)이 포함되어 있더라도 React/Next.js/프론트엔드 등이 함께 쓰여 있어 병행 업무 가능성이 있다면, 2차 상세 분석에서 검증할 수 있도록 50~80점 사이의 점수를 주어 합격권으로 올려주세요.
+4. 단, 사무/개발/번역/디자인/영업지원과 아예 무관한 단순 영업(Sales) 직무, 단순 생산직(예: 반도체 화학재료 오퍼레이터, 클린룸 리더), 현장 노무직, 혹은 단순 매장 보조 및 현장 서비스직(예: 호텔 대고객 프론트 데스크 서비스직) 등은 0~15점 사이의 매우 낮은 점수를 주어 완전히 뒤로 밀어내야 합니다. (주의: "토요코인호텔 호텔 프론트"는 일본계 호텔이지만, 사무/번역/개발이 아닌 현장 서비스 직무이므로 0~15점으로 낮게 평가해야 합니다.)
+
+반드시 아래 JSON 포맷의 데이터만 반환해줘. 마크다운 기호 없이 순수 JSON만 반환해줘.
+[
+  {
+    "index": <공고의 index>,
+    "score": <0부터 100 사이의 정수 점수>,
+    "reason": "<점수 부여의 핵심적인 짧은 한국어 이유 한 줄>"
+  },
+  ...
+]
+
+사용자 프로필:
+${profile}
+
+공고 목록:
+${JSON.stringify(jobListForAi, null, 2)}
+`;
+
+  try {
+    const result = await model.generateContent([prompt]);
+    const responseText = result.response.text();
+    const cleanedText = responseText.replace(/^```json\s*|```$/gi, "").trim();
+    const aiResults: Array<{ index: number; score: number; reason: string }> =
+      JSON.parse(cleanedText);
+
+    // 인덱스 범위 방어 처리하여 정렬 맵핑
+    const sortedResults = new Array(jobs.length).fill({
+      score: 0,
+      reason: "스크리닝 실패",
+    });
+    aiResults.forEach((res) => {
+      if (res.index >= 0 && res.index < jobs.length) {
+        sortedResults[res.index] = { score: res.score, reason: res.reason };
+      }
+    });
+    return sortedResults;
+  } catch (error: any) {
+    console.error("[batchScreenJobs] 일괄 AI 스크리닝 중 실패:", error.message);
+    return jobs.map(() => ({ score: 0, reason: "AI 스크리닝 통신 오류" }));
   }
-
-  // 디자인 및 협업 관련
-  if (
-    lowerTitle.includes("ui/ux") ||
-    lowerTitle.includes("ui") ||
-    lowerTitle.includes("ux")
-  )
-    score += 1;
-  if (lowerTitle.includes("디자인") || lowerTitle.includes("디자이너"))
-    score += 1;
-
-  // 운영 관련
-  if (
-    lowerTitle.includes("광고 운영") ||
-    lowerTitle.includes("서비스 운영") ||
-    lowerTitle.includes("콘텐츠 운영") ||
-    lowerTitle.includes("플랫폼 운영") ||
-    lowerTitle.includes("운영")
-  ) {
-    score += 1;
-  }
-
-  // 스포츠 및 야구
-  if (lowerTitle.includes("스포츠")) score += 3;
-  if (lowerTitle.includes("야구")) score += 5;
-
-  return score;
 };
 
 /**
@@ -101,7 +125,7 @@ const analyzeJob = async (
   detailText: string,
   base64Image: { data: string; mimeType: string } | null
 ) => {
-  const modelName = process.env.GEMINI_MODEL || "gemini-flash-latest";
+  const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
   const model = genAI.getGenerativeModel({
     model: modelName,
     generationConfig: { responseMimeType: "application/json" },
@@ -123,15 +147,20 @@ const analyzeJob = async (
   const prompt = `
 사용자 프로필과 수집한 채용 공고 본문(또는 첨부된 요강 이미지)을 정밀 비교 분석하여 적합도 점수(ai_score)와 추천 상세 사유를 JSON 구조로 뽑아줘.
 
-평가 가중치 기준:
-- 기술 적합도: 40% (React, Next.js, TypeScript 등 기술 스택 매칭)
-- 일본어 활용 가능성: 30% (일본계 기업, 일본 연관 업무 매칭)
-- 협업 및 커뮤니케이션: 15% (협업 역량 및 프로젝트 관리 능력)
-- 디자인 활용 가능성: 10% (UI/UX, 디자인 협업 및 설계 능력)
-- 관심 분야 적합도: 5% (SaaS, AdTech, 스포츠/야구 관련 도메인 매칭)
+[채점 가이드라인]
+1. 핵심 직무 적합도 (최대 100점):
+   - 해당 공고가 '프론트엔드 개발자(React, Next.js, TypeScript 등)' 직무이거나 '일본어 번역/일반 사무/관리/기획/영업지원' 직무 중 하나에 해당한다면 기본적으로 높은 점수(75~90점)를 부여합니다.
+   - 단, 단순 영업(Sales), 단순 매장 서비스(호텔 프론트 데스크 등), 현장 노무직, 단순 생산직은 절대 추천하면 안 되며 0~30점의 매우 낮은 점수를 줍니다.
+2. 가점 및 가중치 요소:
+   - 프론트엔드 개발 포지션인데 일본계 기업이거나 일본어 활용이 우대되는 하이브리드 공고인 경우: 추가 가점 (+10~15점)으로 90~100점의 최고점을 부여합니다.
+   - 협업 역량 및 프로젝트 관리 경험이 잘 서술된 경우: 추가 가점 (+5~10점)
+   - UI/UX 설계 및 디자인 역량 우대 시: 추가 가점 (+5~10점)
+   - SaaS, AdTech, 스포츠/야구 도메인 관련: 추가 가점 (+5점)
 
 적합도 점수가 70점 이상인 경우에 한해서 recommend를 true로 해주고, 그렇지 않으면 false로 해줘.
 만약 동봉된 상세 이미지가 있다면, 이미지 내의 모든 글씨(자격 요건, 우대사항 등)를 판독(OCR)하여 동일하게 평가 기준에 따라 분석해줘.
+
+${profile}
 
 채용 공고 정보:
 - 회사명: ${companyName}
@@ -182,11 +211,22 @@ const analyzeJobWithRetry = async (
       const errorMessage = error.message || "";
 
       // 일일 총 호출 한도(RPD) 도달 여부 사전 확인 (더이상의 재시도가 의미 없음)
+      // 무료 티어 RPM(분당 한도 10회 등) 초과 시에도 "free_tier_requests" 문구가 포함되므로,
+      // RPM을 의미하는 "limit: 10", "limit: 15", "limit: 5" 등이 들어있으면 일일 한도가 아닌 분당 한도로 간주하여 재시도하게 처리합니다.
+      const hasRpmLimitIndicator =
+        errorMessage.includes("limit: 10") ||
+        errorMessage.includes("limit: 15") ||
+        errorMessage.includes("limit: 5") ||
+        errorMessage.includes("GenerateRequestsPerMinute");
+
       const isDailyLimit =
-        errorMessage.includes("GenerateRequestsPerDay") ||
-        errorMessage.includes("free_tier_requests") ||
-        (errorMessage.includes("limit:") &&
-          (errorMessage.includes("20") || errorMessage.includes("50")));
+        !hasRpmLimitIndicator &&
+        (errorMessage.includes("GenerateRequestsPerDay") ||
+          (errorMessage.includes("free_tier_requests") &&
+            (errorMessage.includes("limit: 1500") ||
+              errorMessage.includes("limit: 2000"))) ||
+          (errorMessage.includes("limit:") &&
+            (errorMessage.includes("2000") || errorMessage.includes("1500"))));
 
       if (isDailyLimit) {
         throw new Error(`DAILY_LIMIT_EXCEEDED: ${errorMessage}`);
@@ -195,7 +235,11 @@ const analyzeJobWithRetry = async (
       if (i === retries - 1) throw error;
 
       const isRateLimit =
-        errorMessage.includes("429") || errorMessage.includes("Quota exceeded");
+        errorMessage.includes("429") ||
+        errorMessage.includes("Quota exceeded") ||
+        errorMessage.includes("quota") ||
+        hasRpmLimitIndicator;
+
       const isTemporary =
         isRateLimit ||
         errorMessage.includes("503") ||
@@ -204,9 +248,18 @@ const analyzeJobWithRetry = async (
       if (isTemporary) {
         let waitTime = delay;
         if (isRateLimit) {
-          waitTime = 20000;
+          // 에러 메시지에서 "Please retry in X.XXs" 패턴 파싱
+          const retryMatch = errorMessage.match(
+            /Please retry in (\d+(\.\d+)?)s/i
+          );
+          if (retryMatch && retryMatch[1]) {
+            const parsedSeconds = parseFloat(retryMatch[1]);
+            waitTime = Math.ceil(parsedSeconds + 2) * 1000; // 안전 마진 2초 추가
+          } else {
+            waitTime = 60000; // 파싱 실패 시 안전하게 60초 대기
+          }
           console.warn(
-            `[AI Analysis] 429 Quota Limit 도달. 쿼터 리셋을 위해 20초간 대기 후 재시도합니다... (시도 ${i + 1}/${retries})`
+            `[AI Analysis] 429 Quota Limit (RPM) 도달. 쿼터 리셋을 위해 ${waitTime / 1000}초간 대기 후 재시도합니다... (시도 ${i + 1}/${retries})`
           );
         } else {
           console.warn(
@@ -282,6 +335,7 @@ export const GET = async () => {
     }
 
     const result = (data || []).map((job: any) => {
+      const finalScore = job.ai_score ?? job.rule_score ?? 0;
       return {
         id: job.id,
         platform: job.platform,
@@ -293,6 +347,7 @@ export const GET = async () => {
         description: job.description ?? "",
         ruleScore: job.rule_score ?? 0,
         aiScore: job.ai_score ?? 0,
+        finalScore: finalScore, // 정밀 점수 혹은 1차 점수를 아우르는 통합 최종 점수
         recommend: job.recommend ?? false,
         reason: job.reason ?? "",
         matchedKeywords: job.matched_keywords ?? [],
@@ -303,6 +358,33 @@ export const GET = async () => {
       };
     });
 
+    // 최종 노출 정렬 순서 정의 (PostgreSQL NULL 정렬 우회)
+    result.sort((a, b) => {
+      // 1. 추천 여부로 1차 정렬 (추천 대상이 상단)
+      if (a.recommend !== b.recommend) {
+        return a.recommend ? -1 : 1;
+      }
+
+      if (a.recommend) {
+        // 추천 대상(true) 그룹 내: AI 상세 분석 완료(aiScore > 0)가 미완료(aiScore === 0)보다 우선 노출
+        const aHasAi = a.aiScore > 0;
+        const bHasAi = b.aiScore > 0;
+        if (aHasAi !== bHasAi) {
+          return aHasAi ? -1 : 1;
+        }
+      } else {
+        // 비추천 대상(false) 그룹 내: AI 상세 분석으로 완전히 배제된 건(aiScore > 0)을 미완료(aiScore === 0)보다 아래로 배치
+        const aHasAi = a.aiScore > 0;
+        const bHasAi = b.aiScore > 0;
+        if (aHasAi !== bHasAi) {
+          return aHasAi ? 1 : -1;
+        }
+      }
+
+      // 3. 동일 그룹 내에서는 최종 점수 내림차순 정렬
+      return b.finalScore - a.finalScore;
+    });
+
     return NextResponse.json({ success: true, data: result });
   } catch (error: any) {
     console.error("[Recommendations API GET] Error:", error.message);
@@ -311,6 +393,23 @@ export const GET = async () => {
       { status: 500 }
     );
   }
+};
+
+/**
+ * 회사명에서 주식회사, (주), (유) 등의 접사 및 공백을 제거하여 정규화합니다.
+ */
+const cleanCompanyName = (name: string): string => {
+  return name
+    .replace(/\(주\)/g, "")
+    .replace(/주식회사/g, "")
+    .replace(/\(유\)/g, "")
+    .replace(/유한회사/g, "")
+    .replace(/\(재\)/g, "")
+    .replace(/재단법인/g, "")
+    .replace(/\(사\)/g, "")
+    .replace(/사단법인/g, "")
+    .replace(/\s+/g, "")
+    .trim();
 };
 
 /**
@@ -363,40 +462,67 @@ export const POST = async () => {
       .from("companies")
       .select("name, jd_url");
 
-    const registeredNamesSet = new Set(
-      (companiesList || []).map((c) => c.name.trim())
-    );
+    const registeredNames = (companiesList || []).map((c) => c.name.trim());
     const appliedUrlsSet = new Set(
       (companiesList || [])
         .map((c) => c.jd_url?.trim())
         .filter(Boolean) as string[]
     );
 
-    // 1-1. 중복 회사 제거 및 1차 Rule Score 계산
-    const jobsWithScores = rawJobs
-      .filter((rawJob) => {
-        if (
-          registeredNamesSet.has(rawJob.companyName.trim()) ||
-          appliedUrlsSet.has(rawJob.url.trim())
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .map((rawJob) => {
-        const ruleScore = calculateRuleScore(rawJob.title);
-        return {
-          ...rawJob,
-          ruleScore,
-        };
+    // 1-1. 중복 회사 및 지원 완료 URL 제거 (Fuzzy/Normalized 매칭 적용)
+    const filteredRawJobs = rawJobs.filter((rawJob) => {
+      const crawledName = rawJob.companyName.trim();
+      const crawledUrl = rawJob.url.trim();
+
+      // 1. URL 중복 체크
+      if (appliedUrlsSet.has(crawledUrl)) {
+        return false;
+      }
+
+      // 2. 회사명 중복 체크 (주식회사/공백 등 제거 후 포함 여부 판단)
+      const isRegistered = registeredNames.some((regName) => {
+        const cClean = cleanCompanyName(crawledName);
+        const rClean = cleanCompanyName(regName);
+        return (
+          cClean === rClean ||
+          cClean.includes(rClean) ||
+          rClean.includes(cClean)
+        );
       });
 
-    // 1-2. Rule Score 기준 내림차순 정렬 후 상위 18건만 슬라이싱 (Gemini 비용 최적화 핵심)
-    jobsWithScores.sort((a, b) => b.ruleScore - a.ruleScore);
-    const targetJobs = jobsWithScores.slice(0, 18);
+      if (isRegistered) {
+        return false;
+      }
+
+      return true;
+    });
 
     console.log(
-      `\n[AI Recommendations] 1차 필터링 완료. 수집 대상 ${rawJobs.length}개 중 Rule Score 상위 ${targetJobs.length}개 공고에 대해 상세 수집 및 AI 매칭 분석을 개시합니다...`
+      `\n[AI Recommendations] 1차 일괄 AI 스크리닝 개시... (대상: ${filteredRawJobs.length}개)`
+    );
+
+    // 1-2. 일괄 AI 스크리닝 수행 (단 1회 호출!)
+    const screeningResults = await batchScreenJobs(filteredRawJobs);
+
+    const jobsWithScores = filteredRawJobs
+      .map((rawJob, idx) => {
+        const screenRes = screeningResults[idx] || { score: 0, reason: "" };
+        return {
+          ...rawJob,
+          ruleScore: screenRes.score, // 기존 ruleScore 컬럼에 AI 1차 점수를 매핑하여 하위 호환성 유지
+          screeningReason: screenRes.reason,
+        };
+      })
+      // 1차 점수가 30점 이상인 공고들만 통과시킴 (부적합 공고는 아예 UI 노출 제외)
+      .filter((job) => job.ruleScore >= 30);
+
+    // 1-3. 1차 AI 스크리닝 점수 기준 내림차순 정렬 후 상위 5건만 슬라이싱 (Gemini 비용 최적화 핵심)
+    jobsWithScores.sort((a, b) => b.ruleScore - a.ruleScore);
+    const targetJobs = jobsWithScores.slice(0, 5);
+    const skipJobs = jobsWithScores.slice(5);
+
+    console.log(
+      `\n[AI Recommendations] 스크리닝 통과 공고: 총 ${jobsWithScores.length}개 (상위 ${targetJobs.length}개 정밀 상세 분석 진행, 나머지 ${skipJobs.length}개 상세 생략 노출)`
     );
 
     const analyzedList = [];
@@ -406,7 +532,7 @@ export const POST = async () => {
       const rawJob = targetJobs[idx];
       const progressPrefix = `[${idx + 1}/${targetJobs.length}] [${rawJob.companyName}]`;
 
-      // 2-1. URL 중복 체크
+      // 2-1. URL 중복 체크 (스킵하지 않고 기존 데이터 존재 시 ID만 따서 업데이트 처리)
       const { data: existingJob, error: checkError } = await supabase
         .from("jobs")
         .select("id")
@@ -417,13 +543,6 @@ export const POST = async () => {
         console.error(
           `${progressPrefix} DB 확인 에러 (${rawJob.url}):`,
           checkError.message
-        );
-        continue;
-      }
-
-      if (existingJob) {
-        console.log(
-          `${progressPrefix} 이미 수집 및 분석 완료된 URL이므로 스킵합니다.`
         );
         continue;
       }
@@ -470,30 +589,43 @@ export const POST = async () => {
           .eq("job_id", cachedJob.id)
           .maybeSingle();
 
-        const { data: newJob, error: insertJobError } = await supabase
-          .from("jobs")
-          .insert({
-            platform: rawJob.platform,
-            company_name: rawJob.companyName,
-            title: rawJob.title,
-            url: rawJob.url,
-            posted_at: parsePostedAtDate(rawJob.postedAt),
-            description: detailText,
-            content_hash: contentHash,
-            rule_score: rawJob.ruleScore,
-          })
-          .select("id")
-          .single();
+        if (!existingJob) {
+          const { data: newJob, error: insertJobError } = await supabase
+            .from("jobs")
+            .insert({
+              platform: rawJob.platform,
+              company_name: rawJob.companyName,
+              title: rawJob.title,
+              url: rawJob.url,
+              posted_at: parsePostedAtDate(rawJob.postedAt),
+              description: detailText,
+              content_hash: contentHash,
+              rule_score: rawJob.ruleScore,
+            })
+            .select("id")
+            .single();
 
-        if (insertJobError) {
-          console.error(
-            `${progressPrefix} 캐시 공고 신규 URL 복사 실패:`,
-            insertJobError.message
-          );
-          continue;
+          if (insertJobError) {
+            console.error(
+              `${progressPrefix} 캐시 공고 신규 URL 복사 실패:`,
+              insertJobError.message
+            );
+            continue;
+          }
+          jobId = newJob.id;
+        } else {
+          jobId = existingJob.id;
+          // 기존 공고의 description 및 rule_score 업데이트
+          await supabase
+            .from("jobs")
+            .update({
+              description: detailText,
+              content_hash: contentHash,
+              rule_score: rawJob.ruleScore,
+            })
+            .eq("id", jobId);
         }
 
-        jobId = newJob.id;
         analysisResult = cachedAnalysis
           ? {
               score: cachedAnalysis.ai_score ?? 0,
@@ -504,9 +636,9 @@ export const POST = async () => {
             }
           : null;
       } else {
-        if (actualAiCallCount >= 18) {
+        if (actualAiCallCount >= 5) {
           console.warn(
-            `\n${progressPrefix} [AI 수집 상한 도달] 금일 무료 API 한도 보호를 위해 신규 AI 분석 한도(18개)에 도달했습니다. 추가 수집을 스킵하고 수집을 종료합니다.\n`
+            `\n${progressPrefix} [AI 수집 상한 도달] 금일 무료 API 한도 보호를 위해 신규 AI 분석 한도(5개)에 도달했습니다. 추가 수집을 스킵하고 수집을 종료합니다.\n`
           );
           break;
         }
@@ -551,35 +683,50 @@ export const POST = async () => {
           continue;
         }
 
-        // DB에 신규 공고 저장
-        const { data: newJob, error: insertJobError } = await supabase
-          .from("jobs")
-          .insert({
-            platform: rawJob.platform,
-            company_name: rawJob.companyName,
-            title: rawJob.title,
-            url: rawJob.url,
-            posted_at: parsePostedAtDate(rawJob.postedAt),
-            description: detailText,
-            content_hash: contentHash,
-            rule_score: rawJob.ruleScore,
-          })
-          .select("id")
-          .single();
+        if (!existingJob) {
+          // DB에 신규 공고 저장
+          const { data: newJob, error: insertJobError } = await supabase
+            .from("jobs")
+            .insert({
+              platform: rawJob.platform,
+              company_name: rawJob.companyName,
+              title: rawJob.title,
+              url: rawJob.url,
+              posted_at: parsePostedAtDate(rawJob.postedAt),
+              description: detailText,
+              content_hash: contentHash,
+              rule_score: rawJob.ruleScore,
+            })
+            .select("id")
+            .single();
 
-        if (insertJobError) {
-          console.error(
-            `${progressPrefix} 신규 공고 저장 실패:`,
-            insertJobError.message
-          );
-          continue;
+          if (insertJobError) {
+            console.error(
+              `${progressPrefix} 신규 공고 저장 실패:`,
+              insertJobError.message
+            );
+            continue;
+          }
+          jobId = newJob.id;
+        } else {
+          jobId = existingJob.id;
+          // 기존 공고의 description 및 rule_score 업데이트
+          await supabase
+            .from("jobs")
+            .update({
+              description: detailText,
+              content_hash: contentHash,
+              rule_score: rawJob.ruleScore,
+            })
+            .eq("id", jobId);
         }
-
-        jobId = newJob.id;
       }
 
-      // 2-5. AI 분석 결과를 job_analysis에 저장
+      // 2-5. AI 분석 결과를 job_analysis에 저장 (기존 데이터가 있으면 덮어쓰기 위해 delete 후 insert 수행)
       if (analysisResult) {
+        // 기존 분석 결과 먼저 지우기
+        await supabase.from("job_analysis").delete().eq("job_id", jobId);
+
         const { error: insertAnalysisError } = await supabase
           .from("job_analysis")
           .insert({
@@ -609,8 +756,95 @@ export const POST = async () => {
         }
       }
 
-      // 봇 방지 대기
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // 봇 방지 대기 및 무료 쿼터 RPM(분당 요청 한도) 제한 우회 딜레이 (1초)
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+
+    // 3. 상세 분석을 건너뛴 나머지 스크리닝 통과 공고들(skipJobs) DB에 고속 적재
+    for (let idx = 0; idx < skipJobs.length; idx++) {
+      const rawJob = skipJobs[idx];
+      const progressPrefix = `[Skip][${idx + 1}/${skipJobs.length}] [${rawJob.companyName}]`;
+
+      // 3-1. URL 중복 체크
+      const { data: existingJob, error: checkError } = await supabase
+        .from("jobs")
+        .select("id")
+        .eq("url", rawJob.url)
+        .maybeSingle();
+
+      if (checkError) {
+        console.error(
+          `${progressPrefix} DB 확인 에러 (${rawJob.url}):`,
+          checkError.message
+        );
+        continue;
+      }
+
+      if (existingJob) {
+        continue;
+      }
+
+      // 3-2. DB에 공고 정보 저장 (상세 description은 긁지 않으므로 빈 텍스트로 보존)
+      const { data: newJob, error: insertJobError } = await supabase
+        .from("jobs")
+        .insert({
+          platform: rawJob.platform,
+          company_name: rawJob.companyName,
+          title: rawJob.title,
+          url: rawJob.url,
+          posted_at: parsePostedAtDate(rawJob.postedAt),
+          description: "", // 상세 분석 스킵으로 본문 없음
+          content_hash: crypto
+            .createHash("sha256")
+            .update(rawJob.url)
+            .digest("hex"), // URL 해시로 대체
+          rule_score: rawJob.ruleScore,
+        })
+        .select("id")
+        .single();
+
+      if (insertJobError) {
+        console.error(
+          `${progressPrefix} 공고 저장 실패:`,
+          insertJobError.message
+        );
+        continue;
+      }
+
+      // 3-3. 1차 AI 스크리닝 결과를 job_analysis에 즉시 저장 (AI 호출 없이)
+      const { error: insertAnalysisError } = await supabase
+        .from("job_analysis")
+        .insert({
+          job_id: newJob.id,
+          rule_score: rawJob.ruleScore,
+          ai_score: null, // 상세 분석 미수행
+          recommend: rawJob.ruleScore >= 60, // 1차 스크리닝 점수가 60점 이상이면 일단 추천
+          reason: rawJob.screeningReason, // 1차 스크리닝 시 생성된 판단 사유 활용
+          matched_keywords: [],
+          matched_strengths: [],
+        });
+
+      if (insertAnalysisError) {
+        console.error(
+          `${progressPrefix} 분석 결과 저장 실패:`,
+          insertAnalysisError.message
+        );
+      } else {
+        analyzedList.push({
+          id: newJob.id,
+          companyName: rawJob.companyName,
+          title: rawJob.title,
+          url: rawJob.url,
+          postedAt: rawJob.postedAt,
+          analysis: {
+            score: null,
+            recommend: rawJob.ruleScore >= 60,
+            reason: rawJob.screeningReason,
+            matched_keywords: [],
+            matched_strengths: [],
+          },
+        });
+      }
     }
 
     return NextResponse.json({ success: true, count: analyzedList.length });
